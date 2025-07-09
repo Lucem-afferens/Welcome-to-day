@@ -1,4 +1,4 @@
-name: Deploy Alternative Method
+name: Deploy to Link-Host
 
 on:
   push:
@@ -32,10 +32,11 @@ jobs:
         cp -r images dist/
         cp script.js dist/
         
-        # Создаем архив для загрузки
-        tar -czf deploy.tar.gz -C dist .
+        # Показываем содержимое dist
+        echo "Contents of dist folder:"
+        ls -la dist/
         
-    - name: Deploy using rsync
+    - name: Deploy to Link-Host
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.HOST }}
@@ -45,25 +46,26 @@ jobs:
         script: |
           echo "Starting deployment..."
           
-          # Создаем папку
+          # Создаем папку если её нет
           mkdir -p /www/welcome-to-day.ru/
           
           # Очищаем папку
           rm -rf /www/welcome-to-day.ru/*
           
-          echo "Folder prepared"
+          echo "Folder prepared for deployment"
         
-    - name: Upload archive
+    - name: Upload files
       uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        source: "deploy.tar.gz"
-        target: "/tmp/"
+        source: "dist/*"
+        target: "/www/welcome-to-day.ru/"
+        strip_components: 1
         
-    - name: Extract and deploy
+    - name: Verify deployment
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.HOST }}
@@ -71,8 +73,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
-          echo "Extracting files..."
-          tar -xzf /tmp/deploy.tar.gz -C /www/welcome-to-day.ru/
+          echo "Checking deployed files..."
+          ls -la /www/welcome-to-day.ru/
           chmod -R 755 /www/welcome-to-day.ru/
-          rm /tmp/deploy.tar.gz
-          echo "Deployment completed!" 
+          echo "Deployment completed successfully!" 

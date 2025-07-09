@@ -32,11 +32,22 @@ jobs:
         cp -r images dist/
         cp script.js dist/
         
-        # Показываем содержимое dist
-        echo "Contents of dist folder:"
-        ls -la dist/
+        # Создаем архив для загрузки
+        tar -czf deploy.tar.gz -C dist .
         
-    - name: Deploy to Link-Host
+        echo "Archive created successfully"
+        
+    - name: Upload archive
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        source: "deploy.tar.gz"
+        target: "/tmp/"
+        
+    - name: Extract and deploy
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.HOST }}
@@ -46,34 +57,15 @@ jobs:
         script: |
           echo "Starting deployment..."
           
-          # Создаем папку если её нет
+          # Создаем папку
           mkdir -p /www/welcome-to-day.ru/
           
           # Очищаем папку
           rm -rf /www/welcome-to-day.ru/*
           
-          echo "Folder prepared for deployment"
-        
-    - name: Upload files
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        source: "dist/*"
-        target: "/www/welcome-to-day.ru/"
-        strip_components: 1
-        
-    - name: Verify deployment
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        script: |
-          echo "Checking deployed files..."
-          ls -la /www/welcome-to-day.ru/
+          echo "Extracting files..."
+          tar -xzf /tmp/deploy.tar.gz -C /www/welcome-to-day.ru/
           chmod -R 755 /www/welcome-to-day.ru/
+          rm /tmp/deploy.tar.gz
+          
           echo "Deployment completed successfully!" 
