@@ -2,70 +2,42 @@ name: Deploy to Link-Host
 
 on:
   push:
-    branches: [ main, master ]
+    branches:
+      - main
 
 jobs:
-  build-and-deploy:
+  ftp-deploy:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build project
-      run: npm run build
-      
-    - name: Prepare files for deployment
-      run: |
-        # Копируем статические файлы в dist
-        cp -r css dist/
-        cp -r favicon dist/
-        cp -r images dist/
-        cp script.js dist/
-        
-        # Создаем архив для загрузки
-        tar -czf deploy.tar.gz -C dist .
-        
-        echo "Archive created successfully"
-        
-    - name: Upload archive
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        source: "deploy.tar.gz"
-        target: "/tmp/"
-        
-    - name: Extract and deploy
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        script: |
-          echo "Starting deployment..."
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Prepare files for deployment
+        run: |
+          # Копируем статические файлы в dist
+          cp -r css dist/
+          cp -r favicon dist/
+          cp -r images dist/
+          cp script.js dist/
           
-          # Создаем папку
-          mkdir -p /www/welcome-to-day.ru/
-          
-          # Очищаем папку
-          rm -rf /www/welcome-to-day.ru/*
-          
-          echo "Extracting files..."
-          tar -xzf /tmp/deploy.tar.gz -C /www/welcome-to-day.ru/
-          chmod -R 755 /www/welcome-to-day.ru/
-          rm /tmp/deploy.tar.gz
-          
-          echo "Deployment completed successfully!" 
+          echo "Files prepared for deployment"
+
+      - name: Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: /www/welcome-to-day.ru/ 
