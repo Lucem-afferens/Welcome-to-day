@@ -359,24 +359,51 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if device is touch-based
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     
-    // Typing effect for hero title
+    // Typewriter effect for hero title (по буквам, поочередно)
     const titleLines = document.querySelectorAll('.title-line');
-    titleLines.forEach((line, index) => {
-        const text = line.textContent;
+    let lineIndex = 0;
+
+    function typeLine(line, text, charIndex, callback) {
+        if (charIndex === 0) {
+            line.style.visibility = 'visible';
+            line.classList.add('typewriter-in');
+        }
+        if (charIndex < text.length) {
+            line.textContent += text.charAt(charIndex);
+            // Более медленная анимация для всех строк
+            const delay = lineIndex === 0 ? 80 : 70;
+            setTimeout(() => typeLine(line, text, charIndex + 1, callback), delay);
+        } else {
+            // Удаляем анимационный класс после завершения анимации
+            setTimeout(() => line.classList.remove('typewriter-in'), 500);
+            if (callback) {
+                // Меньше пауза между строками для плавности
+                const pauseDelay = lineIndex === 0 ? 100 : 50;
+                setTimeout(callback, pauseDelay);
+            }
+        }
+    }
+
+    function startTypewriter() {
+        if (lineIndex < titleLines.length) {
+            const line = titleLines[lineIndex];
+            const text = line.getAttribute('data-text') || line.textContent;
+            line.textContent = '';
+            typeLine(line, text, 0, () => {
+                lineIndex++;
+                startTypewriter();
+            });
+        }
+    }
+
+    // Сохраняем оригинальный текст в data-text
+    titleLines.forEach(line => {
+        line.setAttribute('data-text', line.textContent);
         line.textContent = '';
-        
-        setTimeout(() => {
-            let i = 0;
-            const typeWriter = () => {
-                if (i < text.length) {
-                    line.textContent += text.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, 100);
-                }
-            };
-            typeWriter();
-        }, index * 800);
+        line.style.visibility = 'hidden';
     });
+
+    startTypewriter();
 
     // Parallax effect for hero section (only on non-touch devices)
     if (!isTouchDevice) {

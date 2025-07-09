@@ -84,3 +84,5 @@ document.addEventListener('DOMContentLoaded', function() {
         new InviteWebApp();
     }
 }); 
+// Здесь будет ваш код из script.js
+// Вставьте сюда весь код из https://welcome-to-day.ru/script.js 
