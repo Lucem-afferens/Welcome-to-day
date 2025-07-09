@@ -32,6 +32,23 @@ jobs:
         cp -r images dist/
         cp script.js dist/
         
+        # Показываем содержимое dist
+        echo "Contents of dist folder:"
+        ls -la dist/
+        
+    - name: Test SSH connection
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: |
+          echo "Testing connection..."
+          pwd
+          ls -la /www/
+          echo "Connection successful!"
+        
     - name: Deploy to Link-Host
       uses: appleboy/scp-action@v0.1.7
       with:
@@ -42,8 +59,9 @@ jobs:
         source: "dist/*"
         target: "/www/welcome-to-day.ru/"
         strip_components: 1
+        debug: true
         
-    - name: Set permissions
+    - name: Verify deployment
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.HOST }}
@@ -51,5 +69,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
+          echo "Checking deployed files..."
+          ls -la /www/welcome-to-day.ru/
           chmod -R 755 /www/welcome-to-day.ru/
           echo "Deployment completed successfully!" 
