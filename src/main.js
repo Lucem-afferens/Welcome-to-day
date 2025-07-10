@@ -229,7 +229,7 @@ class InviteWebApp {
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
             
-            submitBtn.innerHTML = '<i class="fas fa-check"></i> Подписано!';
+            submitBtn.innerHTML = '<i class="fas fa-check icon-check icon-animated"></i> Подписано!';
             submitBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
             
             // Reset form
@@ -270,7 +270,7 @@ class InviteWebApp {
         notification.className = `notification notification--${type}`;
         notification.innerHTML = `
             <div class="notification__content">
-                <i class="fas fa-${this.getNotificationIcon(type)}"></i>
+                <i class="fas fa-${this.getNotificationIcon(type)} icon-${this.getNotificationIcon(type)} icon-animated"></i>
                 <span>${message}</span>
             </div>
         `;

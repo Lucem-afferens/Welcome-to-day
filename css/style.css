@@ -1366,3 +1366,43 @@ html {
         background-position: -100% center;
     }
 } 
+
+/* Цветные иконки Font Awesome */
+.icon-heart { color: #e57373 !important; /* пастельно-розовый */ }
+.icon-mobile { color: #64b5f6 !important; /* пастельно-голубой */ }
+.icon-palette { color: #ba68c8 !important; /* пастельно-фиолетовый */ }
+.icon-rocket { color: #ffd54f !important; /* пастельно-жёлтый */ }
+.icon-users { color: #4db6ac !important; /* пастельно-бирюзовый */ }
+.icon-ring { color: #f8bbd0 !important; /* пастельно-розовый */ }
+.icon-birthday { color: #ffb74d !important; /* пастельно-оранжевый */ }
+.icon-glass { color: #ff8a65 !important; /* пастельно-коралловый */ }
+.icon-arrow { color: #90caf9 !important; /* пастельно-голубой */ }
+.icon-times { color: #b0bec5 !important; /* пастельно-серый */ }
+.icon-check { color: #81c784 !important; /* пастельно-зелёный */ }
+.icon-info-circle { color: #64b5f6 !important; /* пастельно-голубой */ }
+.icon-exclamation-circle { color: #ffd54f !important; /* пастельно-жёлтый */ }
+.icon-check-circle { color: #81c784 !important; /* пастельно-зелёный */ }
+
+.icon-animated {
+  animation: icon-fade-in 0.7s cubic-bezier(0.4,0,0.2,1), icon-float 2.5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+@keyframes icon-fade-in {
+  from { opacity: 0; transform: scale(0.7) rotate(-10deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+@keyframes icon-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Цветные иконки в секции services */
+.service-card__icon i.icon-ring { color: #f8bbd0 !important; /* розовый */ }
+.service-card__icon i.icon-birthday { color: #ffb74d !important; /* оранжевый */ }
+.service-card__icon i.icon-glass { color: #ff8a65 !important; /* коралловый */ }
+
+/* Для остальных иконок в .about__icon, .card-avatar оставляем белый */
+.about__icon i,
+.card-avatar i {
+  color: var(--white) !important;
+} 
