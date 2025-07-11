@@ -29,8 +29,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const weddingCard = document.getElementById('weddingCard');
     const birthdayCard = document.getElementById('birthdayCard');
     const anniversaryCard = document.getElementById('anniversaryCard');
+    const genderPartyCard = document.getElementById('genderPartyCard');
 
-    console.log('Found cards:', { weddingCard, birthdayCard, anniversaryCard });
+    console.log('Found cards:', { weddingCard, birthdayCard, anniversaryCard, genderPartyCard });
 
     if (weddingCard) {
         weddingCard.addEventListener('click', () => {
@@ -48,6 +49,12 @@ document.addEventListener('DOMContentLoaded', function() {
         anniversaryCard.addEventListener('click', () => {
             console.log('Anniversary card clicked');
             openServiceModal('anniversaryModal');
+        });
+    }
+    if (genderPartyCard) {
+        genderPartyCard.addEventListener('click', () => {
+            console.log('Gender Party card clicked');
+            openServiceModal('genderPartyModal');
         });
     }
 

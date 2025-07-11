@@ -630,9 +630,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .services__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-xl);
     margin-top: var(--spacing-xl);
+}
+
+@media (max-width: 900px) {
+    .services__grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .service-card {
@@ -1400,6 +1406,7 @@ html {
 .service-card__icon i.icon-ring { color: #f8bbd0 !important; /* розовый */ }
 .service-card__icon i.icon-birthday { color: #ffb74d !important; /* оранжевый */ }
 .service-card__icon i.icon-glass { color: #ff8a65 !important; /* коралловый */ }
+.service-card__icon i.icon-gender { color: #90caf9 !important; /* пастельно-голубой */ background: linear-gradient(135deg, #f8bbd0, #90caf9); border-radius: 50%; padding: 8px; }
 
 /* Для остальных иконок в .about__icon, .card-avatar оставляем белый */
 .about__icon i,
