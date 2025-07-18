@@ -29,7 +29,6 @@ jobs:
           cp -r css dist/
           cp -r favicon dist/
           cp -r images dist/
-          cp script.js dist/
           
           echo "Files prepared for deployment"
 
