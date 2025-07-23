@@ -376,6 +376,20 @@ h1, h2, h3, h4, h5, h6 {
         background-position: 50% 100%;
     }
 }
+@keyframes heroExampleMovieMobile {
+    0% {
+        background-position: 50% 0;
+    }
+    20% {
+        background-position: 50% 0;
+    }
+    95% {
+        background-position: 50% 100%;
+    }
+    100% {
+        background-position: 50% 100%;
+    }
+}
 
 .floating-card {
     position: absolute;
@@ -1218,6 +1232,9 @@ h1, h2, h3, h4, h5, h6 {
     } */
     .hero__example {
         min-height: 400px;
+        filter: none;
+        animation: heroExampleMovieMobile 50s linear infinite;
+    
     }
     
     .hero__features {
