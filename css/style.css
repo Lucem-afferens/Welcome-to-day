@@ -357,7 +357,7 @@ h1, h2, h3, h4, h5, h6 {
     animation: heroExampleMovie 40s linear infinite;
     img {
         object-fit: contain;
-        width: 100%;
+        width: auto;
         height: 101%;
     }
 }
