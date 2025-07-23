@@ -352,7 +352,7 @@ h1, h2, h3, h4, h5, h6 {
     justify-self: center;
     justify-content: center;
     border-radius: 20%;
-    background: url('../images/melody-screen.png') 0%/92% no-repeat;
+    background: url('../images/peons-screen.png') 0%/92% no-repeat;
     background-position: 50% 0;
     animation: heroExampleMovie 40s linear infinite;
     img {
