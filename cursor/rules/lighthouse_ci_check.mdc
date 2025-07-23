@@ -1,0 +1,17 @@
+---
+rule_type: agent_requested
+description: Simulate Lighthouse CI score and recommendations
+---
+
+# Lighthouse CI Rules
+
+- Emulate a full Lighthouse CI analysis:
+  - Performance
+  - Accessibility
+  - Best Practices
+  - SEO
+- Provide scores and identify bottlenecks.
+- Suggest optimizations such as:
+  - Lazy-loading images
+  - Reducing unused JS/CSS
+  - Improving time-to-interactive and first contentful paint

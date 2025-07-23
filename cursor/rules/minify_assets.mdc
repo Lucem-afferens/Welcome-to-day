@@ -1,0 +1,11 @@
+---
+rule_type: agent_requested
+description: Minify CSS and JS files
+---
+
+# Minification Rules
+
+- Minify CSS and JavaScript assets to reduce file size.
+- Use terser-style minification for JS and cssnano-style for CSS.
+- Preserve code functionality and avoid minifying during development unless requested.
+- Output minified versions with `.min.css` and `.min.js` suffixes.

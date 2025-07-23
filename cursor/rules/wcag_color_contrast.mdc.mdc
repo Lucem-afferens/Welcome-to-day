@@ -1,0 +1,19 @@
+---
+rule_type: auto
+globs:
+  - "**/*.css"
+description: Automatically ensure WCAG-compliant color contrast
+---
+
+# WCAG Color Contrast Rules
+
+- For every CSS color declaration used in text or UI components (e.g. `color`, `background-color`, `border-color`):
+  - Compute contrast ratio between foreground and its background.
+  - Ensure:
+    - **normal text**: ratio ≥ 4.5:1 (WCAG 1.4.3 AA)
+    - **large text** (≥ 18pt or ≥ 14pt bold): ratio ≥ 3:1
+    - **UI components or graphical elements**: ratio ≥ 3:1
+  - If contrast is too low:
+    - Suggest a darker/lighter color to meet requirements.
+    - Apply correction automatically if safe.
+- Use standard WCAG formulas for relative luminance and contrast ratio.

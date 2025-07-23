@@ -1,0 +1,17 @@
+---
+rule_type: auto
+globs:
+  - "**/*.html"
+  - "**/*.css"
+  - "**/*.js"
+description: Auto-format files using Prettier-style formatting
+---
+
+# Code Formatting Rules
+
+- Automatically format HTML, CSS, and JavaScript files:
+  - Consistent indentation and spacing.
+  - Proper bracket placement.
+  - Enforce single quotes in JS, double quotes in HTML attributes.
+  - Remove unnecessary semicolons and trailing spaces.
+- Do not break existing logic.

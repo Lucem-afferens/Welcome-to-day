@@ -1,0 +1,17 @@
+---
+rule_type: auto
+globs:
+  - "**/*.png"
+  - "**/*.jpg"
+  - "**/*.jpeg"
+  - "**/*.webp"
+description: Optimize image assets automatically
+---
+
+# Image Optimization Rules
+
+- On image addition or update:
+  - Reduce image file size without quality loss.
+  - Convert to WebP if applicable.
+  - Suggest lazy loading (`loading="lazy"`) for large or offscreen images.
+  - Check for missing alt text in related HTML.

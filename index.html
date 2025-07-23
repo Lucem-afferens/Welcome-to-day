@@ -65,6 +65,9 @@
             <div class="nav__menu">
                 <a href="#about" class="nav__link">О нас</a>
                 <a href="#services" class="nav__link">Услуги</a>
+                <a href="#" class="nav__link">Каталог</a>
+                <a href="#" class="nav__link">Отзывы</a>
+                <a href="#" class="nav__link">FAQ</a>
             </div>
         </nav>
     </header>
@@ -87,7 +90,7 @@
                 </p>
                 <div class="hero__cta">
                     <button class="btn btn--primary" id="comingSoonBtn">
-                        <span class="btn__text">Скоро открытие</span>
+                        <span class="btn__text">Выбрать шаблон</span>
                         <span class="btn__icon">
                             <i class="fas fa-heart icon-heart"></i>
                         </span>
@@ -108,22 +111,22 @@
                     </div>
                 </div>
             </div>
-            <div class="hero__visual">
-                <div class="floating-card floating-card--1">
+            <!-- <div class="hero__visual">
+                <a href="https://welcome-to-day.ru/examples/peons/" target="_blank" class="floating-card floating-card--1">
                     <div class="card-content">
                         <div class="card-header">
                             <div class="card-avatar">
                                 <i class="fas fa-heart icon-heart"></i>
                             </div>
-                            <div class="card-title">Анна & Михаил</div>
+                            <div class="card-title">Евгений & Юлия</div>
                         </div>
                         <div class="card-body">
                             <p>Приглашаем вас на нашу свадьбу</p>
-                            <div class="card-date">15 июня 2025</div>
+                            <div class="card-date">12 августа 2025</div>
                         </div>
                     </div>
-                </div>
-                <div class="floating-card floating-card--2">
+                </a>
+                <a href="https://welcome-to-day.ru/examples/jubilee/" target="_blank" class="floating-card floating-card--2">
                     <div class="card-content">
                         <div class="card-header">
                             <div class="card-avatar">
@@ -132,12 +135,12 @@
                             <div class="card-title">День рождения</div>
                         </div>
                         <div class="card-body">
-                            <p>Марии исполняется 25 лет</p>
-                            <div class="card-date">22 мая 2025</div>
+                            <p>Марии исполняется 40 лет</p>
+                            <div class="card-date">18 мая 2025</div>
                         </div>
                     </div>
-                </div>
-                <div class="floating-card floating-card--3">
+                </a>
+                <a href="https://welcome-to-day.ru/examples/melody/" target="_blank" class="floating-card floating-card--3">
                     <div class="card-content">
                         <div class="card-header">
                             <div class="card-avatar">
@@ -146,12 +149,15 @@
                             <div class="card-title">Корпоратив</div>
                         </div>
                         <div class="card-body">
-                            <p>Празднование 8 марта</p>
-                            <div class="card-date">7 марта 2025</div>
+                            <p>Празднование Дня знаний</p>
+                            <div class="card-date">29 августа 2025</div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </a>
+            </div> -->
+        <a href="https://welcome-to-day.ru/examples/peons/" target="_blank" class="hero__example">
+            <img src="images/peons-display.svg" alt="example">
+        </a>
         </div>
         <div class="hero__background">
             <div class="bg-shape bg-shape--1"></div>
@@ -269,6 +275,9 @@
         <div class="modal__content">
             <div class="modal__header">
                 <h3>Свадьба</h3>
+                <button class="btn btn--catalog">
+                    <span class="btn__text">Каталог</span>
+                </button>
                 <button class="modal__close" onclick="closeServiceModal('weddingModal')">
                     <i class="fas fa-times icon-times"></i>
                 </button>
@@ -290,6 +299,9 @@
         <div class="modal__content">
             <div class="modal__header">
                 <h3>День рождения</h3>
+                <button class="btn btn--catalog">
+                    <span class="btn__text">Каталог</span>
+                </button>
                 <button class="modal__close" onclick="closeServiceModal('birthdayModal')">
                     <i class="fas fa-times icon-times"></i>
                 </button>
@@ -311,6 +323,9 @@
         <div class="modal__content">
             <div class="modal__header">
                 <h3>Корпоративное событие</h3>
+                <button class="btn btn--catalog">
+                    <span class="btn__text">Каталог</span>
+                </button>
                 <button class="modal__close" onclick="closeServiceModal('anniversaryModal')">
                     <i class="fas fa-times icon-times"></i>
                 </button>
@@ -332,6 +347,9 @@
         <div class="modal__content">
             <div class="modal__header">
                 <h3>Гендер-пати</h3>
+                <button class="btn btn--catalog">
+                    <span class="btn__text">Каталог</span>
+                </button>
                 <button class="modal__close" onclick="closeServiceModal('genderPartyModal')">
                     <i class="fas fa-times icon-times"></i>
                 </button>
@@ -362,6 +380,7 @@
                 <div class="footer__links">
                     <a href="#about">О нас</a>
                     <a href="#services">Услуги</a>
+                    <a href="#">Каталог</a>
                 </div>
             </div>
             <div class="footer__bottom">
@@ -404,7 +423,7 @@
         </div>
     </div>
 
-    <script type="module" src="assets/main.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="src/main.js"></script>
+    <script type="module" src="public/script.js"></script>
 </body>
 </html> 

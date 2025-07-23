@@ -7,11 +7,13 @@
 
 :root {
     /* Color Palette - Modern Gray with Accents */
-    --primary-color: #6c757d;
+    --primary-color: #5c555c;
+    --catalog-color: #ee75d6;
     --primary-dark: #495057;
     --secondary-color: #e9ecef;
-    --accent-color: #adb5bd;
-    --text-primary: #2c3e50;
+    --accent-color: #c3cfdb;
+    --text-primary: #222d39;
+    --text-gold: #A08142;
     --text-secondary: #7f8c8d;
     --text-light: #bdc3c7;
     --white: #ffffff;
@@ -155,7 +157,7 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 var(--spacing-lg);
+    padding: 0 var(--spacing-lg) 30px ;
     position: relative;
     z-index: 2;
 }
@@ -273,6 +275,21 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 8px 25px var(--shadow-medium);
 }
 
+.btn--catalog {
+    background: linear-gradient(135deg, var(--catalog-color), var(--accent-color));
+    color: var(--white);
+    box-shadow: 0 8px 25px var(--shadow-medium);
+    padding: 3% 6%;
+    min-width: 105px;
+    position: absolute;
+    right: 50px;
+}
+
+.btn--catalog:hover {
+    transform: scale(1.1) !important;
+    box-shadow: 0 12px 35px var(--shadow-heavy);
+}
+
 .btn--primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 35px var(--shadow-heavy);
@@ -319,13 +336,42 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.1rem;
 }
 
-/* Hero Visual */
-.hero__visual {
+/* Hero Example */
+.hero__example{
+    display: block;
+    filter: drop-shadow(5px 10px 10px #000);
     position: relative;
-    height: 600px;
+    height: 500px;
+    /* width: 300px; */
     display: flex;
     align-items: center;
+    align-self: start;
+    justify-self: center;
     justify-content: center;
+    border-radius: 20%;
+    background: url('../images/peons-screen.png') 0%/92% no-repeat;
+    background-position: 50% 0;
+    animation: heroExampleMovie 40s linear infinite;
+    img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+@keyframes heroExampleMovie {
+    0% {
+        background-position: 50% 0;
+    }
+    5% {
+        background-position: 50% 0;
+    }
+    95% {
+        background-position: 50% 100%;
+    }
+    100% {
+        background-position: 50% 100%;
+    }
 }
 
 .floating-card {
@@ -339,6 +385,7 @@ h1, h2, h3, h4, h5, h6 {
     animation: float 6s ease-in-out infinite;
     transition: var(--transition-normal);
     z-index: 2;
+    text-decoration: none;
 }
 
 .floating-card:hover {
@@ -469,7 +516,7 @@ h1, h2, h3, h4, h5, h6 {
     position: absolute;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-    opacity: 0.1;
+    opacity: .2;
     animation: float 8s ease-in-out infinite;
 }
 
@@ -535,7 +582,7 @@ h1, h2, h3, h4, h5, h6 {
 .about__philosophy p {
     font-size: 1.1rem;
     line-height: 1.7;
-    color: var(--text-primary);
+    color: var(--text-gold);
     font-style: italic;
     margin: 0;
     font-family: var(--font-display);
@@ -878,7 +925,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: var(--spacing-xl);
     max-width: 650px;
     width: 95%;
-    max-height: 85vh;
+    /* max-height: 95vh; */
     overflow-y: auto;
     overflow-x: hidden;
     transform: scale(0.9);
@@ -957,6 +1004,7 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: var(--spacing-lg);
+    position: relative;
 }
 
 .modal__header h3 {
@@ -965,6 +1013,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0;
     word-wrap: break-word;
     font-weight: 600;
+    max-width: 70%;
 }
 
 .modal__close {
@@ -1139,6 +1188,7 @@ h1, h2, h3, h4, h5, h6 {
     .hero__content {
         min-height: 350px; /* уменьшаем для планшетов */
         align-items: center;
+        transform: none !important;
     }
     
     .hero__title {
@@ -1159,8 +1209,11 @@ h1, h2, h3, h4, h5, h6 {
     }
     
     /* Скрываем карточки на планшетах */
-    .hero__visual {
+    /* .hero__visual {
         display: none;
+    } */
+    .hero__example {
+        height: 400px;
     }
     
     .hero__features {
@@ -1276,9 +1329,9 @@ h1, h2, h3, h4, h5, h6 {
     }
     
     /* Скрываем карточки на мобильных */
-    .hero__visual {
+    /* .hero__visual {
         display: none;
-    }
+    } */
     
     .hero__features {
         flex-direction: column;

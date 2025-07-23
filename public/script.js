@@ -19,6 +19,8 @@ function closeServiceModal(modalId) {
     }
 }
 
+window.openServiceModal = openServiceModal;
+window.closeServiceModal = closeServiceModal;
 
 
 // Add click event listeners to service cards

@@ -1,0 +1,14 @@
+---
+rule_type: auto
+globs:
+  - "**/*.js"
+description: Automatically optimize JavaScript after edits
+---
+
+# JavaScript Optimization Rules (Auto)
+
+- Refactor duplicated logic into reusable functions.
+- Remove dead code or unused variables.
+- Replace verbose syntax with simpler alternatives.
+- Add inline comments if logic is non-trivial.
+- Run after each JavaScript file edit.

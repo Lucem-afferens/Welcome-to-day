@@ -1,0 +1,20 @@
+---
+rule_type: auto
+globs:
+  - "**/*.html"
+  - "**/*.css"
+  - "**/*.js"
+description: Auto checks for frontend files
+---
+
+# Frontend Code Quality Rules
+
+- After modifying a file, validate:
+  - HTML syntax and structure (via W3C validator-style logic).
+  - CSS syntax, specificity, and performance.
+  - JavaScript for unused code, syntax errors, bad practices.
+- Always lint JS (use ESLint rules where relevant).
+- If problems or inefficiencies are found, correct them automatically.
+- Always avoid breaking the existing logic.
+- Ensure all visual or interactive features continue working after changes.
+- Suggest and apply improvements where possible.

@@ -110,7 +110,7 @@ class InviteWebApp {
 
     initCountdown() {
         // Set target date (July 20, 2025)
-        const targetDate = new Date('2025-07-20T00:00:00');
+        const targetDate = new Date('2025-07-30T00:00:00');
         
         const updateCountdown = () => {
             const now = new Date().getTime();

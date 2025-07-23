@@ -1,0 +1,16 @@
+---
+rule_type: agent_requested
+description: Run a Lighthouse-style performance and accessibility audit
+---
+
+# Lighthouse-style Audit Rules
+
+- Evaluate the current HTML/CSS/JS for:
+  - Performance bottlenecks (render-blocking resources, large payloads).
+  - Accessibility issues (missing alt text, label associations, color contrast).
+  - Best practices (meta tags, responsive viewport).
+- Suggest or apply improvements to improve:
+  - Performance score.
+  - Accessibility score.
+  - SEO fundamentals.
+- Add audit summary as a comment or Markdown block if needed.

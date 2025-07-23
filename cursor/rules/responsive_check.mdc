@@ -1,0 +1,18 @@
+---
+rule_type: auto
+globs:
+  - "**/*.html"
+  - "**/*.css"
+description: Automatically check responsiveness on layout changes
+---
+
+# Mobile Responsiveness Rules (Auto)
+
+- Check that all UI components scale properly on:
+  - Mobile (<480px), tablet (768px), and desktop (>1024px).
+- Use fluid layouts, relative units (%, rem, vw/vh), and media queries.
+- Suggest or apply improvements for:
+  - Viewport configuration.
+  - Touch target size.
+  - Layout breakpoints.
+- Run after editing HTML/CSS files.

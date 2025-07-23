@@ -1,0 +1,15 @@
+---
+rule_type: auto
+globs:
+  - "**/*.html"
+description: Automatically validate and improve SEO structure
+---
+
+# SEO Optimization Rules (Auto)
+
+- Check for presence of key meta tags:
+  - title, description, viewport, robots, canonical
+- Validate heading structure and semantic HTML.
+- Ensure images have meaningful alt text.
+- Suggest or apply improvements for better SEO performance.
+- Run after HTML edits.
