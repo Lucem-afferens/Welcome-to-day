@@ -13,6 +13,7 @@
     --secondary-color: #e9ecef;
     --accent-color: #c3cfdb;
     --text-primary: #222d39;
+    --text-nav: #DDBBAB;
     --text-gold: #A08142;
     --text-secondary: #7f8c8d;
     --text-light: #bdc3c7;
@@ -113,7 +114,7 @@ h1, h2, h3, h4, h5, h6 {
     gap: var(--spacing-lg);
 }
 
-.nav__link {
+.nav__link, .nav__link-page {
     text-decoration: none;
     color: var(--text-primary);
     font-weight: 400;
@@ -124,22 +125,22 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: .1rem;
 }
 
-.nav__link:hover {
-    color: var(--primary-dark);
+.nav__link:hover, .nav__link-page:hover {
+    color: var(--text-nav);
 }
 
-.nav__link::after {
+.nav__link::after, .nav__link-page::after {
     content: '';
     position: absolute;
     bottom: -5px;
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    background: linear-gradient(135deg, var(--text-nav), var(--accent-color));
     transition: var(--transition-normal);
 }
 
-.nav__link:hover::after {
+.nav__link:hover::after, .nav__link-page:hover::after {
     width: 100%;
 }
 
@@ -279,7 +280,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn--catalog {
-    background: linear-gradient(135deg, var(--catalog-color), var(--accent-color));
+    background: linear-gradient(135deg, var(--text-nav), var(--accent-color));
     color: var(--white);
     box-shadow: 0 8px 25px var(--shadow-medium);
     padding: 3% 6%;
