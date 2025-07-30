@@ -6,58 +6,58 @@ class InviteWebApp {
     }
 
     init() {
-        this.setupEventListeners();
+        // this.setupEventListeners();
         this.initAnimations();
         this.initCountdown();
         this.initSmoothScrolling();
         this.initIntersectionObserver();
     }
 
-    setupEventListeners() {
-        // Coming soon button
-        const comingSoonBtn = document.getElementById('comingSoonBtn');
-        if (comingSoonBtn) {
-            comingSoonBtn.addEventListener('click', () => this.openModal());
-        }
+    // setupEventListeners() {
+    //     // Coming soon button
+    //     const comingSoonBtn = document.getElementById('comingSoonBtn');
+    //     if (comingSoonBtn) {
+    //         comingSoonBtn.addEventListener('click', () => this.openModal());
+    //     }
 
-        // Close modal button
-        const closeModalBtn = document.getElementById('closeModal');
-        if (closeModalBtn) {
-            closeModalBtn.addEventListener('click', () => this.closeModal());
-        }
+    //     // Close modal button
+    //     const closeModalBtn = document.getElementById('closeModal');
+    //     if (closeModalBtn) {
+    //         closeModalBtn.addEventListener('click', () => this.closeModal());
+    //     }
 
-        // Modal backdrop click
-        const modal = document.getElementById('comingSoonModal');
-        if (modal) {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    this.closeModal();
-                }
-            });
-        }
+    //     // Modal backdrop click
+    //     const modal = document.getElementById('comingSoonModal');
+    //     if (modal) {
+    //         modal.addEventListener('click', (e) => {
+    //             if (e.target === modal) {
+    //                 this.closeModal();
+    //             }
+    //         });
+    //     }
 
-        // Newsletter form
-        const newsletterForm = document.getElementById('newsletterForm');
-        if (newsletterForm) {
-            newsletterForm.addEventListener('submit', (e) => this.handleNewsletterSubmit(e));
-        }
+    //     // Newsletter form
+    //     const newsletterForm = document.getElementById('newsletterForm');
+    //     if (newsletterForm) {
+    //         newsletterForm.addEventListener('submit', (e) => this.handleNewsletterSubmit(e));
+    //     }
 
-        // Contact button
-        const contactBtn = document.getElementById('contactBtn');
-        if (contactBtn) {
-            contactBtn.addEventListener('click', () => this.handleContactClick());
-        }
+    //     // Contact button
+    //     const contactBtn = document.getElementById('contactBtn');
+    //     if (contactBtn) {
+    //         contactBtn.addEventListener('click', () => this.handleContactClick());
+    //     }
 
-        // Keyboard events
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                this.closeModal();
-            }
-        });
+    //     // Keyboard events
+    //     document.addEventListener('keydown', (e) => {
+    //         if (e.key === 'Escape') {
+    //             this.closeModal();
+    //         }
+    //     });
 
-        // Window resize
-        window.addEventListener('resize', () => this.handleResize());
-    }
+    //     // Window resize
+    //     window.addEventListener('resize', () => this.handleResize());
+    // }
 
     initAnimations() {
         // Check if device is touch-based
@@ -443,4 +443,90 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 2000);
         }, 5000);
     }
+
+
+    // form
+    const modal = document.getElementById('orderFormModal');
+    const closeModal = document.querySelector('.close-modal');
+    const form = document.getElementById('orderForm');
+    const productNameInput = document.getElementById('productName');
+
+    // Открытие формы
+    document.querySelectorAll('.open-form-btn').forEach(button => {
+        button.addEventListener('click', () => {
+        const product = button.dataset.product;
+        productNameInput.value = product;
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+        });
+    });
+
+    // Закрытие формы
+    closeModal.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+    });
+
+//   // Отправка формы
+//   form.addEventListener('submit', e => {
+//     e.preventDefault();
+
+//     const formData = new FormData(form);
+//     const data = Object.fromEntries(formData.entries());
+
+//     // Отправка данных (пример через fetch)
+//     fetch('/send-request', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify(data)
+//     }).then(response => {
+//       if (response.ok) {
+//         alert('Заявка отправлена!');
+//         modal.classList.add('hidden');
+//         modal.style.display = 'none';
+//         form.reset();
+//       } else {
+//         alert('Ошибка при отправке.');
+//       }
+//     });
+//   });
+
+
 }); 
+
+// Ниже - отправка формы с обраоткой на стороне серврера через send.php
+document.querySelector("form").addEventListener("submit", function(e) {
+    e.preventDefault();
+  
+    const form = e.target;
+    const formData = new FormData(form);
+  
+    fetch("send.php", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      const toast = document.getElementById("form-toast");
+      toast.textContent = data.message;
+      toast.className = "toast show " + (data.success ? "success" : "error");
+  
+      if (data.success) {
+        form.reset();
+      }
+  
+      setTimeout(() => {
+        toast.className = "toast"; // скрыть сообщение
+      }, 8000);
+    })
+    .catch(() => {
+      const toast = document.getElementById("form-toast");
+      toast.textContent = "Сервер недоступен. Попробуйте позже.";
+    //   toast.textContent = "Спасибо! Ваш ответ получен!";  // Вместо сообщения об ошибке - показ сообщения об успехе (исключительно для публикации как примера работ, без хостинга (форма не отсылает к файлу send.php)). При продакшн запустить вместо этой строку выше
+      toast.className = "toast show error";
+  
+      setTimeout(() => {
+        toast.className = "toast";
+      }, 4000);
+    });
+  });

@@ -63,7 +63,7 @@
                 <span class="logo-text">Welcome-to-day</span>
             </div>
             <div class="nav__menu">
-                <a href="#" class="nav__link-page">Каталог</a>
+                <a href="catalog.html" class="nav__link-page">Каталог</a>
                 <a href="#about" class="nav__link">О нас</a>
                 <a href="#services" class="nav__link">Услуги</a>
                 <a href="#" class="nav__link-page">Отзывы</a>
@@ -89,12 +89,12 @@
                     Welcome to day — любой, который вы захотите запомнить.
                 </p>
                 <div class="hero__cta">
-                    <button class="btn btn--primary" id="comingSoonBtn">
+                    <a href="catalog.html" class="btn btn--primary" id="comingSoonBtn">
                         <span class="btn__text">Выбрать шаблон</span>
                         <span class="btn__icon">
                             <i class="fas fa-heart icon-heart"></i>
                         </span>
-                    </button>
+                    </a>
                     <div class="hero__features">
                         <div class="feature">
                             <i class="fas fa-mobile-alt icon-mobile"></i>
@@ -307,7 +307,7 @@
                 </button>
             </div>
             <div class="modal__body">
-                <h4>Зачем вам сайт-пригласительный?</h4>
+                <h4>Зачем Вам сайт-пригласительный?</h4>
                 <p>Если вы устраиваете праздник не на троих — сайт помогает:</p>
                 <ul>
                     <li><strong>Не писать каждому гостю отдельно.</strong> Просто отправляете ссылку.</li>
@@ -331,7 +331,7 @@
                 </button>
             </div>
             <div class="modal__body">
-                <h4>Зачем вам сайт-пригласительный?</h4>
+                <h4>Зачем Вам сайт-пригласительный?</h4>
                 <p>Когда гостей больше десяти — без чёткого приглашения начинается путаница. Сайт решает это:</p>
                 <ul>
                     <li><strong>Один раз оформляете — отправляете всем ссылку.</strong></li>
@@ -355,7 +355,7 @@
                 </button>
             </div>
             <div class="modal__body">
-                <h4>Зачем нужен сайт-пригласительный для гендер-пати?</h4>
+                <h4>Зачем Вам сайт-пригласительный для гендер-пати?</h4>
                 <p>Гендер-пати — это особенный момент, который хочется сделать незабываемым для всех гостей. Сайт-пригласительный поможет:</p>
                 <ul>
                     <li><strong>Сохранить интригу до самого reveal.</strong> Все детали — только для приглашённых.</li>
@@ -369,29 +369,37 @@
 
 
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer__content">
-                <div class="footer__logo">
-                    <span class="logo-text">Welcome-to-day</span>
-                    <p>Welcome to day — любой, который вы захотите запомнить.</p>
-                </div>
-                <div class="footer__links">
-                    <a href="#about">О нас</a>
-                    <a href="#services">Услуги</a>
-                    <a href="#">Каталог</a>
-                    <a href="#">Отзывы</a>
-                    <a href="#">FAQ</a>
-                </div>
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer__content">
+            <div class="footer__logo">
+                <span class="logo-text">Welcome-to-day</span>
+                <p>Welcome to day — любой, который вы захотите запомнить.</p>
             </div>
-            <div class="footer__bottom">
-                <p>&copy; 2025 Welcome-to-day. Все права защищены.</p>
+            <div class="footer__social">
+                <a href="https://t.me/welcome_to_day" target="_blank" class="footer__social__img">
+                    <img src="images/telegram.svg" alt="telegram">
+                </a>
+                <a href="https://wa.me/79226447689?text=Здравствуйте,%20хочу%20узнать%20больше%20о%20ваших%20услугах" class="footer__social__img">
+                    <img src="images/whatsapp.svg" target="_blank" alt="whatsapp">
+                </a>
+            </div>
+            <div class="footer__links">
+                <a href="catalog.html">Каталог</a>
+                <a href="#about">О нас</a>
+                <a href="#services">Услуги</a>
+                <a href="#">Отзывы</a>
+                <a href="#">FAQ</a>
             </div>
         </div>
-    </footer>
+        <div class="footer__bottom">
+            <p>&copy; 2025 Welcome-to-day. Все права защищены.</p>
+        </div>
+    </div>
+</footer>
 
-    <!-- Coming Soon Modal -->
+    <!-- Coming Soon Modal
     <div class="modal" id="comingSoonModal">
         <div class="modal__content">
             <div class="modal__header">
@@ -420,10 +428,9 @@
                     </div>
                 </div>
                 <p>Мы работаем над созданием каталога наших работ. Скоро здесь появится галерея наших лучших проектов!</p>
-
             </div>
         </div>
-    </div>
+    </div> -->
 
     <script type="module" src="src/main.js"></script>
     <script type="module" src="public/script.js"></script>
