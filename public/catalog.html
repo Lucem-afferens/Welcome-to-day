@@ -38,44 +38,59 @@
     <meta name="format-detection" content="telephone=no" />
     
     <!-- Favicon  -->
-    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
-    <link rel="shortcut icon" href="favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg" />
+    <link rel="shortcut icon" href="../favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Welcome-to-day" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <link rel="manifest" href="favicon/site.webmanifest" />
+    <link rel="manifest" href="../favicon/site.webmanifest" />
 
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="../css/all.min.css">
 </head>
+
 <body>
     <!-- Header -->
     <header class="catalog-header">
         <nav class="nav">
             <div class="nav__logo">
-                <span class="logo-text">Welcome-to-day</span>
+                <a href="../index.html" class="logo-text">Welcome-to-day</a>
             </div>
             <div class="nav__menu">
-                <a href="#" class="nav__link">Каталог</a>
-                <a href="index.html#about" class="nav__link-page">О нас</a>
-                <a href="index.html#services" class="nav__link-page">Услуги</a>
+                <a href="#" class="nav__link-page">Каталог</a>
+                <a href="../index.html#about" class="nav__link-page">О нас</a>
+                <a href="../index.html#services" class="nav__link-page">Услуги</a>
                 <a href="#" class="nav__link-page">Отзывы</a>
                 <a href="#" class="nav__link-page">FAQ</a>
             </div>
         </nav>
+        <div class="nav__burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
+    <div class="menu__burger">
+        <span class="menu__burger__close">&times;</span>
+        <a href="#" class="nav__link">Каталог</a>
+        <a href="../index.html#about" class="nav__link">О нас</a>
+        <a href="../index.html#services" class="nav__link">Услуги</a>
+        <a href="#" class="nav__link">Отзывы</a>
+        <a href="#" class="nav__link">FAQ</a>
+    </div>
 
     <div class="catalog-main">
         <div class="container">
             <h2 class="catalog-main__title">Каталог приглашений</h2>
             <div class="catalog-main__subtitle">Срок изготовления от 1 до 3 дней</div>
+            <!-- <div class="catalog-main__subtitle-mini">Если Вы не определились с шаблоном или имеются предпочтения к индивидуальному дизайну, можете оставить заявку здесь, и мы с Вами свяжемся</div> -->
             <div class="catalog-main__devider"></div>
         </div>
     </div>
@@ -84,17 +99,17 @@
             <div class="catalog-wrapper">
                 <div class="catalog-card">
                     <a href="https://welcome-to-day.ru/examples/melody/" target="_blank" class="catalog-card__img">
-                        <img src="images/catalog-card-melody.svg" alt="work example">
+                        <img src="../images/catalog-card-melody.svg" alt="work example">
                     </a>
                     <div class="catalog-card__name">
                         "Мелодия любви"
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            2500 р.
+                            3990 р.
                         </div>
                         <div class="catalog-card__price_free">
-                            Бесплатно
+                            990 р.
                         </div>
                     </div>
                     <div class="catalog-card__buttons">
@@ -108,17 +123,17 @@
                 </div>
                 <div class="catalog-card">
                     <a href="https://welcome-to-day.ru/examples/softness/" target="_blank" class="catalog-card__img">
-                        <img src="images/catalog-card-softness.svg" alt="work example">
+                        <img src="../images/catalog-card-softness.svg" alt="work example">
                     </a>
                     <div class="catalog-card__name">
                         "Мягкость"
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            2500 р.
+                            3990 р.
                         </div>
                         <div class="catalog-card__price_free">
-                            Бесплатно
+                            990 р.
                         </div>
                     </div>
                     <div class="catalog-card__buttons">
@@ -132,17 +147,17 @@
                 </div>
                 <div class="catalog-card">
                     <a href="https://welcome-to-day.ru/examples/comfort/" target="_blank" class="catalog-card__img">
-                        <img src="images/catalog-card-comfort.svg" alt="work example">
+                        <img src="../images/catalog-card-comfort.svg" alt="work example">
                     </a>
                     <div class="catalog-card__name">
                         "Комфорт"
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            2500 р.
+                            3990 р.
                         </div>
                         <div class="catalog-card__price_free">
-                            Бесплатно
+                            990 р.
                         </div>
                     </div>
                     <div class="catalog-card__buttons">
@@ -156,17 +171,17 @@
                 </div>
                 <div class="catalog-card">
                     <a href="https://welcome-to-day.ru/examples/silk/" target="_blank" class="catalog-card__img">
-                        <img src="images/catalog-card-silk.svg" alt="work example">
+                        <img src="../images/catalog-card-silk.svg" alt="work example">
                     </a>
                     <div class="catalog-card__name">
                         "Шёлк"
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            2500 р.
+                            3990 р.
                         </div>
                         <div class="catalog-card__price_free">
-                            Бесплатно
+                            990 р.
                         </div>
                     </div>
                     <div class="catalog-card__buttons">
@@ -180,17 +195,17 @@
                 </div>
                 <div class="catalog-card">
                     <a href="https://welcome-to-day.ru/examples/justDay/" target="_blank" class="catalog-card__img">
-                        <img src="images/catalog-card-justDay.svg" alt="work example">
+                        <img src="../images/catalog-card-justDay.svg" alt="work example">
                     </a>
                     <div class="catalog-card__name">
                         "Важная дата"
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            2500 р.
+                            3990 р.
                         </div>
                         <div class="catalog-card__price_free">
-                            Бесплатно
+                            990 р.
                         </div>
                     </div>
                     <div class="catalog-card__buttons">
@@ -204,17 +219,17 @@
                 </div>
                 <div class="catalog-card">
                     <a href="https://welcome-to-day.ru/examples/leafFall/" target="_blank" class="catalog-card__img">
-                        <img src="images/catalog-card-leafFall.svg" alt="work example">
+                        <img src="../images/catalog-card-leafFall.svg" alt="work example">
                     </a>
                     <div class="catalog-card__name">
                         "Самый лучший день"
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            2500 р.
+                            3990 р.
                         </div>
                         <div class="catalog-card__price_free">
-                            Бесплатно
+                            990 р.
                         </div>
                     </div>
                     <div class="catalog-card__buttons">
@@ -228,17 +243,17 @@
                 </div>
                 <div class="catalog-card">
                     <a href="https://welcome-to-day.ru/examples/peons/" target="_blank" class="catalog-card__img">
-                        <img src="images/catalog-card-peons.svg" alt="work example">
+                        <img src="../images/catalog-card-peons.svg" alt="work example">
                     </a>
                     <div class="catalog-card__name">
                         "Нежность"
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            2500 р.
+                            3990 р.
                         </div>
                         <div class="catalog-card__price_free">
-                            Бесплатно
+                            990 р.
                         </div>
                     </div>
                     <div class="catalog-card__buttons">
@@ -252,17 +267,17 @@
                 </div>
                 <div class="catalog-card">
                     <a href="https://welcome-to-day.ru/examples/jubilee/" target="_blank" class="catalog-card__img">
-                        <img src="images/catalog-card-jubilee.svg" alt="work example">
+                        <img src="../images/catalog-card-jubilee.svg" alt="work example">
                     </a>
                     <div class="catalog-card__name">
                         "С Днём рождения!"
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            2500 р.
+                            3990 р.
                         </div>
                         <div class="catalog-card__price_free">
-                            Бесплатно
+                            990 р.
                         </div>
                     </div>
                     <div class="catalog-card__buttons">
@@ -291,10 +306,10 @@
                 </div>
                 <div class="footer__social">
                     <a href="https://t.me/welcome_to_day" class="footer__social__img">
-                        <img src="images/telegram.svg" alt="telegram">
+                        <img src="../images/telegram.svg" alt="telegram">
                     </a>
                     <a href="https://wa.me/79226447689?text=Здравствуйте,%20хочу%20узнать%20больше%20о%20ваших%20услугах" class="footer__social__img">
-                        <img src="images/whatsapp.svg" alt="whatsapp">
+                        <img src="../images/whatsapp.svg" alt="whatsapp">
                     </a>
                 </div>
                 <div class="footer__links">
@@ -329,13 +344,18 @@
         <input type="text" name="fullname" required>
   
         <label>Телефон *</label>
-        <input type="tel" name="phone" required>
-  
-        <label>Юзернейм в Telegram</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+
+        <label>Username в Telegram</label>
         <input type="text" name="telegram">
   
-        <label>Email</label>
-        <input type="email" name="email">
+        <label>Email *</label>
+        <input type="email" name="email" required>
+
+        <div class="form--politic">
+            <input type="checkbox" name="politic" required>
+            <label for="politic">Я согласен с <a href="../privacy.html">политикой конфиденциальности</a></label>
+        </div>
   
         <button class="form-catalog__btn" type="submit">Отправить</button>
       </form>

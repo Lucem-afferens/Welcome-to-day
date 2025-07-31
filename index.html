@@ -60,18 +60,30 @@
     <header class="header">
         <nav class="nav">
             <div class="nav__logo">
-                <span class="logo-text">Welcome-to-day</span>
+                <a href="index.html" class="logo-text">Welcome-to-day</a>
             </div>
             <div class="nav__menu">
-                <a href="catalog.html" class="nav__link-page">Каталог</a>
+                <a href="public/catalog.html" class="nav__link-page">Каталог</a>
                 <a href="#about" class="nav__link">О нас</a>
                 <a href="#services" class="nav__link">Услуги</a>
                 <a href="#" class="nav__link-page">Отзывы</a>
                 <a href="#" class="nav__link-page">FAQ</a>
             </div>
         </nav>
+        <div class="nav__burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
-
+    <div class="menu__burger">
+        <span class="menu__burger__close">&times;</span>
+        <a href="catalog.html" class="nav__link">Каталог</a>
+        <a href="#about" class="nav__link">О нас</a>
+        <a href="#services" class="nav__link">Услуги</a>
+        <a href="#" class="nav__link">Отзывы</a>
+        <a href="#" class="nav__link">FAQ</a>
+    </div>
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero__container">
@@ -89,7 +101,7 @@
                     Welcome to day — любой, который вы захотите запомнить.
                 </p>
                 <div class="hero__cta">
-                    <a href="catalog.html" class="btn btn--primary" id="comingSoonBtn">
+                    <a href="public/catalog.html" class="btn btn--primary">
                         <span class="btn__text">Выбрать шаблон</span>
                         <span class="btn__icon">
                             <i class="fas fa-heart icon-heart"></i>
@@ -111,50 +123,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="hero__visual">
-                <a href="https://welcome-to-day.ru/examples/peons/" target="_blank" class="floating-card floating-card--1">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <div class="card-avatar">
-                                <i class="fas fa-heart icon-heart"></i>
-                            </div>
-                            <div class="card-title">Евгений & Юлия</div>
-                        </div>
-                        <div class="card-body">
-                            <p>Приглашаем вас на нашу свадьбу</p>
-                            <div class="card-date">12 августа 2025</div>
-                        </div>
-                    </div>
-                </a>
-                <a href="https://welcome-to-day.ru/examples/jubilee/" target="_blank" class="floating-card floating-card--2">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <div class="card-avatar">
-                                <i class="fas fa-birthday-cake icon-birthday"></i>
-                            </div>
-                            <div class="card-title">День рождения</div>
-                        </div>
-                        <div class="card-body">
-                            <p>Марии исполняется 40 лет</p>
-                            <div class="card-date">18 мая 2025</div>
-                        </div>
-                    </div>
-                </a>
-                <a href="https://welcome-to-day.ru/examples/melody/" target="_blank" class="floating-card floating-card--3">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <div class="card-avatar">
-                                <i class="fas fa-glass-cheers icon-glass"></i>
-                            </div>
-                            <div class="card-title">Корпоратив</div>
-                        </div>
-                        <div class="card-body">
-                            <p>Празднование Дня знаний</p>
-                            <div class="card-date">29 августа 2025</div>
-                        </div>
-                    </div>
-                </a>
-            </div> -->
         <a href="https://welcome-to-day.ru/examples/melody/" target="_blank" class="hero__example">
             <img src="images/peons-display.svg" alt="example">
         </a>
@@ -207,8 +175,7 @@
             <h2 class="section-title">Наши услуги</h2>
             <div class="services__grid">
                 <div class="service-card" id="weddingCard">
-                    <div class="service-card__icon">
-                        <i class="fas fa-ring icon-ring"></i>
+                    <div class="service-card__img service-card__img-1">
                     </div>
                     <h3>Свадебные сайты</h3>
                     <p>Романтичные и элегантные сайты для вашего особенного дня</p>
@@ -222,8 +189,7 @@
                     </div>
                 </div>
                 <div class="service-card" id="birthdayCard">
-                    <div class="service-card__icon">
-                        <i class="fas fa-birthday-cake icon-birthday"></i>
+                    <div class="service-card__img service-card__img-2">
                     </div>
                     <h3>Дни рождения</h3>
                     <p>Яркие и веселые сайты для празднования дней рождения</p>
@@ -237,8 +203,7 @@
                     </div>
                 </div>
                 <div class="service-card" id="anniversaryCard">
-                    <div class="service-card__icon">
-                        <i class="fas fa-glass-cheers icon-glass"></i>
+                    <div class="service-card__img service-card__img-3">
                     </div>
                     <h3>Корпоративные события</h3>
                     <p>Профессиональные сайты для бизнес-мероприятий</p>
@@ -252,8 +217,7 @@
                     </div>
                 </div>
                 <div class="service-card" id="genderPartyCard">
-                    <div class="service-card__icon">
-                        <i class="fas fa-baby icon-gender"></i>
+                    <div class="service-card__img service-card__img-4">
                     </div>
                     <h3>Гендер-пати</h3>
                     <p>Яркие пригласительные для самого трогательного события — раскрытия пола малыша</p>
@@ -275,9 +239,6 @@
         <div class="modal__content">
             <div class="modal__header">
                 <h3>Свадьба</h3>
-                <button class="btn btn--catalog">
-                    <span class="btn__text">Каталог</span>
-                </button>
                 <button class="modal__close" onclick="closeServiceModal('weddingModal')">
                     <i class="fas fa-times icon-times"></i>
                 </button>
@@ -292,6 +253,11 @@
                 </ul>
                 <p><strong>Сайт — это красиво, удобно и экономит вам время.</strong></p>
             </div>
+            <a href="public/catalog.html">
+                <button class="btn btn--catalog">
+                    <span class="btn__text">Каталог</span>
+                </button>
+            </a>
         </div>
     </div>
 
@@ -299,9 +265,6 @@
         <div class="modal__content">
             <div class="modal__header">
                 <h3>День рождения</h3>
-                <button class="btn btn--catalog">
-                    <span class="btn__text">Каталог</span>
-                </button>
                 <button class="modal__close" onclick="closeServiceModal('birthdayModal')">
                     <i class="fas fa-times icon-times"></i>
                 </button>
@@ -316,6 +279,11 @@
                 </ul>
                 <p><strong>Сайт делает приглашение понятным и приятным.</strong> Один раз настроили — и всё работает.</p>
             </div>
+            <a href="public/catalog.html">
+                <button class="btn btn--catalog">
+                    <span class="btn__text">Каталог</span>
+                </button>
+            </a>
         </div>
     </div>
 
@@ -323,9 +291,6 @@
         <div class="modal__content">
             <div class="modal__header">
                 <h3>Корпоративное событие</h3>
-                <button class="btn btn--catalog">
-                    <span class="btn__text">Каталог</span>
-                </button>
                 <button class="modal__close" onclick="closeServiceModal('anniversaryModal')">
                     <i class="fas fa-times icon-times"></i>
                 </button>
@@ -340,6 +305,11 @@
                 </ul>
                 <p><strong>Сайт экономит время HR-отдела, снижает количество вопросов и ошибок.</strong> А ещё выглядит профессионально — даже если вечеринка с диджеем и пиццей.</p>
             </div>
+            <a href="public/catalog.html">
+                <button class="btn btn--catalog">
+                    <span class="btn__text">Каталог</span>
+                </button>
+            </a>
         </div>
     </div>
 
@@ -347,9 +317,6 @@
         <div class="modal__content">
             <div class="modal__header">
                 <h3>Гендер-пати</h3>
-                <button class="btn btn--catalog">
-                    <span class="btn__text">Каталог</span>
-                </button>
                 <button class="modal__close" onclick="closeServiceModal('genderPartyModal')">
                     <i class="fas fa-times icon-times"></i>
                 </button>
@@ -364,6 +331,11 @@
                 </ul>
                 <p><strong>Сайт делает праздник современным, удобным и объединяет всех участников события.</strong></p>
             </div>
+            <a href="public/catalog.html">
+                <button class="btn btn--catalog">
+                    <span class="btn__text">Каталог</span>
+                </button>
+            </a>
         </div>
     </div>
 
@@ -399,38 +371,6 @@
     </div>
 </footer>
 
-    <!-- Coming Soon Modal
-    <div class="modal" id="comingSoonModal">
-        <div class="modal__content">
-            <div class="modal__header">
-                <h3>Скоро открытие!</h3>
-                <button class="modal__close" id="closeModal">
-                    <i class="fas fa-times icon-times"></i>
-                </button>
-            </div>
-            <div class="modal__body">
-                <div class="countdown">
-                    <div class="countdown__item">
-                        <span class="countdown__number" id="days">00</span>
-                        <span class="countdown__label">Дней</span>
-                    </div>
-                    <div class="countdown__item">
-                        <span class="countdown__number" id="hours">00</span>
-                        <span class="countdown__label">Часов</span>
-                    </div>
-                    <div class="countdown__item">
-                        <span class="countdown__number" id="minutes">00</span>
-                        <span class="countdown__label">Минут</span>
-                    </div>
-                    <div class="countdown__item">
-                        <span class="countdown__number" id="seconds">00</span>
-                        <span class="countdown__label">Секунд</span>
-                    </div>
-                </div>
-                <p>Мы работаем над созданием каталога наших работ. Скоро здесь появится галерея наших лучших проектов!</p>
-            </div>
-        </div>
-    </div> -->
 
     <script type="module" src="src/main.js"></script>
     <script type="module" src="public/script.js"></script>

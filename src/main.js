@@ -8,7 +8,7 @@ class InviteWebApp {
     init() {
         // this.setupEventListeners();
         this.initAnimations();
-        this.initCountdown();
+        // this.initCountdown();
         this.initSmoothScrolling();
         this.initIntersectionObserver();
     }
@@ -108,45 +108,6 @@ class InviteWebApp {
         });
     }
 
-    initCountdown() {
-        // Set target date (July 20, 2025)
-        const targetDate = new Date('2025-07-30T00:00:00');
-        
-        const updateCountdown = () => {
-            const now = new Date().getTime();
-            const distance = targetDate.getTime() - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Update DOM elements
-            const daysEl = document.getElementById('days');
-            const hoursEl = document.getElementById('hours');
-            const minutesEl = document.getElementById('minutes');
-            const secondsEl = document.getElementById('seconds');
-
-            if (daysEl) daysEl.textContent = days.toString().padStart(2, '0');
-            if (hoursEl) hoursEl.textContent = hours.toString().padStart(2, '0');
-            if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2, '0');
-            if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2, '0');
-
-            // Add animation to countdown numbers
-            [daysEl, hoursEl, minutesEl, secondsEl].forEach(el => {
-                if (el) {
-                    el.style.animation = 'pulse 0.5s ease';
-                    setTimeout(() => {
-                        el.style.animation = '';
-                    }, 500);
-                }
-            });
-        };
-
-        // Update countdown every second
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-    }
 
     initSmoothScrolling() {
         const navLinks = document.querySelectorAll('.nav__link, .footer__links a');
@@ -462,10 +423,47 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Закрытие формы
+    if (closeModal) {
     closeModal.addEventListener('click', () => {
         modal.classList.add('hidden');
         modal.style.display = 'none';
     });
+    }
+
+    const burgerButton = document.querySelector('.nav__burger');
+    const menuBurger = document.querySelector('.menu__burger');
+    const closeButton = document.querySelector('.menu__burger__close');
+  
+    if (!burgerButton || !menuBurger) {
+      console.warn('Burger elements not found.');
+      return;
+    }
+  
+// Открытие меню
+burgerButton.addEventListener('click', () => {
+    menuBurger.classList.add('active');
+    document.body.classList.add('lock-scroll'); // 🚫 запретить скролл
+  });
+  
+  // Закрытие по крестику
+  if (closeButton) {
+    closeButton.addEventListener('click', () => {
+      menuBurger.classList.remove('active');
+      document.body.classList.remove('lock-scroll'); // 🔓 разрешить скролл
+    });
+  }
+  
+  // Закрытие по клику вне меню
+  document.addEventListener('click', (e) => {
+    const clickedOutsideMenu = !menuBurger.contains(e.target);
+    const clickedOutsideButton = !burgerButton.contains(e.target);
+    const isMenuOpen = menuBurger.classList.contains('active');
+  
+    if (isMenuOpen && clickedOutsideMenu && clickedOutsideButton) {
+      menuBurger.classList.remove('active');
+      document.body.classList.remove('lock-scroll'); // 🔓 разрешить скролл
+    }
+  });
 
 //   // Отправка формы
 //   form.addEventListener('submit', e => {
@@ -495,38 +493,42 @@ document.addEventListener('DOMContentLoaded', () => {
 }); 
 
 // Ниже - отправка формы с обраоткой на стороне серврера через send.php
-document.querySelector("form").addEventListener("submit", function(e) {
+  const anyForm = document.querySelector("form");
+if (anyForm) {
+  anyForm.addEventListener("submit", function (e) {
     e.preventDefault();
-  
-    const form = e.target;
-    const formData = new FormData(form);
-  
+
+    const formData = new FormData(anyForm);
+
     fetch("send.php", {
       method: "POST",
       body: formData
     })
-    .then(response => response.json())
-    .then(data => {
-      const toast = document.getElementById("form-toast");
-      toast.textContent = data.message;
-      toast.className = "toast show " + (data.success ? "success" : "error");
-  
-      if (data.success) {
-        form.reset();
-      }
-  
-      setTimeout(() => {
-        toast.className = "toast"; // скрыть сообщение
-      }, 8000);
-    })
-    .catch(() => {
-      const toast = document.getElementById("form-toast");
-      toast.textContent = "Сервер недоступен. Попробуйте позже.";
-    //   toast.textContent = "Спасибо! Ваш ответ получен!";  // Вместо сообщения об ошибке - показ сообщения об успехе (исключительно для публикации как примера работ, без хостинга (форма не отсылает к файлу send.php)). При продакшн запустить вместо этой строку выше
-      toast.className = "toast show error";
-  
-      setTimeout(() => {
-        toast.className = "toast";
-      }, 4000);
-    });
+      .then(response => response.json())
+      .then(data => {
+        const toast = document.getElementById("form-toast");
+        if (toast) {
+          toast.textContent = data.message;
+          toast.className = "toast show " + (data.success ? "success" : "error");
+
+          if (data.success) {
+            anyForm.reset();
+          }
+
+          setTimeout(() => {
+            toast.className = "toast";
+          }, 8000);
+        }
+      })
+      .catch(() => {
+        const toast = document.getElementById("form-toast");
+        if (toast) {
+          toast.textContent = "Сервер недоступен. Попробуйте позже.";
+          toast.className = "toast show error";
+          setTimeout(() => {
+            toast.className = "toast";
+          }, 4000);
+        }
+      });
   });
+}
