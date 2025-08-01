@@ -35,7 +35,9 @@
 #       - name: Deploy to FTP
 #         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
 #         with:
-#
+#           server: ${{ secrets.FTP_SERVER }}
+#           username: ${{ secrets.FTP_USERNAME }}
+#           password: ${{ secrets.FTP_PASSWORD }}
 #           local-dir: ./dist/
 #           server-dir: /www/welcome-to-day.ru/ 
 
@@ -66,11 +68,14 @@ jobs:
 
       - name: Prepare files for deployment
         run: |
-          #Копируем статические файлы в dist
+          # Копируем статические файлы в dist
           cp -r css dist/
           cp -r favicon dist/
           cp -r images dist/
 
+          # Создаём папки
+          mkdir -p dist/examples
+          mkdir -p dist/privacy
 
           # Копируем из public (если нужно)
           cp -r public/* dist/ || true
