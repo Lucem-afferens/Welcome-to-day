@@ -501,7 +501,8 @@ if (anyForm) {
           }, 8000);
         }
       })
-      .catch(() => {
+      .catch(error => {
+        console.error('Fetch error:', error);
         const toast = document.getElementById("form-toast");
         if (toast) {
           toast.textContent = "Сервер недоступен. Попробуйте позже.";

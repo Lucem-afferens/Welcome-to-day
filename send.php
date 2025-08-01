@@ -11,7 +11,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Можно прямо тут для теста вывести что-то простое
-exit(json_encode(['success' => true, 'message' => 'Тест прошел успешно']));
+// exit(json_encode(['success' => true, 'message' => 'Тест прошел успешно']));
 
 // Получение данных из формы и защита
 $fullname = htmlspecialchars(trim($_POST['fullname'] ?? ''));  
