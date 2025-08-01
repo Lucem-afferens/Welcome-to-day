@@ -482,20 +482,21 @@ if (anyForm) {
     const formAction = anyForm.dataset.send || anyForm.getAttribute("action") || "send.php";
 
     fetch(formAction, {
-      method: "POST",
-      body: formData
-    })
-      .then(response => response.json())
+        method: "POST",
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then(data => {
         const toast = document.getElementById("form-toast");
         if (toast) {
           toast.textContent = data.message;
           toast.className = "toast show " + (data.success ? "success" : "error");
-
-          if (data.success) {
-            anyForm.reset();
-          }
-
+          if (data.success) anyForm.reset();
           setTimeout(() => {
             toast.className = "toast";
           }, 8000);
