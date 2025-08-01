@@ -1497,7 +1497,7 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 150px;
     font-family: var(--font-primary);
     text-align:justify;
-    font-size: clamp(14px, 6vw, 22px);
+    font-size: clamp(14px, 4vw, 20px);
 }
 .privacy__main h1{
     margin-bottom: 80px;
