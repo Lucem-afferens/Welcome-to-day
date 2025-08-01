@@ -1,4 +1,12 @@
 <?php
+
+// Защита от поиска файла в браузере
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    exit('Method Not Allowed');
+}
+
+
 // Показывать ошибки (только на этапе разработки)
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
