@@ -1,3 +1,46 @@
+# name: Deploy to Link-Host
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   ftp-deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+
+#       - name: Install Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 18
+
+#       - name: Install dependencies
+#         run: npm install
+
+#       - name: Build project
+#         run: npm run build
+
+#       - name: Prepare files for deployment
+#         run: |
+#           # Копируем статические файлы в dist
+#           cp -r css dist/
+#           cp -r favicon dist/
+#           cp -r images dist/
+          
+#           echo "Files prepared for deployment"
+
+#       - name: Deploy to FTP
+#         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+#         with:
+#           server:
+#            username: 
+#           password: 
+#           local-dir: ./dist/
+#           server-dir: /www/welcome-to-day.ru/ 
+
 name: Deploy to Link-Host
 
 on:
@@ -25,11 +68,17 @@ jobs:
 
       - name: Prepare files for deployment
         run: |
-          # Копируем статические файлы в dist
-          cp -r css dist/
-          cp -r favicon dist/
-          cp -r images dist/
-          
+          # Создаём папки
+          mkdir -p dist/examples
+          mkdir -p dist/privacy
+
+          # Копируем из public (если нужно)
+          cp -r public/* dist/ || true
+
+          # Копируем HTML в нужные папки
+          cp catalog.html dist/examples/index.html
+          cp privacy.html dist/privacy/index.html
+
           echo "Files prepared for deployment"
 
       - name: Deploy to FTP
@@ -39,4 +88,4 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
-          server-dir: /www/welcome-to-day.ru/ 
+          server-dir: /www/welcome-to-day.ru/
