@@ -386,7 +386,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // form
     const modal = document.getElementById('orderFormModal');
     const closeModal = document.querySelector('.close-modal');
     const form = document.getElementById('orderForm');
@@ -394,20 +393,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Открытие формы
     document.querySelectorAll('.open-form-btn').forEach(button => {
-        button.addEventListener('click', () => {
-        const product = button.dataset.product;
+    button.addEventListener('click', () => {
+        const product = button.dataset.template;
+        if (productNameInput && product) {
         productNameInput.value = product;
+        }
+
+        if (modal) {
         modal.classList.remove('hidden');
         modal.style.display = 'flex';
-        });
+        }
+    });
     });
 
-    // Закрытие формы
+    // Закрытие по крестику
     if (closeModal) {
     closeModal.addEventListener('click', () => {
+        closeModalWindow();
+    });
+    }
+
+    // Закрытие по Escape
+    document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeModalWindow();
+    }
+    });
+
+    // Закрытие по клику вне окна
+    window.addEventListener('click', (e) => {
+    if (modal && e.target === modal) {
+        closeModalWindow();
+    }
+    });
+
+    // Общая функция закрытия
+    function closeModalWindow() {
+    if (modal) {
         modal.classList.add('hidden');
         modal.style.display = 'none';
-    });
+    }
     }
 
     const burgerButton = document.querySelector('.nav__burger');
