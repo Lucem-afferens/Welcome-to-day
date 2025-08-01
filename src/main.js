@@ -470,31 +470,6 @@ burgerButton.addEventListener('click', () => {
     }
   });
 
-//   // Отправка формы
-//   form.addEventListener('submit', e => {
-//     e.preventDefault();
-
-//     const formData = new FormData(form);
-//     const data = Object.fromEntries(formData.entries());
-
-//     // Отправка данных (пример через fetch)
-//     fetch('/send-request', {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify(data)
-//     }).then(response => {
-//       if (response.ok) {
-//         alert('Заявка отправлена!');
-//         modal.classList.add('hidden');
-//         modal.style.display = 'none';
-//         form.reset();
-//       } else {
-//         alert('Ошибка при отправке.');
-//       }
-//     });
-//   });
-
-
 }); 
 
 // Ниже - отправка формы с обраоткой на стороне серврера через send.php
@@ -505,7 +480,7 @@ if (anyForm) {
 
     const formData = new FormData(anyForm);
 
-    fetch("/send.php", {
+    fetch("send.php", {
       method: "POST",
       body: formData
     })

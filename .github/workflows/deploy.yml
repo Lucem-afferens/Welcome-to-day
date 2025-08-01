@@ -84,6 +84,7 @@ jobs:
 
           # Копируем HTML в нужные папки
           cp catalog.html dist/examples/index.html
+          cp send.php dist/examples/send.php
           cp privacy.html dist/privacy/index.html
 
           echo "Files prepared for deployment"
