@@ -473,14 +473,15 @@ burgerButton.addEventListener('click', () => {
 }); 
 
 // Ниже - отправка формы с обраоткой на стороне серврера через send.php
-  const anyForm = document.querySelector("form");
+const anyForm = document.querySelector("form");
 if (anyForm) {
   anyForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     const formData = new FormData(anyForm);
+    const formAction = anyForm.dataset.send || anyForm.getAttribute("action") || "send.php";
 
-    fetch("/examples/send.php", {
+    fetch(formAction, {
       method: "POST",
       body: formData
     })
