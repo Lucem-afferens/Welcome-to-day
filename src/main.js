@@ -480,7 +480,7 @@ if (anyForm) {
 
     const formData = new FormData(anyForm);
 
-    fetch("send.php", {
+    fetch("/send.php", {
       method: "POST",
       body: formData
     })
