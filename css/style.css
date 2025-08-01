@@ -880,16 +880,16 @@ h1, h2, h3, h4, h5, h6 {
     z-index: -1;
 }
 .service-card__img-1 {
-    background: url('../images/wedding.png') no-repeat 50%/cover;
+    background: url('../images/wedding.webp') no-repeat 50%/cover;
 }
 .service-card__img-2 {
     background: url('../images/birthday.jpg') no-repeat 50%/cover;
 }
 .service-card__img-3 {
-    background: url('../images/corporate-event.jpg') no-repeat 50%/cover;
+    background: url('../images/corporate-event.webp') no-repeat 50%/cover;
 }
 .service-card__img-4 {
-    background: url('../images/gender-party.jpg') no-repeat 50%/cover;
+    background: url('../images/gender-party.webp') no-repeat 50%/cover;
 }
 .service-card__img::after {
     content: "";
