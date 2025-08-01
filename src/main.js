@@ -485,21 +485,36 @@ if (anyForm) {
         method: "POST",
         body: formData
       })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        const toast = document.getElementById("form-toast");
-        if (toast) {
-          toast.textContent = data.message;
-          toast.className = "toast show " + (data.success ? "success" : "error");
-          if (data.success) anyForm.reset();
-          setTimeout(() => {
-            toast.className = "toast";
-          }, 8000);
+      .then(response => response.text())  // сначала получаем сырой текст
+      .then(text => {
+        console.log('Raw server response:', text); // выведем ответ в консоль
+        try {
+          const data = JSON.parse(text);          // пробуем распарсить JSON
+          // далее можно использовать data, как раньше
+          const toast = document.getElementById("form-toast");
+          if (toast) {
+            toast.textContent = data.message;
+            toast.className = "toast show " + (data.success ? "success" : "error");
+      
+            if (data.success) {
+              anyForm.reset();
+            }
+      
+            setTimeout(() => {
+              toast.className = "toast";
+            }, 8000);
+          }
+        } catch (e) {
+          console.error('Ошибка парсинга JSON:', e);
+          // Показываем пользователю сообщение об ошибке
+          const toast = document.getElementById("form-toast");
+          if (toast) {
+            toast.textContent = "Ошибка в ответе сервера. Попробуйте позже.";
+            toast.className = "toast show error";
+            setTimeout(() => {
+              toast.className = "toast";
+            }, 4000);
+          }
         }
       })
       .catch(error => {
