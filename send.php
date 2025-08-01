@@ -22,7 +22,7 @@ $success = true;
 $errors = [];  
 
 // === Валидация ===
-if (empty($fullname)  empty($phone)  empty($email)) {
+if (empty($fullname) || empty($phone) || empty($email)) {
     $success = false;  
     $errors[] = "Пожалуйста, заполните все обязательные поля.";  
 }
