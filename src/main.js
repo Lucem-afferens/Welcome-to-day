@@ -482,31 +482,30 @@ if (anyForm) {
     const formAction = anyForm.dataset.send || anyForm.getAttribute("action") || "send.php";
 
     fetch(formAction, {
-        method: "POST",
-        body: formData
-      })
-      .then(response => response.text())  // сначала получаем сырой текст
+      method: "POST",
+      body: formData
+    })
+      .then(response => response.text())
       .then(text => {
-        console.log('Raw server response:', text); // выведем ответ в консоль
+        console.log('Raw server response:', text);
         try {
-          const data = JSON.parse(text);          // пробуем распарсить JSON
-          // далее можно использовать data, как раньше
+          const data = JSON.parse(text);
+
           const toast = document.getElementById("form-toast");
           if (toast) {
             toast.textContent = data.message;
             toast.className = "toast show " + (data.success ? "success" : "error");
-      
+
             if (data.success) {
               anyForm.reset();
             }
-      
+
             setTimeout(() => {
               toast.className = "toast";
             }, 8000);
           }
         } catch (e) {
           console.error('Ошибка парсинга JSON:', e);
-          // Показываем пользователю сообщение об ошибке
           const toast = document.getElementById("form-toast");
           if (toast) {
             toast.textContent = "Ошибка в ответе сервера. Попробуйте позже.";
