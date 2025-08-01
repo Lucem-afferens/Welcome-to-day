@@ -109,27 +109,7 @@ class InviteWebApp {
     }
 
 
-    // initSmoothScrolling() {
-    //     const navLinks = document.querySelectorAll('.nav__link, footer__links a');
-        
-    //     navLinks.forEach(link => {
-    //         link.addEventListener('click', (e) => {
-    //             e.preventDefault();
-    //             const targetId = link.getAttribute('href');
-    //             const targetSection = document.querySelector(targetId);
-                
-    //             if (targetSection) {
-    //                 const headerHeight = document.querySelector('.header').offsetHeight;
-    //                 const targetPosition = targetSection.offsetTop - headerHeight;
-                    
-    //                 window.scrollTo({
-    //                     top: targetPosition,
-    //                     behavior: 'smooth'
-    //                 });
-    //             }
-    //         });
-    //     });
-    // }
+
 
     initIntersectionObserver() {
         const observerOptions = {
