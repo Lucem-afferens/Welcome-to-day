@@ -1283,6 +1283,10 @@ h1, h2, h3, h4, h5, h6 {
     box-sizing: border-box;
 }
 
+form input {
+    padding-left: 10px;
+}
+
 .form-group input:focus {
     outline: none;
     border-color: var(--primary-color);
