@@ -438,6 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const burgerButton = document.querySelector('.nav__burger');
     const menuBurger = document.querySelector('.menu__burger');
     const closeButton = document.querySelector('.menu__burger__close');
+    const navLinkBurger = document.querySelectorAll('.nav__link__burger');
   
     if (!burgerButton || !menuBurger) {
       console.warn('Burger elements not found.');
@@ -457,7 +458,15 @@ burgerButton.addEventListener('click', () => {
       document.body.classList.remove('lock-scroll'); // 🔓 разрешить скролл
     });
   }
-  
+  if (menuBurger) {
+    navLinkBurger.forEach((link) => {
+        link.addEventListener('click', () => {
+          menuBurger.classList.remove('active');
+          document.body.classList.remove('lock-scroll'); // 🔓 разрешить скролл
+        });
+    });
+  }
+  console.log('lll')
   // Закрытие по клику вне меню
   document.addEventListener('click', (e) => {
     const clickedOutsideMenu = !menuBurger.contains(e.target);
@@ -468,6 +477,25 @@ burgerButton.addEventListener('click', () => {
       menuBurger.classList.remove('active');
       document.body.classList.remove('lock-scroll'); // 🔓 разрешить скролл
     }
+  });
+
+
+  // Slider
+  const swiper = new Swiper('.about-slider', {
+    slidesPerView: 'auto',
+    spaceBetween: 20,
+    centeredSlides: true,
+    loop: true,
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    grabCursor: true,
   });
 
 }); 

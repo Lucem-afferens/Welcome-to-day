@@ -58,7 +58,7 @@
 
 <body>
     <!-- Header -->
-    <header class="catalog-header">
+    <header class="header">
         <nav class="nav">
             <div class="nav__logo">
                 <a href="/" class="logo-text">Welcome-to-day</a>
@@ -67,8 +67,8 @@
                 <a href="/examples/" class="nav__link">Каталог</a>
                 <a href="/#about" class="nav__link">О нас</a>
                 <a href="/#services" class="nav__link">Услуги</a>
-                <a href="#" class="nav__link">Отзывы</a>
-                <a href="#" class="nav__link">FAQ</a>
+                <!-- <a href="#" class="nav__link">Отзывы</a> -->
+                <!-- <a href="#" class="nav__link">FAQ</a> -->
             </div>
         </nav>
         <div class="nav__burger">
@@ -79,18 +79,21 @@
     </header>
     <div class="menu__burger">
         <span class="menu__burger__close">&times;</span>
-        <a href="/examples/" class="nav__link">Каталог</a>
-        <a href="/#about" class="nav__link">О нас</a>
-        <a href="/#services" class="nav__link">Услуги</a>
-        <a href="#" class="nav__link">Отзывы</a>
-        <a href="#" class="nav__link">FAQ</a>
+        <a href="/examples/" class="nav__link nav__link__burger">Каталог</a>
+        <a href="/#about" class="nav__link nav__link__burger">О нас</a>
+        <a href="/#services" class="nav__link nav__link__burger">Услуги</a>
+        <!-- <a href="#" class="nav__link nav__link__burger">Отзывы</a> -->
+        <!-- <a href="#" class="nav__link nav__link__burger">FAQ</a> -->
     </div>
 
     <div class="catalog-main">
         <div class="container">
             <h2 class="catalog-main__title">Каталог приглашений</h2>
-            <div class="catalog-main__subtitle">Срок изготовления от 1 до 3 дней</div>
-            <!-- <div class="catalog-main__subtitle-mini">Если Вы не определились с шаблоном или имеются предпочтения к индивидуальному дизайну, можете оставить заявку здесь, и мы с Вами свяжемся</div> -->
+            <div class="catalog-main__subtitle">Срок изготовления <span>от 1 до 3 дней</span></div>
+            <div class="catalog-main__subtitle-mini">При заказе электронного (сайт) приглашения Вы можете выбрать шаблон, блоки которого будут изменены или удалены индивидуально по Вашим пожеланиям. Если Вы не определились с шаблоном или у Вас имеются особые пожелания (в том числе тематические), можете оставить заявку здесь и обсудить все вопросы с нами.</div>
+            <div class="catalog-card__btn catalog-card__buy catalog-card__btn-withoutTemp open-form-btn" data-template="Без шаблона (помощь в выборе / индивидуальный дизайн)">
+                <span>Оставить заявку</span>
+            </div>
             <div class="catalog-main__devider"></div>
         </div>
     </div>
@@ -106,7 +109,7 @@
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            3990 р.
+                            4990 р.
                         </div>
                         <div class="catalog-card__price_free">
                             990 р.
@@ -130,7 +133,7 @@
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            3990 р.
+                            4990 р.
                         </div>
                         <div class="catalog-card__price_free">
                             990 р.
@@ -154,7 +157,7 @@
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            3990 р.
+                            4990 р.
                         </div>
                         <div class="catalog-card__price_free">
                             990 р.
@@ -178,7 +181,7 @@
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            3990 р.
+                            4990 р.
                         </div>
                         <div class="catalog-card__price_free">
                             990 р.
@@ -202,7 +205,7 @@
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            3990 р.
+                            4990 р.
                         </div>
                         <div class="catalog-card__price_free">
                             990 р.
@@ -226,7 +229,7 @@
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            3990 р.
+                            4990 р.
                         </div>
                         <div class="catalog-card__price_free">
                             990 р.
@@ -250,7 +253,7 @@
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            3990 р.
+                            4990 р.
                         </div>
                         <div class="catalog-card__price_free">
                             990 р.
@@ -274,7 +277,7 @@
                     </div>
                     <div class="catalog-card__price">
                         <div class="catalog-card__price_rubl">
-                            3990 р.
+                            4990 р.
                         </div>
                         <div class="catalog-card__price_free">
                             990 р.
@@ -316,8 +319,8 @@
                     <a href="/examples/">Каталог</a>
                     <a href="/#about">О нас</a>
                     <a href="/#services">Услуги</a>
-                    <a href="#">Отзывы</a>
-                    <a href="#">FAQ</a>
+                    <!-- <a href="#">Отзывы</a> -->
+                    <!-- <a href="#">FAQ</a> -->
                 </div>
             </div>
             <div class="footer__bottom">
