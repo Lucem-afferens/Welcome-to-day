@@ -1,3 +1,10 @@
+import { initYandexMetrika } from './utils/yandexMetrika';
+
+// Подключаем Метрику ТОЛЬКО на проде и нужном домене
+if (import.meta.env.PROD && location.hostname === 'welcome-to-day.ru') {
+  initYandexMetrika();
+}
+
 // Main JavaScript file for InviteWeb landing page
 
 class InviteWebApp {
