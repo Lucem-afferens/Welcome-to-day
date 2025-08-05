@@ -24,7 +24,7 @@ $telegramMessage .= "*Имя:* " . $fullname . "\n";
 $telegramMessage .= "*Телефон:* " . $phone . "\n";
 $telegramMessage .= "*Telegram:* " . $telegram . "\n";
 $telegramMessage .= "*Почта:* " . $email . "\n";
-$telegramMessage .= "*Шаблон:* " . $productName;
+$telegramMessage .= "*Шаблон:* " . $productName. "\n";
 $telegramMessage .= "*Промокод:* " . $ad;
 
 $telegramData = [

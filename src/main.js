@@ -508,6 +508,21 @@ burgerButton.addEventListener('click', () => {
 
 // Ниже - отправка формы с обраоткой на стороне серврера через send.php
 const anyForm = document.querySelector("form");
+const toast = document.getElementById("form-toast");
+
+// Универсальная функция показа уведомления
+function showToast(message, isSuccess = true, duration = 5000) {
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.className = `toast show ${isSuccess ? "success" : "error"}`;
+
+  setTimeout(() => {
+    toast.className = "toast";
+    toast.textContent = ""; // Очищаем текст после скрытия
+  }, duration);
+}
+
 if (anyForm) {
   anyForm.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -525,41 +540,19 @@ if (anyForm) {
         try {
           const data = JSON.parse(text);
 
-          const toast = document.getElementById("form-toast");
-          if (toast) {
-            toast.textContent = data.message;
-            toast.className = "toast show " + (data.success ? "success" : "error");
-
-            if (data.success) {
-              anyForm.reset();
-            }
-
-            setTimeout(() => {
-              toast.className = "toast";
-            }, 8000);
+          if (data.success) {
+            anyForm.reset();
           }
+
+          showToast(data.message, data.success);
         } catch (e) {
           console.error('Ошибка парсинга JSON:', e);
-          const toast = document.getElementById("form-toast");
-          if (toast) {
-            toast.textContent = "Ошибка в ответе сервера. Попробуйте позже.";
-            toast.className = "toast show error";
-            setTimeout(() => {
-              toast.className = "toast";
-            }, 4000);
-          }
+          showToast("Ошибка в ответе сервера. Попробуйте позже.", false);
         }
       })
       .catch(error => {
         console.error('Fetch error:', error);
-        const toast = document.getElementById("form-toast");
-        if (toast) {
-          toast.textContent = "Сервер недоступен. Попробуйте позже.";
-          toast.className = "toast show error";
-          setTimeout(() => {
-            toast.className = "toast";
-          }, 4000);
-        }
+        showToast("Сервер недоступен. Попробуйте позже.", false);
       });
   });
 }
