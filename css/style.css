@@ -12,7 +12,6 @@
     --primary-dark: #495057;
     --secondary-color: #e9ecef;
     --accent-color: #ffebcd;
-    --price-color: #a08143;
     --text-primary: #222d39;
     --text-nav: #DDBBAB;
     --text-gold: #A08143;
@@ -48,7 +47,15 @@
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s ease;
     --transition-slow: 0.5s ease;
+
+    /* PRICE */
+    --price-sale-block: none;
+    --price-sale-color: #a08143;
+    --price-first-textDecoration: none;
+    --price-first-color: #222d39;
 }
+
+
 
 body {
     font-family: var(--font-primary);
@@ -1638,11 +1645,14 @@ form input {
     gap: 10px;
     margin-top: 20px;
 }
-.catalog-card__price_free {
-    color: var(--price-color);
+.catalog-card__price_sale {
+    display: var(--price-sale-block);
+    color: var(--price-sale-color);
 }
-.catalog-card__price_rubl {
+.catalog-card__price_first {
     text-decoration: line-through;
+    text-decoration: var(--price-first-textDecoration);
+    color: var(--price-first-color);
 }
 .catalog-card__buttons {
     display: flex;
