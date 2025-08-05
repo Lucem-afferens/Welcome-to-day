@@ -473,7 +473,6 @@ burgerButton.addEventListener('click', () => {
         });
     });
   }
-  console.log('lll')
   // Закрытие по клику вне меню
   document.addEventListener('click', (e) => {
     const clickedOutsideMenu = !menuBurger.contains(e.target);
