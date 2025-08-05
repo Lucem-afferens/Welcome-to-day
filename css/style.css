@@ -355,7 +355,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn--primary {
     background: linear-gradient(135deg, var(--text-nav), var(--accent-color));
-    color: var(--btn-color);
+    color: var(--text-primary);
     box-shadow: 0 8px 25px var(--shadow-medium);
 }
 
