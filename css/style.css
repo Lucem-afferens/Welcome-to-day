@@ -256,6 +256,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .hero__title {
     font-size: 3.5rem;
+    font-size: 56px;
     margin-bottom: var(--spacing-lg);
     color: var(--text-primary);
     display: flex;
@@ -437,7 +438,7 @@ h1, h2, h3, h4, h5, h6 {
     justify-self: center;
     justify-content: center;
     border-radius: 20%;
-    background: url('../images/peons-screen.png') 0%/92% no-repeat;
+    background: url('../images/mobile-site-screen.png') 0%/92% no-repeat;
     background-position: 50% 0;
     animation: heroExampleMovie 40s linear infinite;
     img {
@@ -1003,7 +1004,11 @@ h1, h2, h3, h4, h5, h6 {
     gap: var(--spacing-xl);
     margin-top: var(--spacing-xl);
 }
-
+@media (max-width:1024px) {
+    .hero__title {
+        font-size: 46px;
+    }
+}
 @media (max-width: 900px) {
     .services__grid {
         grid-template-columns: 1fr;
@@ -1026,7 +1031,7 @@ h1, h2, h3, h4, h5, h6 {
     }
     
     .hero__title {
-        font-size: 2.5rem;
+        font-size: 40px;
         align-items: center;
         min-height: 3.5em; /* Уменьшаем для планшетов */
     }
@@ -1935,7 +1940,7 @@ form input {
     }
     
     .hero__title {
-        font-size: 1.7rem;
+        font-size: 27px;
         align-items: center;
         min-height: 4em; /* Увеличиваем для мобильных */
     }
