@@ -1751,6 +1751,7 @@ form input {
     gap: 5px;
     align-items: center;
     margin: 0 auto;
+    margin-top: 10px;
     accent-color: var(--text-gold); 
   }
   .form--politic a{

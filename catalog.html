@@ -49,6 +49,7 @@
     <link rel="manifest" href="/favicon/site.webmanifest" />
 
     <link rel="preload" as="image" href="/images/bg_texture_white_flower_horizont.webp" />
+    <link rel="preload" as="image" href="/images/bg_texture_white_flower_vert.webp" />
     <link rel="stylesheet" href="/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -356,6 +357,9 @@
         <label>Email *</label>
         <input type="email" name="email" required>
 
+        <label>Промокод</label>
+        <input type="text" name="ad">
+
         <div class="form--politic">
             <input type="checkbox" name="politic" required>
             <label for="politic">Я согласен с <a href="/privacy/">политикой конфиденциальности</a></label>
@@ -368,8 +372,8 @@
     </div>
   </div>
 
-
-    <script type="module" src="/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script type="module" src="src/main.js"></script>
     <script type="module" src="/script.js"></script>
 </body>
 </html> 

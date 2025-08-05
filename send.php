@@ -8,6 +8,7 @@ $fullname = $_POST['fullname'] ?? '';
 $phone = $_POST['phone'] ?? '';
 $telegram = $_POST['telegram'] ?? '';
 $email = $_POST['email'] ?? '';
+$ad = $_POST['ad'] ?? '';
 $productName = $_POST['productName'] ?? '';
 
 
@@ -24,6 +25,7 @@ $telegramMessage .= "*Телефон:* " . $phone . "\n";
 $telegramMessage .= "*Telegram:* " . $telegram . "\n";
 $telegramMessage .= "*Почта:* " . $email . "\n";
 $telegramMessage .= "*Шаблон:* " . $productName;
+$telegramMessage .= "*Промокод:* " . $ad;
 
 $telegramData = [
     'chat_id' => $chatId,
