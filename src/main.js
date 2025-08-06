@@ -410,10 +410,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
   
         if (firstPriceInput) {
-          setTimeout(() => {
             firstPriceInput.value = productPrice;
-          }, 100)
-        }
+          }
   
         if (modal) {
           modal.classList.remove('hidden');
