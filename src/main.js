@@ -1,4 +1,3 @@
-console.log('⚠️ Скрипт подключился и работает');
 
 import { initYandexMetrika } from './utils/yandexMetrika';
 
@@ -254,13 +253,13 @@ class InviteWebApp {
     }
 }
 
-// Initialize app when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new InviteWebApp();
-});
-
 // Add some additional interactive features
 document.addEventListener('DOMContentLoaded', () => {
+
+
+// Initialize app when DOM is loaded
+    new InviteWebApp();
+
     // Check if device is touch-based
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     
@@ -323,20 +322,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // Add hover effect to service cards
-    const serviceCards = document.querySelectorAll('.service-card');
-    serviceCards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-10px) scale(1.02)';
-            card.style.boxShadow = '0 20px 40px rgba(248, 180, 217, 0.3)';
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'translateY(0) scale(1)';
-            card.style.boxShadow = '0 10px 30px rgba(248, 180, 217, 0.1)';
-        });
-    });
 
     // Add pulse animation to CTA button
     const ctaButton = document.querySelector('.btn--primary');
