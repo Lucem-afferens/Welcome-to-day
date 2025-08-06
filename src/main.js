@@ -403,28 +403,27 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', function (e) {
         const button = e.target.closest('.open-form-btn');
         if (!button) return;
-      
+    
         const templateData = button.dataset.template || '';
         const [productName, productPrice] = templateData.split('|');
-        
-        if (productNameInput) {
-            productNameInput.value = productName;
-            console.log('productNameInput.value:', productNameInput.value);
-          }
-          
-      
+    
+        console.log('Клик по кнопке заказа');
+        console.log('Найден шаблон:', productName);
+        console.log('Цена шаблона:', productPrice);
+    
         const productNameInput = document.getElementById('productName');
         const firstPriceInput = document.getElementById('firstPrice');
         const modal = document.getElementById('orderFormModal');
-      
-        if (productNameInput) productNameInput.value = productName;
-        if (firstPriceInput) firstPriceInput.value = productPrice;
-      
+    
+        if (productNameInput) productNameInput.value = productName || 'Без названия';
+        if (firstPriceInput) firstPriceInput.value = productPrice || '1000';
+    
         if (modal) {
           modal.classList.remove('hidden');
           modal.style.display = 'flex';
         }
-      });
+    });
+    
       
       
   
