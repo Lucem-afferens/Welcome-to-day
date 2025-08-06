@@ -400,25 +400,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstPriceInput = document.getElementById('firstPrice'); // добавляем получение поля цены
   
     // Открытие формы
-    document.querySelectorAll('.open-form-btn').forEach(button => {
-        button.addEventListener('click', () => {
-          const productName = button.dataset.templateName || 'Без названия';
-          const productPrice = button.dataset.templatePrice || '1000';
+    document.addEventListener('click', function (e) {
+        const button = e.target.closest('.open-form-btn');
+        if (!button) return;
       
-          console.log('Клик по кнопке заказа');
-          console.log('Найден шаблон:', productName);
-          console.log('Цена шаблона:', productPrice);
+        const productName = button.dataset.templateName || 'Без названия';
+        const productPrice = button.dataset.templatePrice || '990';
       
-          if (productNameInput) productNameInput.value = productName;
-          if (firstPriceInput) firstPriceInput.value = productPrice;
+        console.log('Клик по кнопке заказа');
+        console.log('Найден шаблон:', productName);
+        console.log('Цена шаблона:', productPrice);
       
-          console.log('После присвоения:');
-          console.log('productNameInput.value =', productNameInput.value);
-          console.log('firstPriceInput.value =', firstPriceInput.value);
+        const productNameInput = document.getElementById('productName');
+        const firstPriceInput = document.getElementById('firstPrice');
+        const modal = document.getElementById('orderFormModal');
       
+        if (productNameInput) productNameInput.value = productName;
+        if (firstPriceInput) firstPriceInput.value = productPrice;
+      
+        if (modal) {
           modal.classList.remove('hidden');
           modal.style.display = 'flex';
-        });
+        }
       });
       
       
