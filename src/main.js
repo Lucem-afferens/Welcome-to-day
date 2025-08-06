@@ -20,51 +20,6 @@ class InviteWebApp {
         this.initIntersectionObserver();
     }
 
-    // setupEventListeners() {
-    //     // Coming soon button
-    //     const comingSoonBtn = document.getElementById('comingSoonBtn');
-    //     if (comingSoonBtn) {
-    //         comingSoonBtn.addEventListener('click', () => this.openModal());
-    //     }
-
-    //     // Close modal button
-    //     const closeModalBtn = document.getElementById('closeModal');
-    //     if (closeModalBtn) {
-    //         closeModalBtn.addEventListener('click', () => this.closeModal());
-    //     }
-
-    //     // Modal backdrop click
-    //     const modal = document.getElementById('comingSoonModal');
-    //     if (modal) {
-    //         modal.addEventListener('click', (e) => {
-    //             if (e.target === modal) {
-    //                 this.closeModal();
-    //             }
-    //         });
-    //     }
-
-    //     // Newsletter form
-    //     const newsletterForm = document.getElementById('newsletterForm');
-    //     if (newsletterForm) {
-    //         newsletterForm.addEventListener('submit', (e) => this.handleNewsletterSubmit(e));
-    //     }
-
-    //     // Contact button
-    //     const contactBtn = document.getElementById('contactBtn');
-    //     if (contactBtn) {
-    //         contactBtn.addEventListener('click', () => this.handleContactClick());
-    //     }
-
-    //     // Keyboard events
-    //     document.addEventListener('keydown', (e) => {
-    //         if (e.key === 'Escape') {
-    //             this.closeModal();
-    //         }
-    //     });
-
-    //     // Window resize
-    //     window.addEventListener('resize', () => this.handleResize());
-    // }
 
     initAnimations() {
         // Check if device is touch-based
@@ -393,160 +348,165 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    const modal = document.getElementById('orderFormModal');
-    const closeModal = document.querySelector('.close-modal');
-    const form = document.getElementById('orderForm');
-    const productNameInput = document.getElementById('productName');
-    const firstPriceInput = document.getElementById('firstPrice');
-
-    // Открытие формы
-    document.addEventListener('click', function (e) {
-        const button = e.target.closest('.open-form-btn');
-        if (!button) return;
-
-        const templateData = button.dataset.template || '';
-        const [productName, productPrice] = templateData.split('|');
-
-        console.log('Клик по кнопке заказа');
-        console.log('Найден шаблон:', productName);
-        console.log('Цена шаблона:', productPrice);
-
-        if (productNameInput) productNameInput.value = productName?.trim() || 'Без названия';
-        if (firstPriceInput) firstPriceInput.value = productPrice?.trim() || '1000';
-
-        if (modal) {
-            modal.classList.remove('hidden');
-            modal.style.display = 'flex';
-        }
-    });
-
-    // Закрытие формы
-    function closeModalWindow() {
-        if (modal) {
-            modal.classList.add('hidden');
-            modal.style.display = 'none';
-        }
-    }
-
-    if (closeModal) {
-        closeModal.addEventListener('click', closeModalWindow);
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModalWindow();
-    });
-
-    window.addEventListener('click', (e) => {
-        if (modal && e.target === modal) closeModalWindow();
-    });
-
-    // Бургер-меню
-    const burgerButton = document.querySelector('.nav__burger');
-    const menuBurger = document.querySelector('.menu__burger');
-    const closeButton = document.querySelector('.menu__burger__close');
-    const navLinkBurger = document.querySelectorAll('.nav__link__burger');
-
-    if (burgerButton && menuBurger) {
-        burgerButton.addEventListener('click', () => {
-            menuBurger.classList.add('active');
-            document.body.classList.add('lock-scroll');
-        });
-
-        if (closeButton) {
-            closeButton.addEventListener('click', () => {
-                menuBurger.classList.remove('active');
-                document.body.classList.remove('lock-scroll');
-            });
-        }
-
-        navLinkBurger.forEach((link) => {
-            link.addEventListener('click', () => {
-                menuBurger.classList.remove('active');
-                document.body.classList.remove('lock-scroll');
-            });
-        });
-
-        document.addEventListener('click', (e) => {
-            const clickedOutsideMenu = !menuBurger.contains(e.target);
-            const clickedOutsideButton = !burgerButton.contains(e.target);
-            const isMenuOpen = menuBurger.classList.contains('active');
-
-            if (isMenuOpen && clickedOutsideMenu && clickedOutsideButton) {
-                menuBurger.classList.remove('active');
-                document.body.classList.remove('lock-scroll');
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('orderFormModal');
+        const closeModal = document.querySelector('.close-modal');
+        const form = document.getElementById('orderForm');
+        const productNameInput = document.getElementById('productName');
+        const firstPriceInput = document.getElementById('firstPrice');
+    
+        // Открытие формы
+        document.addEventListener('click', function (e) {
+            const button = e.target.closest('.open-form-btn');
+            if (!button) return;
+    
+            const templateData = button.dataset.template || '';
+            const [productName, productPrice] = templateData.split('|');
+    
+            console.log('Клик по кнопке заказа');
+            console.log('Найден шаблон:', productName);
+            console.log('Цена шаблона:', productPrice);
+    
+            if (productNameInput) productNameInput.value = (productName || 'Без названия').trim();
+            if (firstPriceInput) {
+                firstPriceInput.value = productPrice?.trim() || firstPriceInput.value || '1000';
+            }
+                
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.style.display = 'flex';
             }
         });
-    } else {
-        console.warn('Burger elements not found.');
-    }
-
-    // Слайдер
-    const swiper = new Swiper('.about-slider', {
-        slidesPerView: 'auto',
-        spaceBetween: 20,
-        centeredSlides: true,
-        loop: true,
-        autoplay: {
-            delay: 4000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        grabCursor: true,
-    });
-
-    // ===== Отправка формы =====
-    const toast = document.getElementById("form-toast");
-
-    function showToast(message, isSuccess = true, duration = 5000) {
-        if (!toast) return;
-
-        toast.textContent = message;
-        toast.className = `toast show ${isSuccess ? "success" : "error"}`;
-        toast.style.display = "block";
-
-        setTimeout(() => {
-            toast.className = "toast";
-            toast.textContent = "";
-            toast.style.display = "none";
-        }, duration);
-    }
-
-    if (form) {
-        form.addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            const formData = new FormData(form);
-            const formAction = form.dataset.send || form.getAttribute("action") || "send.php";
-
-            fetch(formAction, {
-                method: "POST",
-                body: formData
-            })
-                .then(response => response.text())
-                .then(text => {
-                    console.log('Raw server response:', text);
-                    try {
-                        const data = JSON.parse(text);
-
-                        if (data.success) {
-                            form.reset();
-                            closeModalWindow();
-                        }
-
-                        showToast(data.message, data.success);
-                    } catch (e) {
-                        console.error('Ошибка парсинга JSON:', e);
-                        showToast("Ошибка в ответе сервера. Попробуйте позже.", false);
-                    }
-                })
-                .catch(error => {
-                    console.error('Fetch error:', error);
-                    showToast("Сервер недоступен. Попробуйте позже.", false);
-                });
+    
+        // Закрытие формы
+        function closeModalWindow() {
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+            }
+        }
+    
+        if (closeModal) {
+            closeModal.addEventListener('click', closeModalWindow);
+        }
+    
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModalWindow();
         });
-    }
+    
+        window.addEventListener('click', (e) => {
+            if (modal && e.target === modal) closeModalWindow();
+        });
+    
+        // Бургер-меню
+        const burgerButton = document.querySelector('.nav__burger');
+        const menuBurger = document.querySelector('.menu__burger');
+        const closeButton = document.querySelector('.menu__burger__close');
+        const navLinkBurger = document.querySelectorAll('.nav__link__burger');
+    
+        if (burgerButton && menuBurger) {
+            burgerButton.addEventListener('click', () => {
+                menuBurger.classList.add('active');
+                document.body.classList.add('lock-scroll');
+            });
+    
+            if (closeButton) {
+                closeButton.addEventListener('click', () => {
+                    menuBurger.classList.remove('active');
+                    document.body.classList.remove('lock-scroll');
+                });
+            }
+    
+            navLinkBurger.forEach((link) => {
+                link.addEventListener('click', () => {
+                    menuBurger.classList.remove('active');
+                    document.body.classList.remove('lock-scroll');
+                });
+            });
+    
+            document.addEventListener('click', (e) => {
+                const clickedOutsideMenu = !menuBurger.contains(e.target);
+                const clickedOutsideButton = !burgerButton.contains(e.target);
+                const isMenuOpen = menuBurger.classList.contains('active');
+    
+                if (isMenuOpen && clickedOutsideMenu && clickedOutsideButton) {
+                    menuBurger.classList.remove('active');
+                    document.body.classList.remove('lock-scroll');
+                }
+            });
+        } else {
+            console.warn('Burger elements not found.');
+        }
+    
+        // Слайдер
+        const swiper = new Swiper('.about-slider', {
+            slidesPerView: 'auto',
+            spaceBetween: 20,
+            centeredSlides: true,
+            loop: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            grabCursor: true,
+        });
+    
+        // ===== Отправка формы =====
+        const toast = document.getElementById("form-toast");
+    
+        function showToast(message, isSuccess = true, duration = 5000) {
+            if (!toast) return;
+    
+            toast.textContent = message;
+            toast.className = `toast show ${isSuccess ? "success" : "error"}`;
+            toast.style.display = "block";
+    
+            setTimeout(() => {
+                toast.className = "toast";
+                toast.textContent = "";
+                toast.style.display = "none";
+            }, duration);
+        }
+    
+        if (form) {
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+    
+                const formData = new FormData(form);
+                const formAction = form.dataset.send || form.getAttribute("action") || "send.php";
+    
+                fetch(formAction, {
+                    method: "POST",
+                    body: formData
+                })
+                    .then(response => response.text())
+                    .then(text => {
+                        console.log('Raw server response:', text);
+                        try {
+                            const data = JSON.parse(text);
+    
+                            if (data.success) {
+                                form.reset();
+                                closeModalWindow();
+                            }
+    
+                            showToast(data.message, data.success);
+                        } catch (e) {
+                            console.error('Ошибка парсинга JSON:', e);
+                            showToast("Ошибка в ответе сервера. Попробуйте позже.", false);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                        showToast("Сервер недоступен. Попробуйте позже.", false);
+                    });
+            });
+        }
+    });
+    
 });
