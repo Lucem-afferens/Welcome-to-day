@@ -367,6 +367,11 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Клик по кнопке заказа');
             console.log('Найден шаблон:', productName);
             console.log('Цена шаблона:', productPrice);
+                    // Debug prod
+        const debug = document.createElement('div');
+        debug.style = 'position:fixed;bottom:0;left:0;background:#000;color:#fff;padding:5px;z-index:9999;font-size:12px;';
+        debug.textContent = `templateData: "${templateData}"`;
+        document.body.appendChild(debug);
         
             if (productNameInput) productNameInput.value = productName;
             if (firstPriceInput) firstPriceInput.value = productPrice;
@@ -377,11 +382,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Debug prod
-        const debug = document.createElement('div');
-        debug.style = 'position:fixed;bottom:0;left:0;background:#000;color:#fff;padding:5px;z-index:9999;font-size:12px;';
-        debug.textContent = `templateData: "${templateData}"`;
-        document.body.appendChild(debug);
 
     
         // Закрытие формы
