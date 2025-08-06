@@ -153,11 +153,12 @@ $telegramMessage .= "*Шаблон:* " . telegramMarkdownEscape($productName) . 
 $telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n"; 
 $telegramMessage .= "*Цена:* $price ₽\n"; 
 
-// if ($whatsappUrl) {
-//     $telegramMessage .= "[🔗 Написать клиенту в WhatsApp]($whatsappUrl)\n"; 
-// } else { 
-//     $telegramMessage .= "⚠️ Не указан корректный номер для WhatsApp\n"; 
-// } 
+if ($whatsappUrl) {
+    $escapedWhatsappUrl = telegramMarkdownEscape($whatsappUrl);
+    $telegramMessage .= "[🔗 WhatsApp]($escapedWhatsappUrl)\n"; 
+} else { 
+    $telegramMessage .= telegramMarkdownEscape("⚠️ Не указан корректный номер для WhatsApp\n"); 
+} 
 
 $telegramData = [ 
     'chat_id' => $adminChatId, 
