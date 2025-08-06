@@ -154,9 +154,9 @@ $telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n";
 $telegramMessage .= "*Цена:* $price ₽\n"; 
 
 if ($whatsappUrl) {
-    $telegramMessage .= "[🔗 WhatsApp](" . $whatsappUrl . ")\n"; 
+    $telegramMessage .= "[WhatsApp](" . $whatsappUrl . ")\n"; 
 } else { 
-    $telegramMessage .= telegramMarkdownEscape("⚠️ Не указан корректный номер для WhatsApp\n"); 
+    $telegramMessage .= telegramMarkdownEscape("Не указан корректный номер для WhatsApp\n"); 
 } 
 
 $telegramMessage .= telegramMarkdownEscape("\n_Автоуведомление с сайта_");
