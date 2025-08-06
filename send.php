@@ -1,6 +1,7 @@
 <?php 
-ini_set('display_errors', 0); 
-error_reporting(0); 
+ini_set('display_errors', 1); 
+ini_set('display_sturtup_errors', 1); 
+error_reporting(E_ALL); 
 header('Content-Type: application/json'); 
 
 session_start();
@@ -145,19 +146,14 @@ if (!$emailSent) {
     $success = false;
 }
 
-function telegramEscapeLink($url) {
-    return str_replace(['(', ')'], ['\(', '\)'], $url);
-}
 function escapeMarkdownV2Link($url) {
-    return str_replace(
-        ['(', ')'],
-        ['\\(', '\\)'],
+    // Экранируем всё, что может сломать MarkdownV2
+    $url = str_replace(
+        ['(', ')', '[', ']', '\\', '.', '-', '_', '=', '&', '?'],
+        ['\\(', '\\)', '\\[', '\\]', '\\\\', '\\.', '\\-', '\\_', '\\=', '\\&', '\\?'],
         $url
     );
-}
-function escapeMarkdownV2Link($url) {
-    // Экранируем только нужные символы для URL: (, ), и \
-    return str_replace(['(', ')', '\\'], ['\(', '\)', '\\\\'], $url);
+    return $url;
 }
 
 // === Отправка уведомления админу в Telegram === 
@@ -170,10 +166,11 @@ $telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n";
 $telegramMessage .= "*Цена:* " . telegramMarkdownEscape($price . ' руб') . "\n"; 
 
 if ($whatsappUrl) {
-    $telegramMessage .= "[WhatsApp](" . escapeMarkdownV2Link($whatsappUrl) . ")\n";
-} else { 
-    $telegramMessage .= telegramMarkdownEscape("Не указан корректный номер для WhatsApp\n"); 
-} 
+    $safeWhatsappUrl = escapeMarkdownV2Link($whatsappUrl);
+    $telegramMessage .= telegramMarkdownEscape("Ссылка на WhatsApp: ") . "[$cleanPhone]($safeWhatsappUrl)\n";
+} else {
+    $telegramMessage .= telegramMarkdownEscape("Не указан корректный номер для WhatsApp\n");
+}
 
 $telegramMessage .= telegramMarkdownEscape("\n_Автоуведомление с сайта_");
 
