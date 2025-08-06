@@ -149,13 +149,13 @@ function telegramEscapeLink($url) {
 }
 
 // === Отправка уведомления админу в Telegram === 
-$telegramMessage = "💌 *Новый заказ Welcome-to-day*\n\n"; 
+$telegramMessage = "💌 *" . telegramMarkdownEscape("Новый заказ Welcome-to-day") . "*\n";
 $telegramMessage .= "*Имя:* " . telegramMarkdownEscape($fullname) . "\n"; 
 $telegramMessage .= "*Телефон:* " . telegramMarkdownEscape($phone) . "\n"; 
 $telegramMessage .= "*Email:* " . telegramMarkdownEscape($email) . "\n"; 
 $telegramMessage .= "*Шаблон:* " . telegramMarkdownEscape($productName) . "\n"; 
 $telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n"; 
-$telegramMessage .= "*Цена:* $price ₽\n"; 
+$telegramMessage .= "*Цена:* " . telegramMarkdownEscape($price . ' руб') . "\n"; 
 
 if ($whatsappUrl) {
     $telegramMessage .= "[WhatsApp](" . telegramEscapeLink($whatsappUrl) . ")\n";
@@ -179,6 +179,7 @@ $context = stream_context_create([
     ] 
 ]); 
 
+file_put_contents('telegram_debug.log', print_r($telegramData, true));
 $telegramResponse = file_get_contents("https://api.telegram.org/bot$adminTelegramToken/sendMessage", false, $context);
 
 if ($telegramResponse === false) {
