@@ -401,24 +401,29 @@ document.addEventListener('DOMContentLoaded', () => {
   
     // Открытие формы
     document.querySelectorAll('.open-form-btn').forEach(button => {
-      button.addEventListener('click', () => {
-        const productName = button.dataset.templateName || '';
-        const productPrice = button.dataset.templatePrice || '';
-  
-        if (productNameInput) {
-          productNameInput.value = productName;
-        }
-  
-        if (firstPriceInput) {
+        button.addEventListener('click', () => {
+          const productName = button.dataset.templateName || 'Без названия';
+          const productPrice = button.dataset.templatePrice || '990'; // подставим дефолтную цену
+      
+          console.log('Клик по кнопке заказа');
+          console.log('Найден шаблон:', productName);
+          console.log('Цена шаблона:', productPrice);
+      
+          if (productNameInput) {
+            productNameInput.value = productName;
+          }
+      
+          if (firstPriceInput) {
             firstPriceInput.value = productPrice;
           }
-  
-        if (modal) {
-          modal.classList.remove('hidden');
-          modal.style.display = 'flex';
-        }
+      
+          if (modal) {
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
+          }
+        });
       });
-    });
+      
   
     // Закрытие по крестику
     if (closeModal) {
