@@ -1,6 +1,6 @@
 <?php 
-ini_set('display_errors', 1); 
-error_reporting(E_ALL); 
+ini_set('display_errors', 0); 
+error_reporting(0); 
 header('Content-Type: application/json'); 
 
 session_start();
@@ -25,7 +25,7 @@ $firstPrice = trim($_POST['firstPrice'] ?? '');
 
 // === Промокод и финальная цена === 
 $discountPrice = 990; 
-$discountCode = "KatyaLegenda"; 
+$discountCode = "katyalegenda"; 
 $price = (strtolower($ad) === $discountCode) ? $discountPrice : $firstPrice; 
 
 $success = true; 
