@@ -507,7 +507,7 @@ burgerButton.addEventListener('click', () => {
 }); 
 
 // Ниже - отправка формы с обраоткой на стороне серврера через send.php
-const anyForm = document.querySelector("form");
+const anyForm = document.getElementById("orderForm");
 const toast = document.getElementById("form-toast");
 
 // Универсальная функция показа уведомления
