@@ -15,7 +15,6 @@ if (isset($_SESSION['last_order_time']) && (time() - $_SESSION['last_order_time'
     exit;
 }
 
-
 // === Получение данных из формы === 
 $fullname = trim($_POST['fullname'] ?? ''); 
 $phone = trim($_POST['phone'] ?? ''); 
@@ -148,16 +147,6 @@ if (!$emailSent) {
 function telegramEscapeLink($url) {
     return str_replace(['(', ')'], ['\(', '\)'], $url);
 }
-function escapeMarkdownV2Link($url) {
-    return str_replace(
-        ['(', ')'],
-        ['\\(', '\\)'],
-        $url
-    );
-}
-function escapeMarkdownV2Link($url) {
-    return preg_replace('/([()])/', '\\\\$1', $url); // экранируем только ( и )
-}
 
 // === Отправка уведомления админу в Telegram === 
 $telegramMessage = "💌 *" . telegramMarkdownEscape("Новый заказ Welcome-to-day") . "*\n";
@@ -169,7 +158,7 @@ $telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n";
 $telegramMessage .= "*Цена:* " . telegramMarkdownEscape($price . ' руб') . "\n"; 
 
 if ($whatsappUrl) {
-    $telegramMessage .= "[WhatsApp](" . escapeMarkdownV2Link($whatsappUrl) . ")\n";
+    $telegramMessage .= "[WhatsApp](" . telegramEscapeLink($whatsappUrl) . ")\n";
 } else { 
     $telegramMessage .= telegramMarkdownEscape("Не указан корректный номер для WhatsApp\n"); 
 } 
