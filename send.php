@@ -48,12 +48,6 @@ function telegramMarkdownEscape($text) {
     return $text;
 }
 
-// === Проверка номера телефона (оставляем только цифры, минимум 10 цифр) ===
-$cleanPhone = preg_replace('/\D/', '', $phone);
-if (strlen($cleanPhone) < 10) {
-    $cleanPhone = ''; // некорректный номер - не формируем WhatsApp ссылку
-}
-
 // === Формируем сообщение для клиента в WhatsApp === 
 $whatsappMessage = <<<EOT
 Здравствуйте! Спасибо за заказ на сайте welcome-to-day.ru 🎉
@@ -112,15 +106,20 @@ $whatsappMessage = <<<EOT
 💬 Ждём вашу информацию, и сразу приступим к созданию демо! 🙂
 EOT;
 
-// Приводим номер к международному формату (заменяем первую 8 на 7, если это российский номер)
-$cleanPhone = preg_replace('/\D+/', '', $formData['phone'] ?? ''); // удалим всё кроме цифр
+// === Обработка номера телефона ===
+$cleanPhone = preg_replace('/\D+/', '', $phone); // удалим всё кроме цифр
 
-if (strpos($cleanPhone, '8') === 0) {
-    $cleanPhone = '7' . substr($cleanPhone, 1);
+if (strlen($cleanPhone) >= 10) {
+    // Заменим первую 8 на 7 для РФ
+    if (strpos($cleanPhone, '8') === 0) {
+        $cleanPhone = '7' . substr($cleanPhone, 1);
+    }
+
+    $whatsappUrl = "https://wa.me/$cleanPhone?text=" . rawurlencode($whatsappMessage);
+} else {
+    $cleanPhone = ''; // для Telegram
+    $whatsappUrl = '';
 }
-
-// Проверяем, что номер действительно есть, иначе не формируем ссылку
-$whatsappUrl = $cleanPhone ? "https://wa.me/$cleanPhone?text=" . rawurlencode($whatsappMessage) : '';
 
 
 $encodedWhatsappMessage = urlencode($whatsappMessage);
