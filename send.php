@@ -119,11 +119,11 @@ if (strpos($cleanPhone, '8') === 0) {
     $cleanPhone = '7' . substr($cleanPhone, 1);
 }
 
-// $whatsappUrl = "https://wa.me/$cleanPhone?text=" . rawurlencode($whatsappMessage);
+// Проверяем, что номер действительно есть, иначе не формируем ссылку
+$whatsappUrl = $cleanPhone ? "https://wa.me/$cleanPhone?text=" . rawurlencode($whatsappMessage) : '';
 
 
 $encodedWhatsappMessage = urlencode($whatsappMessage);
-$whatsappUrl = $cleanPhone ? "https://wa.me/$cleanPhone?text=$encodedWhatsappMessage" : '';
 $whatsappMe = "https://wa.me/79226447689";
 
 // === Отправка письма клиенту === 
