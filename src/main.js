@@ -348,35 +348,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    document.addEventListener('DOMContentLoaded', function () {
         const modal = document.getElementById('orderFormModal');
         const closeModal = document.querySelector('.close-modal');
         const form = document.getElementById('orderForm');
         const productNameInput = document.getElementById('productName');
         const firstPriceInput = document.getElementById('firstPrice');
     
-        // Открытие формы
         document.addEventListener('click', function (e) {
             const button = e.target.closest('.open-form-btn');
             if (!button) return;
-    
+        
             const templateData = button.dataset.template || '';
-            const [productName, productPrice] = templateData.split('|');
-    
+            const parts = templateData.split('|');
+        
+            const productName = (parts[0] || 'Без названия').trim();
+            const productPrice = (parts[1] || '1000').trim();
+        
             console.log('Клик по кнопке заказа');
             console.log('Найден шаблон:', productName);
             console.log('Цена шаблона:', productPrice);
-    
-            if (productNameInput) productNameInput.value = (productName || 'Без названия').trim();
-            if (firstPriceInput) {
-                firstPriceInput.value = productPrice?.trim() || firstPriceInput.value || '1000';
-            }
-                
+        
+            if (productNameInput) productNameInput.value = productName;
+            if (firstPriceInput) firstPriceInput.value = productPrice;
+        
             if (modal) {
                 modal.classList.remove('hidden');
                 modal.style.display = 'flex';
             }
         });
+
+        // Debug prod
+        const debug = document.createElement('div');
+        debug.style = 'position:fixed;bottom:0;left:0;background:#000;color:#fff;padding:5px;z-index:9999;font-size:12px;';
+        debug.textContent = `templateData: "${templateData}"`;
+        document.body.appendChild(debug);
+
     
         // Закрытие формы
         function closeModalWindow() {
@@ -507,6 +513,5 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
             });
         }
-    });
     
 });
