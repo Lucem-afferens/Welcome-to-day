@@ -154,11 +154,12 @@ $telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n";
 $telegramMessage .= "*Цена:* $price ₽\n"; 
 
 if ($whatsappUrl) {
-    $escapedWhatsappUrl = telegramMarkdownEscape($whatsappUrl);
-    $telegramMessage .= "[🔗 WhatsApp]($escapedWhatsappUrl)\n"; 
+    $telegramMessage .= "[🔗 WhatsApp](" . $whatsappUrl . ")\n"; 
 } else { 
     $telegramMessage .= telegramMarkdownEscape("⚠️ Не указан корректный номер для WhatsApp\n"); 
 } 
+
+$telegramMessage .= telegramMarkdownEscape("\n_Автоуведомление с сайта_");
 
 $telegramData = [ 
     'chat_id' => $adminChatId, 
@@ -180,7 +181,7 @@ if ($telegramResponse === false) {
     $success = false; 
 } else {
     // Можно логировать ответ для отладки, если нужно
-    // file_put_contents('telegram_log.txt', $telegramResponse.PHP_EOL, FILE_APPEND);
+    file_put_contents('telegram_log.txt', $telegramResponse ?: 'FALSE');
 }
 
 // === Сохраняем время отправки для антиспама ===
