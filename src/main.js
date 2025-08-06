@@ -404,17 +404,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const button = e.target.closest('.open-form-btn');
         if (!button) return;
       
-        const productName = button.dataset.template;
-        // const productPrice = button.dataset.templatePrice || '990';
-
+        const templateData = button.dataset.template || '';
+        const [productName, productPrice] = templateData.split('|');
+        
         if (productNameInput) {
             productNameInput.value = productName;
             console.log('productNameInput.value:', productNameInput.value);
           }
-        //   if (firstPriceInput) {
-        //     firstPriceInput.value = productPrice;
-        //     console.log('firstPriceInput.value:', firstPriceInput.value);
-        //   }
           
       
         const productNameInput = document.getElementById('productName');
