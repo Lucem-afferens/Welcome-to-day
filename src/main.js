@@ -520,7 +520,7 @@ function showToast(message, isSuccess = true, duration = 5000) {
   setTimeout(() => {
     toast.className = "toast";
     toast.textContent = ""; // Очищаем текст после скрытия
-  }, duration);
+  }, 5000);
 }
 
 if (anyForm) {
