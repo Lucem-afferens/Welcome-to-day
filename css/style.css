@@ -64,10 +64,11 @@
     margin-top: 5px;
     border-radius: 10px;
     padding: 5px 0;
-    &.success {
-        color: rgb(65, 130, 65);
-    }
 }
+.show .success {
+    color: rgb(65, 130, 65);
+}
+
 
 body {
     font-family: var(--font-primary);
