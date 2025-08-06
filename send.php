@@ -144,6 +144,10 @@ if (!$emailSent) {
     $success = false;
 }
 
+function telegramEscapeLink($url) {
+    return str_replace(['(', ')'], ['\(', '\)'], $url);
+}
+
 // === Отправка уведомления админу в Telegram === 
 $telegramMessage = "💌 *Новый заказ Welcome-to-day*\n\n"; 
 $telegramMessage .= "*Имя:* " . telegramMarkdownEscape($fullname) . "\n"; 
@@ -154,7 +158,7 @@ $telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n";
 $telegramMessage .= "*Цена:* $price ₽\n"; 
 
 if ($whatsappUrl) {
-    $telegramMessage .= "[WhatsApp](" . $whatsappUrl . ")\n"; 
+    $telegramMessage .= "[WhatsApp](" . telegramEscapeLink($whatsappUrl) . ")\n";
 } else { 
     $telegramMessage .= telegramMarkdownEscape("Не указан корректный номер для WhatsApp\n"); 
 } 
