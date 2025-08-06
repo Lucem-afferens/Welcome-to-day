@@ -175,13 +175,18 @@ $context = stream_context_create([
     ] 
 ]); 
 
-$telegramResponse = @file_get_contents("https://api.telegram.org/bot$adminTelegramToken/sendMessage", false, $context); 
-if ($telegramResponse === false) { 
-    $errors[] = "Не удалось отправить уведомление в Telegram."; 
-    $success = false; 
+$telegramResponse = file_get_contents("https://api.telegram.org/bot$adminTelegramToken/sendMessage", false, $context);
+
+if ($telegramResponse === false) {
+    $error = error_get_last();
+    $errors[] = "Ошибка отправки в Telegram: " . $error['message'];
+    $success = false;
 } else {
-    // Можно логировать ответ для отладки, если нужно
-    file_put_contents('telegram_log.txt', $telegramResponse ?: 'FALSE');
+    $telegramDecoded = json_decode($telegramResponse, true);
+    if (!$telegramDecoded['ok']) {
+        $errors[] = "Ошибка Telegram: " . $telegramDecoded['description'];
+        $success = false;
+    }
 }
 
 // === Сохраняем время отправки для антиспама ===
