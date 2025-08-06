@@ -28,7 +28,7 @@ $firstPrice = trim($_POST['firstPrice'] ?? '');
 // === Промокод и финальная цена === 
 $discountPrice = 990; 
 $discountCode = "katyalegenda"; 
-$price = (strtolower($ad) === $discountCode) ? $discountPrice : $firstPrice; 
+$price = number_format((strtolower($ad) === $discountCode) ? $discountPrice : floatval($firstPrice), 0, '.', ' ');
 
 $success = true; 
 $errors = []; 
@@ -171,8 +171,11 @@ $telegramMessage .= "*Имя:* " . telegramMarkdownEscape($fullname) . "\n";
 $telegramMessage .= "*Телефон:* " . telegramMarkdownEscape($phone) . "\n"; 
 $telegramMessage .= "*Email:* " . telegramMarkdownEscape($email) . "\n"; 
 $telegramMessage .= "*Шаблон:* " . telegramMarkdownEscape($productName) . "\n"; 
-$telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n"; 
+if ($ad !== '') {
+    $telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n"; 
+}
 $telegramMessage .= "*Цена:* " . telegramMarkdownEscape($price . ' руб') . "\n"; 
+
 
 if ($whatsappUrl) {
     $safeWhatsappUrl = escapeMarkdownV2Link($whatsappUrl);

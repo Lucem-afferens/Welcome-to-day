@@ -397,51 +397,58 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeModal = document.querySelector('.close-modal');
     const form = document.getElementById('orderForm');
     const productNameInput = document.getElementById('productName');
-
+    const firstPriceInput = document.getElementById('firstPrice'); // добавляем получение поля цены
+  
     // Открытие формы
     document.querySelectorAll('.open-form-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        const product = button.dataset.template;
-        if (productNameInput && product) {
-        productNameInput.value = product;
+      button.addEventListener('click', () => {
+        const productName = button.dataset.templateName || '';
+        const productPrice = button.dataset.templatePrice || '';
+  
+        if (productNameInput) {
+          productNameInput.value = productName;
         }
-
+  
+        if (firstPriceInput) {
+          firstPriceInput.value = productPrice;
+        }
+  
         if (modal) {
-        modal.classList.remove('hidden');
-        modal.style.display = 'flex';
+          modal.classList.remove('hidden');
+          modal.style.display = 'flex';
         }
+      });
     });
-    });
-
+  
     // Закрытие по крестику
     if (closeModal) {
-    closeModal.addEventListener('click', () => {
+      closeModal.addEventListener('click', () => {
         closeModalWindow();
-    });
+      });
     }
-
+  
     // Закрытие по Escape
     document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
+      if (e.key === 'Escape') {
         closeModalWindow();
-    }
+      }
     });
-
+  
     // Закрытие по клику вне окна
     window.addEventListener('click', (e) => {
-    if (modal && e.target === modal) {
+      if (modal && e.target === modal) {
         closeModalWindow();
-    }
+      }
     });
-
-    // Общая функция закрытия
+  
     function closeModalWindow() {
-    if (modal) {
+      if (modal) {
         modal.classList.add('hidden');
         modal.style.display = 'none';
+      }
     }
-    }
-
+  
+    // Бургер-меню
     const burgerButton = document.querySelector('.nav__burger');
     const menuBurger = document.querySelector('.menu__burger');
     const closeButton = document.querySelector('.menu__burger__close');
@@ -452,110 +459,106 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
   
-// Открытие меню
-burgerButton.addEventListener('click', () => {
-    menuBurger.classList.add('active');
-    document.body.classList.add('lock-scroll'); // 🚫 запретить скролл
-  });
-  
-  // Закрытие по крестику
-  if (closeButton) {
-    closeButton.addEventListener('click', () => {
-      menuBurger.classList.remove('active');
-      document.body.classList.remove('lock-scroll'); // 🔓 разрешить скролл
+    burgerButton.addEventListener('click', () => {
+      menuBurger.classList.add('active');
+      document.body.classList.add('lock-scroll');
     });
-  }
-  if (menuBurger) {
-    navLinkBurger.forEach((link) => {
-        link.addEventListener('click', () => {
-          menuBurger.classList.remove('active');
-          document.body.classList.remove('lock-scroll'); // 🔓 разрешить скролл
-        });
-    });
-  }
-  // Закрытие по клику вне меню
-  document.addEventListener('click', (e) => {
-    const clickedOutsideMenu = !menuBurger.contains(e.target);
-    const clickedOutsideButton = !burgerButton.contains(e.target);
-    const isMenuOpen = menuBurger.classList.contains('active');
   
-    if (isMenuOpen && clickedOutsideMenu && clickedOutsideButton) {
-      menuBurger.classList.remove('active');
-      document.body.classList.remove('lock-scroll'); // 🔓 разрешить скролл
-    }
-  });
-
-
-  // Slider
-  const swiper = new Swiper('.about-slider', {
-    slidesPerView: 'auto',
-    spaceBetween: 20,
-    centeredSlides: true,
-    loop: true,
-    autoplay: {
-      delay: 4000,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    grabCursor: true,
-  });
-
-}); 
-
-// Ниже - отправка формы с обраоткой на стороне серврера через send.php
-const anyForm = document.getElementById("orderForm");
-const toast = document.getElementById("form-toast");
-
-// Универсальная функция показа уведомления
-function showToast(message, isSuccess = true, duration = 5000) {
-  if (!toast) return;
-
-  toast.textContent = message;
-  toast.className = `toast show ${isSuccess ? "success" : "error"}`;
-  toast.style.display = "block";
-
-
-  setTimeout(() => {
-    toast.className = "toast";
-    toast.textContent = ""; // Очищаем текст после скрытия
-    toast.style.display = "none";
-  }, duration);
-}
-
-if (anyForm) {
-  anyForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const formData = new FormData(anyForm);
-    const formAction = anyForm.dataset.send || anyForm.getAttribute("action") || "send.php";
-
-    fetch(formAction, {
-      method: "POST",
-      body: formData
-    })
-      .then(response => response.text())
-      .then(text => {
-        console.log('Raw server response:', text);
-        try {
-          const data = JSON.parse(text);
-
-          if (data.success) {
-            anyForm.reset();
-          }
-
-          showToast(data.message, data.success);
-        } catch (e) {
-          console.error('Ошибка парсинга JSON:', e);
-          showToast("Ошибка в ответе сервера. Попробуйте позже.", false);
-        }
-      })
-      .catch(error => {
-        console.error('Fetch error:', error);
-        showToast("Сервер недоступен. Попробуйте позже.", false);
+    if (closeButton) {
+      closeButton.addEventListener('click', () => {
+        menuBurger.classList.remove('active');
+        document.body.classList.remove('lock-scroll');
       });
-  });
-}
+    }
+  
+    navLinkBurger.forEach((link) => {
+      link.addEventListener('click', () => {
+        menuBurger.classList.remove('active');
+        document.body.classList.remove('lock-scroll');
+      });
+    });
+  
+    document.addEventListener('click', (e) => {
+      const clickedOutsideMenu = !menuBurger.contains(e.target);
+      const clickedOutsideButton = !burgerButton.contains(e.target);
+      const isMenuOpen = menuBurger.classList.contains('active');
+  
+      if (isMenuOpen && clickedOutsideMenu && clickedOutsideButton) {
+        menuBurger.classList.remove('active');
+        document.body.classList.remove('lock-scroll');
+      }
+    });
+  
+    // Слайдер
+    const swiper = new Swiper('.about-slider', {
+      slidesPerView: 'auto',
+      spaceBetween: 20,
+      centeredSlides: true,
+      loop: true,
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      grabCursor: true,
+    });
+  
+    // ===== Отправка формы =====
+    const toast = document.getElementById("form-toast");
+  
+    function showToast(message, isSuccess = true, duration = 5000) {
+      if (!toast) return;
+  
+      toast.textContent = message;
+      toast.className = `toast show ${isSuccess ? "success" : "error"}`;
+      toast.style.display = "block";
+  
+      setTimeout(() => {
+        toast.className = "toast";
+        toast.textContent = "";
+        toast.style.display = "none";
+      }, duration);
+    }
+  
+    if (form) {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+  
+        const formData = new FormData(form);
+        const formAction = form.dataset.send || form.getAttribute("action") || "send.php";
+  
+        fetch(formAction, {
+          method: "POST",
+          body: formData
+        })
+          .then(response => response.text())
+          .then(text => {
+            console.
+  
+  
+  log('Raw server response:', text);
+            try {
+              const data = JSON.parse(text);
+  
+              if (data.success) {
+                form.reset();
+                closeModalWindow();
+              }
+  
+              showToast(data.message, data.success);
+            } catch (e) {
+              console.error('Ошибка парсинга JSON:', e);
+              showToast("Ошибка в ответе сервера. Попробуйте позже.", false);
+            }
+          })
+          .catch(error => {
+            console.error('Fetch error:', error);
+            showToast("Сервер недоступен. Попробуйте позже.", false);
+          });
+      });
+    }
+});
