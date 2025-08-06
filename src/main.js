@@ -516,11 +516,14 @@ function showToast(message, isSuccess = true, duration = 5000) {
 
   toast.textContent = message;
   toast.className = `toast show ${isSuccess ? "success" : "error"}`;
+  toast.style.display = "block";
+
 
   setTimeout(() => {
     toast.className = "toast";
     toast.textContent = ""; // Очищаем текст после скрытия
-  }, 5000);
+    toast.style.display = "none";
+  }, duration);
 }
 
 if (anyForm) {
