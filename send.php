@@ -58,7 +58,7 @@ if (strlen($cleanPhone) < 10) {
 $whatsappMessage = <<<EOT
 Здравствуйте! Спасибо за заказ на сайте welcome-to-day.ru 🎉
 
-Ваш шаблон: «$productName»
+Ваш шаблон: «{$productName}»
 Стоимость: $price ₽
 Вы указали email: $email
 
