@@ -403,26 +403,24 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.open-form-btn').forEach(button => {
         button.addEventListener('click', () => {
           const productName = button.dataset.templateName || 'Без названия';
-          const productPrice = button.dataset.templatePrice || '990'; // подставим дефолтную цену
+          const productPrice = button.dataset.templatePrice || '1000';
       
           console.log('Клик по кнопке заказа');
           console.log('Найден шаблон:', productName);
           console.log('Цена шаблона:', productPrice);
       
-          if (productNameInput) {
-            productNameInput.value = productName;
-          }
+          if (productNameInput) productNameInput.value = productName;
+          if (firstPriceInput) firstPriceInput.value = productPrice;
       
-          if (firstPriceInput) {
-            firstPriceInput.value = productPrice;
-          }
+          console.log('После присвоения:');
+          console.log('productNameInput.value =', productNameInput.value);
+          console.log('firstPriceInput.value =', firstPriceInput.value);
       
-          if (modal) {
-            modal.classList.remove('hidden');
-            modal.style.display = 'flex';
-          }
+          modal.classList.remove('hidden');
+          modal.style.display = 'flex';
         });
       });
+      
       
   
     // Закрытие по крестику
