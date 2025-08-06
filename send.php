@@ -15,6 +15,7 @@ if (isset($_SESSION['last_order_time']) && (time() - $_SESSION['last_order_time'
     exit;
 }
 
+
 // === Получение данных из формы === 
 $fullname = trim($_POST['fullname'] ?? ''); 
 $phone = trim($_POST['phone'] ?? ''); 
