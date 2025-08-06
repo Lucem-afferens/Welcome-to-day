@@ -402,15 +402,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Открытие формы
     document.querySelectorAll('.open-form-btn').forEach(button => {
       button.addEventListener('click', () => {
-        const productName = button.dataset.templateName;
-        const productPrice = button.dataset.templatePrice;
+        const productName = button.dataset.templateName || '';
+        const productPrice = button.dataset.templatePrice || '';
   
         if (productNameInput) {
           productNameInput.value = productName;
         }
   
         if (firstPriceInput) {
-          firstPriceInput.value = productPrice;
+          setTimeout(() => {
+            firstPriceInput.value = productPrice;
+          }, 100)
         }
   
         if (modal) {
