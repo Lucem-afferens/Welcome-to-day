@@ -154,6 +154,9 @@ function escapeMarkdownV2Link($url) {
         $url
     );
 }
+function escapeMarkdownV2Link($url) {
+    return preg_replace('/([()])/', '\\\\$1', $url); // экранируем только ( и )
+}
 
 // === Отправка уведомления админу в Telegram === 
 $telegramMessage = "💌 *" . telegramMarkdownEscape("Новый заказ Welcome-to-day") . "*\n";
