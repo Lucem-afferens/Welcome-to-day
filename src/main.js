@@ -1,3 +1,5 @@
+console.log('⚠️ Скрипт подключился и работает');
+
 import { initYandexMetrika } from './utils/yandexMetrika';
 
 // Подключаем Метрику ТОЛЬКО на проде и нужном домене
