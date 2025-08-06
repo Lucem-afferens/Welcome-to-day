@@ -531,40 +531,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     if (form) {
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-  
-        const formData = new FormData(form);
-        const formAction = form.dataset.send || form.getAttribute("action") || "send.php";
-  
-        fetch(formAction, {
-          method: "POST",
-          body: formData
-        })
-          .then(response => response.text())
-          .then(text => {
-            console.
-  
-  
-  log('Raw server response:', text);
-            try {
-              const data = JSON.parse(text);
-  
-              if (data.success) {
-                form.reset();
-                closeModalWindow();
-              }
-  
-              showToast(data.message, data.success);
-            } catch (e) {
-              console.error('Ошибка парсинга JSON:', e);
-              showToast("Ошибка в ответе сервера. Попробуйте позже.", false);
-            }
-          })
-          .catch(error => {
-            console.error('Fetch error:', error);
-            showToast("Сервер недоступен. Попробуйте позже.", false);
-          });
-      });
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+        
+            const formData = new FormData(form);
+            const formAction = form.dataset.send || form.getAttribute("action") || "send.php";
+        
+            fetch(formAction, {
+            method: "POST",
+            body: formData
+            })
+            .then(response => response.text())
+            .then(text => {
+                console.log('Raw server response:', text);
+                try {
+                const data = JSON.parse(text);
+        
+                if (data.success) {
+                    form.reset();
+                    closeModalWindow();
+                }
+        
+                showToast(data.message, data.success);
+                } catch (e) {
+                console.error('Ошибка парсинга JSON:', e);
+                showToast("Ошибка в ответе сервера. Попробуйте позже.", false);
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                showToast("Сервер недоступен. Попробуйте позже.", false);
+            });
+        });
     }
 });
