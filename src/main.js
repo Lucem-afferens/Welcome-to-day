@@ -358,15 +358,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = document.getElementById('orderFormModal');
         const closeModal = document.querySelector('.close-modal');
         const form = document.getElementById('orderForm');
-        const productNameInput = document.getElementById('productName');
-        const firstPriceInput = document.getElementById('firstPrice');
+        const productName = document.getElementById('productName');
+        const firstPrice = document.getElementById('firstPrice');
     
         document.addEventListener('click', function (e) {
             const button = e.target.closest('.open-form-btn');
             if (!button) return;
         
             const templateData = button.dataset.template || '';
-            const productPrice = button.dataset.price || '1000';
+            const productPrice = button.dataset.price || '';
         
             const productName = (templateData || 'Без названия').trim();
         
@@ -374,8 +374,9 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Найден шаблон:', productName);
             console.log('Цена шаблона:', productPrice);
         
-            if (productNameInput) productNameInput.value = productName;
-            if (firstPriceInput) firstPriceInput.value = productPrice;
+            if (productName) productName.textContent = productName;
+            if (firstPrice) firstPrice.textContent = productPrice;
+            
         
             if (modal) {
                 modal.classList.remove('hidden');
