@@ -217,7 +217,7 @@ if ($telegramResponse === false) {
 
 
 // === Отправка такого же письма админу на почту ===
-$adminEmail = "admin@welcome-to-day.ru";
+$adminEmail = "nikwebdev.2025@gmail.com";
 $adminSubject = "Новый заказ с сайта Welcome-to-day.ru";
 
 $adminEmailMessage = <<<EOM
