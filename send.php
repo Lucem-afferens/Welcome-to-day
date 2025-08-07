@@ -28,7 +28,7 @@ $firstPrice = trim($_POST['firstPrice'] ?? '');
 // === Промокод и финальная цена === 
 $discountPrice = 990; 
 $discountCode = "katyalegenda"; 
-// $price = number_format((strtolower($ad) === $discountCode) ? $discountPrice : floatval($firstPrice));
+$price = number_format((strtolower($ad) === $discountCode) ? $discountPrice : floatval($firstPrice));
 $price = $firstPrice;
 $success = true; 
 $errors = []; 
