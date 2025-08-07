@@ -3,8 +3,7 @@ import { initYandexMetrika } from './utils/yandexMetrika.js';
 document.addEventListener('DOMContentLoaded', function () {
   const banner = document.getElementById('cookie-banner');
   const acceptBtn = document.getElementById('accept-cookies');
-  const hasConsent = localStorage.getItem('cookie_consent') === 'true';
-
+  
   function hideBannerAndInit() {
     if (banner) banner.style.display = 'none';
     if (location.hostname === 'welcome-to-day.ru') {
@@ -12,18 +11,25 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  const hasConsent = localStorage.getItem('cookie_consent') === 'true';
+
   if (hasConsent) {
+    // Если согласие уже есть — скрываем баннер и запускаем метрику
     hideBannerAndInit();
   } else {
+    // Если нет согласия — показываем баннер (на всякий случай)
     if (banner) banner.style.display = 'block';
   }
 
-  acceptBtn?.addEventListener('click', function () {
-    localStorage.setItem('cookie_consent', 'true');
-    hideBannerAndInit();
-  });
+  // Добавляем обработчик только если кнопка есть в DOM
+  if (acceptBtn) {
+    acceptBtn.addEventListener('click', function () {
+      localStorage.setItem('cookie_consent', 'true');
+      hideBannerAndInit();
+    });
+  }
 
-  // Отслеживаем изменения localStorage в других вкладках
+  // Слушаем событие storage для синхронизации между вкладками
   window.addEventListener('storage', function (event) {
     if (event.key === 'cookie_consent' && event.newValue === 'true') {
       hideBannerAndInit();
