@@ -370,9 +370,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
             const productName = (templateData || 'Без названия').trim();
         
-            console.log('Клик по кнопке заказа');
-            console.log('Найден шаблон:', productName);
-            console.log('Цена шаблона:', productPrice);
         
             if (productName) productName.textContent = productName;
             if (firstPrice) firstPrice.textContent = productPrice;
