@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
   } else {
     if (location.hostname === 'welcome-to-day.ru') {
       initYandexMetrika(); // запускаем метрику, если согласие уже есть
+      banner.style.display = 'none'; // скрываем баннер после принятия
     }
   }
 
