@@ -29,7 +29,7 @@ $firstPrice = trim($_POST['firstPrice'] ?? '');
 $discountPrice = 990; 
 $discountCode = "katyalegenda"; 
 $defaultPrice = 4990;
-$price = number_format((strtolower($ad) === $discountCode) ? $discountPrice : floatval($defaultPrice));
+$price = ($ad === $discountCode) ? $discountPrice : $defaultPrice;
 
 $success = true; 
 $errors = []; 
