@@ -3,39 +3,26 @@ import { initYandexMetrika } from './utils/yandexMetrika.js';
 document.addEventListener('DOMContentLoaded', function () {
   const banner = document.getElementById('cookie-banner');
   const acceptBtn = document.getElementById('accept-cookies');
-  
-  function hideBannerAndInit() {
-    if (banner) banner.style.display = 'none';
+  const hasConsent = localStorage.getItem('cookie_consent') === 'true';
+
+  if (!hasConsent) {
+    banner.style.display = 'block'; // показываем баннер, если согласия нет
+  } else {
     if (location.hostname === 'welcome-to-day.ru') {
-      initYandexMetrika();
+      initYandexMetrika(); // запускаем метрику, если согласие уже есть
     }
   }
 
-  const hasConsent = localStorage.getItem('cookie_consent') === 'true';
+  acceptBtn?.addEventListener('click', function () {
+    localStorage.setItem('cookie_consent', 'true');
+    banner.style.display = 'none'; // скрываем баннер после принятия
 
-  if (hasConsent) {
-    // Если согласие уже есть — скрываем баннер и запускаем метрику
-    hideBannerAndInit();
-  } else {
-    // Если нет согласия — показываем баннер (на всякий случай)
-    if (banner) banner.style.display = 'block';
-  }
-
-  // Добавляем обработчик только если кнопка есть в DOM
-  if (acceptBtn) {
-    acceptBtn.addEventListener('click', function () {
-      localStorage.setItem('cookie_consent', 'true');
-      hideBannerAndInit();
-    });
-  }
-
-  // Слушаем событие storage для синхронизации между вкладками
-  window.addEventListener('storage', function (event) {
-    if (event.key === 'cookie_consent' && event.newValue === 'true') {
-      hideBannerAndInit();
+    if (location.hostname === 'welcome-to-day.ru') {
+      initYandexMetrika(); // сразу запускаем метрику после согласия
     }
   });
 });
+
 
 
 
