@@ -1,7 +1,7 @@
 <?php 
-ini_set('display_errors', 1); 
-ini_set('display_startup_errors', 1); 
-error_reporting(E_ALL); 
+ini_set('display_errors', 0); 
+ini_set('display_startup_errors', 0); 
+error_reporting(0); 
 header('Content-Type: application/json'); 
 
 session_start();
@@ -28,8 +28,8 @@ $firstPrice = trim($_POST['firstPrice'] ?? '');
 // === Промокод и финальная цена === 
 $discountPrice = 990; 
 $discountCode = "katyalegenda"; 
-$price = number_format((strtolower($ad) === $discountCode) ? $discountPrice : floatval($defaultPrice));
 $defaultPrice = 4990;
+$price = number_format((strtolower($ad) === $discountCode) ? $discountPrice : floatval($defaultPrice));
 
 $success = true; 
 $errors = []; 
