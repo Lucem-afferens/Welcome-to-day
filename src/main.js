@@ -358,39 +358,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-        const modal = document.getElementById('orderFormModal');
-        const closeModal = document.querySelector('.close-modal');
-        const form = document.getElementById('orderForm');
-        const productName = document.getElementById('productName');
-        const firstPrice = document.getElementById('firstPrice');
+    const modal = document.getElementById('orderFormModal');
+    const closeModal = document.querySelector('.close-modal');
+    const form = document.getElementById('orderForm');
+    const productNameInput = document.getElementById('productName'); // <-- исправлено имя переменной
+    const firstPriceInput = document.getElementById('firstPrice');   // <-- исправлено имя переменной
     
-        document.addEventListener('click', function (e) {
-            const button = e.target.closest('.open-form-btn');
-            if (!button) return;
-        
-            const templateData = button.dataset.template || '';
-            const productPrice = button.dataset.price || '';
-        
-            const productName = (templateData || 'Без названия').trim();
-        
-        
-            if (productNameInput) {
-                productNameInput.value = productName;
-                console.log('productNameInput.value =', productNameInput.value);
-              }
-              
-              if (firstPriceInput) {
-                firstPriceInput.value = productPrice;
-                console.log('firstPriceInput.value =', firstPriceInput.value);
-              }
-              
-            
-        
-            if (modal) {
-                modal.classList.remove('hidden');
-                modal.style.display = 'flex';
-            }
-        });
+    document.addEventListener('click', function (e) {
+      const button = e.target.closest('.open-form-btn');
+      if (!button) return;
+    
+      const templateData = button.dataset.template || 'Без названия';
+      const productPrice = button.dataset.price || '';
+    
+      if (productNameInput) {
+        productNameInput.value = templateData.trim();
+        console.log('productNameInput.value =', productNameInput.value);
+      }
+    
+      if (firstPriceInput) {
+        firstPriceInput.value = productPrice;
+        console.log('firstPriceInput.value =', firstPriceInput.value);
+      }
+    
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+      }
+    });
+    
+    // Закрытие формы
+    function closeModalWindow() {
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+      }
+    }
+    
+    if (closeModal) {
+      closeModal.addEventListener('click', closeModalWindow);
+    }
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModalWindow();
+    });
+    
+    window.addEventListener('click', (e) => {
+      if (modal && e.target === modal) closeModalWindow();
+    });
+    
 
 
     
