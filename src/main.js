@@ -6,23 +6,23 @@ document.addEventListener('DOMContentLoaded', function () {
   const hasConsent = localStorage.getItem('cookie_consent') === 'true';
 
   if (!hasConsent) {
-    banner.style.display = 'block';
+    banner.style.display = 'block'; // показываем баннер, если согласия нет
   } else {
     if (location.hostname === 'welcome-to-day.ru') {
-      initYandexMetrika();
+      initYandexMetrika(); // запускаем метрику, если согласие уже есть
     }
   }
 
   acceptBtn?.addEventListener('click', function () {
     localStorage.setItem('cookie_consent', 'true');
-    banner.style.display = 'none';
+    banner.style.display = 'none'; // скрываем баннер после принятия
 
-    // 👇 Вместо перезагрузки — сразу запускаем Метрику
     if (location.hostname === 'welcome-to-day.ru') {
-      initYandexMetrika();
+      initYandexMetrika(); // сразу запускаем метрику после согласия
     }
   });
 });
+
 
 
 
