@@ -1,4 +1,3 @@
-
 import { initYandexMetrika } from './utils/yandexMetrika.js';
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -9,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!hasConsent) {
     banner.style.display = 'block';
   } else {
-    // Согласие уже есть — подключаем метрику
     if (location.hostname === 'welcome-to-day.ru') {
       initYandexMetrika();
     }
@@ -18,9 +16,14 @@ document.addEventListener('DOMContentLoaded', function () {
   acceptBtn?.addEventListener('click', function () {
     localStorage.setItem('cookie_consent', 'true');
     banner.style.display = 'none';
-    location.reload(); // перезагружаем, чтобы метрика подключилась
+
+    // 👇 Вместо перезагрузки — сразу запускаем Метрику
+    if (location.hostname === 'welcome-to-day.ru') {
+      initYandexMetrika();
+    }
   });
 });
+
 
 
 // Main JavaScript file for InviteWeb landing page
