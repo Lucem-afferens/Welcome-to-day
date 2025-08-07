@@ -371,8 +371,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const productName = (templateData || 'Без названия').trim();
         
         
-            if (productName) productName.textContent = productName;
-            if (firstPrice) firstPrice.textContent = productPrice;
+            if (productNameInput) {
+                productNameInput.value = productName;
+                console.log('productNameInput.value =', productNameInput.value);
+              }
+              
+              if (firstPriceInput) {
+                firstPriceInput.value = productPrice;
+                console.log('firstPriceInput.value =', firstPriceInput.value);
+              }
+              
             
         
             if (modal) {
