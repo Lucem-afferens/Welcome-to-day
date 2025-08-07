@@ -168,10 +168,10 @@ function escapeMarkdownV2Link($url) {
 
 // === Отправка уведомления админу в Telegram === 
 $telegramMessage = "💌 *" . telegramMarkdownEscape("Новый заказ Welcome-to-day") . "*\n";
+$telegramMessage .= "*Шаблон:* " . telegramMarkdownEscape($productName) . "\n"; 
 $telegramMessage .= "*Имя:* " . telegramMarkdownEscape($fullname) . "\n"; 
 $telegramMessage .= "*Телефон:* " . telegramMarkdownEscape($phone) . "\n"; 
 $telegramMessage .= "*Email:* " . telegramMarkdownEscape($email) . "\n"; 
-$telegramMessage .= "*Шаблон:* " . telegramMarkdownEscape($productName) . "\n"; 
 if ($ad !== '') {
     $telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n"; 
 }
@@ -214,6 +214,35 @@ if ($telegramResponse === false) {
         $errors[] = "Сервер недоступен. Попробуйте позже.";
     }
 }
+
+
+// === Отправка такого же письма админу на почту ===
+$adminEmail = "admin@welcome-to-day.ru";
+$adminSubject = "Новый заказ с сайта Welcome-to-day.ru";
+
+$adminEmailMessage = <<<EOM
+Новый заказ на сайте welcome-to-day.ru
+
+Шаблон: $productName
+Имя: $fullname
+Телефон: $phone
+Email: $email
+Промокод: $ad
+Цена: $price ₽
+
+WhatsApp: $whatsappUrl
+
+--
+Автоуведомление с сайта welcome-to-day.ru
+EOM;
+
+$adminHeaders = "From: $siteName <$fromEmail>\r\n";
+$adminHeaders .= "Reply-To: $fromEmail\r\n";
+$adminHeaders .= "MIME-Version: 1.0\r\n";
+$adminHeaders .= "Content-Type: text/plain; charset=utf-8\r\n";
+
+mail($adminEmail, $adminSubject, $adminEmailMessage, $adminHeaders);
+
 
 
 // === Сохраняем время отправки для антиспама ===
