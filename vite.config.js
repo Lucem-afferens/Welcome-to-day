@@ -5,7 +5,12 @@ export default defineConfig({
   publicDir: 'public',
   build: {
     outDir: 'dist',
-    assetsDir: 'assets'
+    assetsDir: 'assets',
+    rollupOptions: {
+      output: {
+        entryFileNames: 'assets/main.js', // ⬅️ Без хеша
+      }
+    }
   },
   server: {
     port: 3000,
