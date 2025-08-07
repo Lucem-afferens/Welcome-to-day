@@ -177,15 +177,15 @@ if ($ad !== '') {
 }
 $telegramMessage .= "*Цена:* " . telegramMarkdownEscape($price . ' руб') . "\n"; 
 
-
 if ($whatsappUrl) {
     $safeWhatsappUrl = escapeMarkdownV2Link($whatsappUrl);
-    $telegramMessage .= telegramMarkdownEscape("Ссылка на WhatsApp: ") . "[$cleanPhone]($safeWhatsappUrl)\n";
+    $telegramMessage .= telegramMarkdownEscape("Ссылка на WhatsApp: ") . "[{$cleanPhone}]({$safeWhatsappUrl})\n";
 } else {
     $telegramMessage .= telegramMarkdownEscape("Не указан корректный номер для WhatsApp\n");
 }
 
 $telegramMessage .= telegramMarkdownEscape("\n_Автоуведомление с сайта_");
+
 
 $telegramData = [ 
     'chat_id' => $adminChatId, 
@@ -205,16 +205,16 @@ file_put_contents('telegram_debug.log', print_r($telegramData, true));
 $telegramResponse = file_get_contents("https://api.telegram.org/bot$adminTelegramToken/sendMessage", false, $context);
 
 if ($telegramResponse === false) {
-    $error = error_get_last();
-    $errors[] = "Ошибка отправки в Telegram: " . $error['message'];
     $success = false;
+    $errors[] = "Сервер недоступен. Попробуйте позже.";
 } else {
     $telegramDecoded = json_decode($telegramResponse, true);
     if (!$telegramDecoded['ok']) {
-        $errors[] = "Ошибка Telegram: " . $telegramDecoded['description'];
         $success = false;
+        $errors[] = "Сервер недоступен. Попробуйте позже.";
     }
 }
+
 
 // === Сохраняем время отправки для антиспама ===
 $_SESSION['last_order_time'] = time();
