@@ -11,7 +11,4 @@ export default defineConfig({
     port: 3000,
     host: true
   },
-  build: {
-    minify: false,  // отключаем минификацию
-  }
 }) 
