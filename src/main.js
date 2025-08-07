@@ -5,25 +5,32 @@ document.addEventListener('DOMContentLoaded', function () {
   const acceptBtn = document.getElementById('accept-cookies');
   const hasConsent = localStorage.getItem('cookie_consent') === 'true';
 
-  if (hasConsent) {
-    // Если согласие есть — скрываем баннер и запускаем метрику
+  function hideBannerAndInit() {
     if (banner) banner.style.display = 'none';
     if (location.hostname === 'welcome-to-day.ru') {
       initYandexMetrika();
     }
+  }
+
+  if (hasConsent) {
+    hideBannerAndInit();
   } else {
-    // Если согласия нет — баннер уже виден (display: block), дополнительно можно показать
     if (banner) banner.style.display = 'block';
   }
 
   acceptBtn?.addEventListener('click', function () {
     localStorage.setItem('cookie_consent', 'true');
-    if (banner) banner.style.display = 'none';
-    if (location.hostname === 'welcome-to-day.ru') {
-      initYandexMetrika();
+    hideBannerAndInit();
+  });
+
+  // Отслеживаем изменения localStorage в других вкладках
+  window.addEventListener('storage', function (event) {
+    if (event.key === 'cookie_consent' && event.newValue === 'true') {
+      hideBannerAndInit();
     }
   });
 });
+
 
 
 
