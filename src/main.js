@@ -408,114 +408,113 @@ document.addEventListener('DOMContentLoaded', () => {
     
 
     
-        // Бургер-меню
-        const burgerButton = document.querySelector('.nav__burger');
-        const menuBurger = document.querySelector('.menu__burger');
-        const closeButton = document.querySelector('.menu__burger__close');
-        const navLinkBurger = document.querySelectorAll('.nav__link__burger');
-    
-        if (burgerButton && menuBurger) {
-            burgerButton.addEventListener('click', () => {
-                menuBurger.classList.add('active');
-                document.body.classList.add('lock-scroll');
-            });
-    
-            if (closeButton) {
-                closeButton.addEventListener('click', () => {
-                    menuBurger.classList.remove('active');
-                    document.body.classList.remove('lock-scroll');
-                });
-            }
-    
-            navLinkBurger.forEach((link) => {
-                link.addEventListener('click', () => {
-                    menuBurger.classList.remove('active');
-                    document.body.classList.remove('lock-scroll');
-                });
-            });
-    
-            document.addEventListener('click', (e) => {
-                const clickedOutsideMenu = !menuBurger.contains(e.target);
-                const clickedOutsideButton = !burgerButton.contains(e.target);
-                const isMenuOpen = menuBurger.classList.contains('active');
-    
-                if (isMenuOpen && clickedOutsideMenu && clickedOutsideButton) {
-                    menuBurger.classList.remove('active');
-                    document.body.classList.remove('lock-scroll');
-                }
-            });
-        } else {
-            console.warn('Burger elements not found.');
-        }
-    
-        // Слайдер
-        const swiper = new Swiper('.about-slider', {
-            slidesPerView: 'auto',
-            spaceBetween: 20,
-            centeredSlides: true,
-            loop: true,
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            grabCursor: true,
+    // Бургер-меню
+    const burgerButton = document.querySelector('.nav__burger');
+    const menuBurger = document.querySelector('.menu__burger');
+    const closeButton = document.querySelector('.menu__burger__close');
+    const navLinkBurger = document.querySelectorAll('.nav__link__burger');
+
+    if (burgerButton && menuBurger) {
+        burgerButton.addEventListener('click', () => {
+            menuBurger.classList.add('active');
+            document.body.classList.add('lock-scroll');
         });
-    
-        // ===== Отправка формы =====
-        const toast = document.getElementById("form-toast");
-    
-        function showToast(message, isSuccess = true, duration = 5000) {
-            if (!toast) return;
-    
-            toast.textContent = message;
-            toast.className = `toast show ${isSuccess ? "success" : "error"}`;
-            toast.style.display = "block";
-    
-            setTimeout(() => {
-                toast.className = "toast";
-                toast.textContent = "";
-                toast.style.display = "none";
-            }, duration);
-        }
-    
-        if (form) {
-            form.addEventListener("submit", function (e) {
-                e.preventDefault();
-    
-                const formData = new FormData(form);
-                const formAction = form.dataset.send || form.getAttribute("action") || "send.php";
-    
-                fetch(formAction, {
-                    method: "POST",
-                    body: formData
-                })
-                    .then(response => response.text())
-                    .then(text => {
-                        console.log('Raw server response:', text);
-                        try {
-                            const data = JSON.parse(text);
-    
-                            if (data.success) {
-                                form.reset();
-                                closeModalWindow();
-                            }
-    
-                            showToast(data.message, data.success);
-                        } catch (e) {
-                            console.error('Ошибка парсинга JSON:', e);
-                            showToast("Ошибка в ответе сервера. Попробуйте позже.", false);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Fetch error:', error);
-                        showToast("Сервер недоступен. Попробуйте позже.", false);
-                    });
+
+        if (closeButton) {
+            closeButton.addEventListener('click', () => {
+                menuBurger.classList.remove('active');
+                document.body.classList.remove('lock-scroll');
             });
         }
+
+        navLinkBurger.forEach((link) => {
+            link.addEventListener('click', () => {
+                menuBurger.classList.remove('active');
+                document.body.classList.remove('lock-scroll');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            const clickedOutsideMenu = !menuBurger.contains(e.target);
+            const clickedOutsideButton = !burgerButton.contains(e.target);
+            const isMenuOpen = menuBurger.classList.contains('active');
+
+            if (isMenuOpen && clickedOutsideMenu && clickedOutsideButton) {
+                menuBurger.classList.remove('active');
+                document.body.classList.remove('lock-scroll');
+            }
+        });
+    } else {
+        console.warn('Burger elements not found.');
+    }
+
+    // Слайдер
+    const swiper = new Swiper('.about-slider', {
+        slidesPerView: 'auto',
+        spaceBetween: 20,
+        centeredSlides: true,
+        loop: true,
+        autoplay: {
+            delay: 4000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        grabCursor: true,
+    });
+
+    // ===== Отправка формы =====
+    const toast = document.getElementById("form-toast");
+
+    function showToast(message, isSuccess = true, duration = 5000) {
+        if (!toast) return;
+
+        toast.textContent = message;
+        toast.className = `toast show ${isSuccess ? "success" : "error"}`;
+        toast.style.display = "block";
+
+        setTimeout(() => {
+            toast.className = "toast";
+            toast.textContent = "";
+            toast.style.display = "none";
+        }, duration);
+    }
+
+    if (form) {
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const formAction = form.dataset.send || form.getAttribute("action") || "send.php";
+
+            fetch(formAction, {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.text())
+                .then(text => {
+                    console.log('Raw server response:', text);
+                    try {
+                        const data = JSON.parse(text);
+
+                        if (data.success) {
+                            form.reset();
+                        }
+
+                        showToast(data.message, data.success);
+                    } catch (e) {
+                        console.error('Ошибка парсинга JSON:', e);
+                        showToast("Ошибка в ответе сервера. Попробуйте позже.", false);
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    showToast("Сервер недоступен. Попробуйте позже.", false);
+                });
+        });
+    }
     
 });
