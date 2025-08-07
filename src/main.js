@@ -10,13 +10,12 @@ document.addEventListener('DOMContentLoaded', function () {
   } else {
     if (location.hostname === 'welcome-to-day.ru') {
       initYandexMetrika(); // запускаем метрику, если согласие уже есть
+      banner.style.display = 'none'; // показываем баннер, если согласия нет
     }
   }
 
   acceptBtn?.addEventListener('click', function () {
     localStorage.setItem('cookie_consent', 'true');
-    banner.style.display = 'none'; // скрываем баннер после принятия
-
     if (location.hostname === 'welcome-to-day.ru') {
       initYandexMetrika(); // сразу запускаем метрику после согласия
     }
@@ -408,27 +407,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
 
-
-    
-        // Закрытие формы
-        function closeModalWindow() {
-            if (modal) {
-                modal.classList.add('hidden');
-                modal.style.display = 'none';
-            }
-        }
-    
-        if (closeModal) {
-            closeModal.addEventListener('click', closeModalWindow);
-        }
-    
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModalWindow();
-        });
-    
-        window.addEventListener('click', (e) => {
-            if (modal && e.target === modal) closeModalWindow();
-        });
     
         // Бургер-меню
         const burgerButton = document.querySelector('.nav__burger');
