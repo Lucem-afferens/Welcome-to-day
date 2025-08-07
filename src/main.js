@@ -469,7 +469,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===== Отправка формы =====
     const toast = document.getElementById("form-toast");
 
-    function showToast(message, isSuccess = true, duration = 5000) {
+    function showToast(message, isSuccess = true, duration = 8000) {
         if (!toast) return;
 
         toast.textContent = message;
