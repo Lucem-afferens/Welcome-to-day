@@ -13,14 +13,15 @@ export function initYandexMetrika() {
     k.async = 1;
     k.src = r;
     a.parentNode.insertBefore(k, a);
-  })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=103605522', 'ym');
 
-  window.ym && window.ym(103605522, 'init', {
-    ssr: true,
-    webvisor: true,
-    clickmap: true,
-    ecommerce: "dataLayer",
-    accurateTrackBounce: true,
-    trackLinks: true
-  });
+    // инициализация в очередь
+    m[i](103605522, 'init', {
+      ssr: true,
+      webvisor: true,
+      clickmap: true,
+      ecommerce: "dataLayer",
+      accurateTrackBounce: true,
+      trackLinks: true
+    });
+  })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=103605522', 'ym');
 }

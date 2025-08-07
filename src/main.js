@@ -1,10 +1,27 @@
 
-import { initYandexMetrika } from './utils/yandexMetrika';
+import { initYandexMetrika } from './utils/yandexMetrika.js';
 
-// Подключаем Метрику ТОЛЬКО на проде и нужном домене
-if (import.meta.env.PROD && location.hostname === 'welcome-to-day.ru') {
-  initYandexMetrika();
-}
+document.addEventListener('DOMContentLoaded', function () {
+  const banner = document.getElementById('cookie-banner');
+  const acceptBtn = document.getElementById('accept-cookies');
+  const hasConsent = localStorage.getItem('cookie_consent') === 'true';
+
+  if (!hasConsent) {
+    banner.style.display = 'block';
+  } else {
+    // Согласие уже есть — подключаем метрику
+    if (location.hostname === 'welcome-to-day.ru') {
+      initYandexMetrika();
+    }
+  }
+
+  acceptBtn?.addEventListener('click', function () {
+    localStorage.setItem('cookie_consent', 'true');
+    banner.style.display = 'none';
+    location.reload(); // перезагружаем, чтобы метрика подключилась
+  });
+});
+
 
 // Main JavaScript file for InviteWeb landing page
 
