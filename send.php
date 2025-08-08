@@ -7,14 +7,14 @@ header('Content-Type: application/json');
 session_start();
 
 // === Антиспам: минимальный таймаут между отправками (например, 30 секунд) ===
-// $spamTimeout = 30; // в секундах
-// if (isset($_SESSION['last_order_time']) && (time() - $_SESSION['last_order_time']) < $spamTimeout) {
-//     echo json_encode([
-//         'success' => false,
-//         'message' => 'Пожалуйста, подождите немного перед повторной отправкой заказа.'
-//     ]);
-//     exit;
-// }
+$spamTimeout = 30; // в секундах
+if (isset($_SESSION['last_order_time']) && (time() - $_SESSION['last_order_time']) < $spamTimeout) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Пожалуйста, подождите немного перед повторной отправкой заказа.'
+    ]);
+    exit;
+}
 
 
 // === Получение данных из формы === 
@@ -53,7 +53,7 @@ $whatsappMessage = <<<EOT
 Здравствуйте! Спасибо за заказ на сайте welcome-to-day.ru 🎉
 
 Ваш шаблон: «{$productName}»
-Предварительная стоимость: $price ₽
+Стоимость: $price ₽
 Вы указали email: $email
 
 Мы можем кастомизировать шаблон под вас:
@@ -139,7 +139,7 @@ $emailMessage = <<<EOM
 Спасибо за ваш заказ на сайте welcome-to-day.ru 🎉
 
 Ваш шаблон: $productName
-Предварительная стоимость: $price ₽
+Стоимость: $price ₽
 
 Мы свяжемся с вами в ближайшее время, чтобы обсудить детали и подготовить демо-версию сайта.
 
@@ -167,14 +167,14 @@ function escapeMarkdownV2Link($url) {
 
 // === Отправка уведомления админу в Telegram === 
 $telegramMessage = "💌 *" . telegramMarkdownEscape("Новый заказ Welcome-to-day") . "*\n";
-$telegramMessage .= "*Шаблон:* " . telegramMarkdownEscape($productName) . "\n"; 
 $telegramMessage .= "*Имя:* " . telegramMarkdownEscape($fullname) . "\n"; 
 $telegramMessage .= "*Телефон:* " . telegramMarkdownEscape($phone) . "\n"; 
 $telegramMessage .= "*Email:* " . telegramMarkdownEscape($email) . "\n"; 
+$telegramMessage .= "*Шаблон:* " . telegramMarkdownEscape($productName) . "\n"; 
 if ($ad !== '') {
     $telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n"; 
 }
-$telegramMessage .= "*Предварительная цена:* " . telegramMarkdownEscape($price . ' руб') . "\n"; 
+$telegramMessage .= "*Цена:* " . telegramMarkdownEscape($price . ' руб') . "\n"; 
 
 
 if ($whatsappUrl) {
