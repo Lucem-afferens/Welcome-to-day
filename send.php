@@ -211,7 +211,7 @@ if ($telegramResponse === false) {
     $telegramDecoded = json_decode($telegramResponse, true);
     if (!$telegramDecoded['ok']) {
         $success = false;
-        $errors[] = "Сервер недоступен. Попробуйте позже.";
+        $errors[] = "Сервер недоступен. Попробуйте позже. (Ошибка telegram)";
     }
 }
 
