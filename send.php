@@ -170,9 +170,7 @@ $telegramMessage .= "*Имя:* " . telegramMarkdownEscape($fullname) . "\n";
 $telegramMessage .= "*Телефон:* " . telegramMarkdownEscape($phone) . "\n"; 
 $telegramMessage .= "*Email:* " . telegramMarkdownEscape($email) . "\n"; 
 $telegramMessage .= "*Шаблон:* " . telegramMarkdownEscape($productName) . "\n"; 
-if ($ad !== '') {
-    $telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n"; 
-}
+$telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n"; 
 $telegramMessage .= "*Цена:* " . telegramMarkdownEscape($price . ' руб') . "\n"; 
 
 
