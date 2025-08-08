@@ -37,13 +37,30 @@ $adminChatId = '7293309046';
 $fromEmail = 'noreply@welcome-to-day.ru'; 
 $siteName = 'Welcome-to-day'; 
 
+// Функции очистки и экранирования
+function cleanText($text) {
+    $text = preg_replace('/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/u', '', $text);
+    $text = str_replace("\xC2\xA0", ' ', $text);
+    return trim($text);
+}
+
+function htmlEscape($s) {
+    return htmlspecialchars(cleanText((string)$s), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+if (is_numeric($price)) {
+    $priceDisplay = htmlEscape($price . ' руб');
+} else {
+    $priceDisplay = htmlEscape($price);
+}
+
 // Сообщение для WhatsApp (большое, с деталями)
 $whatsappMessage = <<<EOT
 Здравствуйте! Спасибо за заказ на сайте welcome-to-day.ru 🎉
 
 Ваш шаблон: «{$productName}»
-Предварительная стоимость: $price ₽
-Вы указали email: $email
+Предварительная стоимость: {$priceDisplay}
+Вы указали email: {$email}
 
 Мы можем кастомизировать шаблон под вас:
 — Фото и имена
@@ -120,7 +137,7 @@ $emailMessage = <<<EOM
 Спасибо за ваш заказ на сайте welcome-to-day.ru 🎉
 
 Ваш шаблон: $productName
-Предварительная стоимость: $price ₽
+Предварительная стоимость: $priceDisplay
 
 Мы свяжемся с вами в ближайшее время, чтобы обсудить детали и подготовить демо-версию сайта.
 
@@ -137,23 +154,6 @@ if (!$emailSent) {
     $success = false;
 }
 
-// Функции очистки и экранирования
-function cleanText($text) {
-    $text = preg_replace('/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/u', '', $text);
-    $text = str_replace("\xC2\xA0", ' ', $text);
-    return trim($text);
-}
-
-function htmlEscape($s) {
-    return htmlspecialchars(cleanText((string)$s), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-}
-
-if (is_numeric($price)) {
-    $priceDisplay = htmlEscape($price . ' руб');
-} else {
-    $priceDisplay = htmlEscape($price);
-}
-
 // Формируем короткое сообщение для Telegram
 $telegramMessage = "💌 Новый заказ Welcome-to-day\n";
 $telegramMessage .= "Шаблон: " . htmlEscape($productName) . "\n";
@@ -164,13 +164,14 @@ if ($ad !== '') {
     $telegramMessage .= "Промокод: " . htmlEscape($ad) . "\n";
 }
 $telegramMessage .= "Цена: {$priceDisplay}\n";
+
 if (!empty($whatsappUrl)) {
-    // В Telegram используем HTML ссылку
+    // В Telegram используем HTML ссылку, чтобы при клике открылся WhatsApp с текстом
     $escapedUrl = htmlspecialchars($whatsappUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $telegramMessage .= "WhatsApp: <a href=\"$escapedUrl\">Написать</a>\n";
 }
 
-// Логирование длины сообщения
+// Логирование длины сообщения (для отладки)
 file_put_contents('telegram_length.log', date('c') . " Length: " . mb_strlen($telegramMessage) . " chars\n", FILE_APPEND);
 
 // Отправка в Telegram
@@ -205,7 +206,7 @@ $telegramDecoded = sendTelegramMessage($adminTelegramToken, $adminChatId, $teleg
 
 file_put_contents('telegram_api_response.log', date('c') . " RESPONSE: " . json_encode($telegramDecoded) . PHP_EOL, FILE_APPEND);
 
-if (!$telegramDecoded['ok']) {
+if (empty($telegramDecoded['ok']) || !$telegramDecoded['ok']) {
     $success = false;
     $errDesc = $telegramDecoded['description'] ?? 'Неизвестная ошибка Telegram';
     $errors[] = "Ошибка telegram: {$errDesc}";
