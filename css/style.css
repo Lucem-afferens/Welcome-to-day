@@ -12,7 +12,9 @@
     --primary-dark: #495057;
     --secondary-color: #e9ecef;
     --accent-color: #ffebcd;
-    --text-primary: #222d39;
+    /* --text-primary: #222d39; */
+    --text-primary: #16302B;
+    --text-primary-light: #6B8C53;
     --text-nav: #DDBBAB;
     --text-gold: #A08143;
     --text-secondary: #7f8c8d;
@@ -479,14 +481,20 @@ h1, h2, h3, h4, h5, h6 {
 .feature {
     display: flex;
     align-items: center;
+    text-align: center;
     gap: var(--spacing-sm);
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--text-primary);
+    backdrop-filter: blur(1px);
+    padding: var(--spacing-xs);
 }
 
 .feature i {
     color: var(--primary-color);
     font-size: 1.1rem;
+}
+.feature span {
+    text-shadow: 1px 1px 0 #ffffff;
 }
 
 /* Hero Example */
@@ -677,38 +685,6 @@ h1, h2, h3, h4, h5, h6 {
     bottom: 0;
     z-index: 1;
     overflow: hidden;
-}
-
-.bg-shape {
-    position: absolute;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
-    opacity: .2;
-    animation: float 8s ease-in-out infinite;
-}
-
-.bg-shape--1 {
-    width: 300px;
-    height: 300px;
-    top: 10%;
-    right: 10%;
-    animation-delay: 0s;
-}
-
-.bg-shape--2 {
-    width: 200px;
-    height: 200px;
-    bottom: 20%;
-    left: 5%;
-    animation-delay: 3s;
-}
-
-.bg-shape--3 {
-    width: 150px;
-    height: 150px;
-    top: 60%;
-    right: 20%;
-    animation-delay: 6s;
 }
 
 /* About Section */
@@ -948,7 +924,7 @@ h1, h2, h3, h4, h5, h6 {
   
   .swiper-button-next:hover,
   .swiper-button-prev:hover {
-    background: #d4af37; /* Золотой при наведении */
+    background: var(--text-gold); /* Золотой при наведении */
   }
   
   /* Центрирование и высота */
@@ -985,7 +961,7 @@ h1, h2, h3, h4, h5, h6 {
   .about__advantages__text {
     font-size: 1.2rem;
     line-height: 1.7;
-    color: var(--text-gold);
+    color: var(--text-primary-light);
     font-style: italic;
     font-family: var(--font-display);
     margin-top: var(--spacing-xl);
@@ -1028,14 +1004,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .about__advantages {
     display: block;
-    margin-top: var(--spacing-xl);
-}
-.about__advantages__text {
-    font-size: 1.2rem;
-    line-height: 1.7;
-    color: var(--text-gold);
-    font-style: italic;
-    font-family: var(--font-display);
     margin-top: var(--spacing-xl);
 }
 .about__advantages h3 {
@@ -1617,6 +1585,9 @@ form input {
     padding-top: 150px;
     background: url('../images/bg_texture_white_flower_horizont.webp') no-repeat bottom/cover;
 }
+.hero {
+    background: url('../images/bg_texture_white_flower_horizont.webp') no-repeat bottom/cover;
+}
 .catalog-main__title {
     display: block;
     position: relative;
@@ -1987,6 +1958,9 @@ button {
 
 @media (max-width:767px) {
     .catalog-main {
+        background: url('../images/bg_texture_white_flower_vert.webp') no-repeat bottom/cover;
+    }
+    .hero {
         background: url('../images/bg_texture_white_flower_vert.webp') no-repeat bottom/cover;
     }
 }
