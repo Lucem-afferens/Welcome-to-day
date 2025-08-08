@@ -7,14 +7,14 @@ header('Content-Type: application/json');
 session_start();
 
 // === Антиспам: минимальный таймаут между отправками (например, 30 секунд) ===
-$spamTimeout = 30; // в секундах
-if (isset($_SESSION['last_order_time']) && (time() - $_SESSION['last_order_time']) < $spamTimeout) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Пожалуйста, подождите немного перед повторной отправкой заказа.'
-    ]);
-    exit;
-}
+// $spamTimeout = 30; // в секундах
+// if (isset($_SESSION['last_order_time']) && (time() - $_SESSION['last_order_time']) < $spamTimeout) {
+//     echo json_encode([
+//         'success' => false,
+//         'message' => 'Пожалуйста, подождите немного перед повторной отправкой заказа.'
+//     ]);
+//     exit;
+// }
 
 
 // === Получение данных из формы === 
