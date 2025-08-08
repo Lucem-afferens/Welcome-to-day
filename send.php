@@ -166,11 +166,20 @@ function escapeMarkdownV2Link($url) {
     return $url;
 }
 
-// === Отправка уведомления админу в Telegram (через HTML, надёжнее) ===
-function htmlEscape($s) {
-    return htmlspecialchars((string)$s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+// === Чистка текста от невидимых и управляющих символов ===
+function cleanText($text) {
+    // Удаляем управляющие символы кроме перевода строки
+    $text = preg_replace('/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/u', '', $text);
+    // Заменяем неразрывные пробелы на обычные
+    $text = str_replace("\xC2\xA0", ' ', $text);
+    return trim($text);
 }
 
+function htmlEscape($s) {
+    return htmlspecialchars(cleanText((string)$s), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+// === Формируем сообщение ===
 $telegramMessage = "<b>💌 Новый заказ Welcome-to-day</b>\n";
 $telegramMessage .= "<b>Шаблон:</b> " . htmlEscape($productName) . "\n";
 $telegramMessage .= "<b>Имя:</b> " . htmlEscape($fullname) . "\n";
@@ -182,7 +191,6 @@ if ($ad !== '') {
 $telegramMessage .= "<b>Цена:</b> " . htmlEscape($price . ' руб') . "\n";
 
 if (!empty($whatsappUrl)) {
-    // в href нам нужна корректная ссылка — экранируем её для HTML-атрибута
     $escapedHref = htmlspecialchars($whatsappUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $telegramMessage .= "<b>Ссылка на WhatsApp:</b> <a href=\"{$escapedHref}\">" . htmlEscape($cleanPhone) . "</a>\n";
 } else {
@@ -191,7 +199,7 @@ if (!empty($whatsappUrl)) {
 
 $telegramMessage .= "<i>Автоуведомление с сайта</i>";
 
-// Подготовим данные и отправим
+// === Отправка в Telegram ===
 $telegramData = [
     'chat_id' => $adminChatId,
     'text' => $telegramMessage,
@@ -207,8 +215,12 @@ $context = stream_context_create([
     ]
 ]);
 
-file_put_contents('telegram_debug.log', print_r($telegramData, true), FILE_APPEND);
+// Логируем, что отправляем
+file_put_contents('telegram_debug.log', date('c') . " MESSAGE: " . $telegramMessage . PHP_EOL, FILE_APPEND);
+
 $telegramResponse = @file_get_contents("https://api.telegram.org/bot$adminTelegramToken/sendMessage", false, $context);
+
+// Логируем ответ Telegram
 file_put_contents('telegram_api_response.log', date('c') . " RESPONSE: " . $telegramResponse . PHP_EOL, FILE_APPEND);
 
 if ($telegramResponse === false) {
@@ -220,9 +232,10 @@ if ($telegramResponse === false) {
         $success = false;
         $errDesc = $telegramDecoded['description'] ?? 'Неизвестная ошибка Telegram';
         $errors[] = "Ошибка telegram: {$errDesc}";
-        file_put_contents('telegram_error.log', date('c') . " ERROR: " . print_r($telegramDecoded, true) . PHP_EOL, FILE_APPEND);
+        file_put_contents('telegram_error.log', date('c') . " ERROR: " . $errDesc . PHP_EOL, FILE_APPEND);
     }
 }
+
 
 
 
