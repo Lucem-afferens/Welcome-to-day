@@ -273,7 +273,12 @@ $adminHeaders .= "Reply-To: $fromEmail\r\n";
 $adminHeaders .= "MIME-Version: 1.0\r\n";
 $adminHeaders .= "Content-Type: text/plain; charset=utf-8\r\n";
 
-mail($adminEmail, $adminSubject, $adminEmailMessage, $adminHeaders);
+if (!mail($adminEmail, $adminSubject, $adminEmailMessage, $adminHeaders)) {
+    $success = false;
+    $errors[] = "Не удалось отправить письмо админу.";
+    file_put_contents('mail_error.log', date('c') . " - Ошибка отправки письма админу\n", FILE_APPEND);
+}
+
 
 
 
