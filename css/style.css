@@ -210,10 +210,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 .menu__burger__close {
     position: absolute;
-    top: 10px;
+    top: -5px;
     right: 20px;
     font-size: clamp(24px, 11vw, 42px);
-    color: var(--accent-color);
+    color: var(--white);
 }
 .menu__burger__border {
     position: absolute;
