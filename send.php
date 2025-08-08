@@ -246,42 +246,6 @@ if ($telegramResponse === false) {
 
 
 
-
-
-// === Отправка такого же письма админу на почту ===
-$adminEmail = "nikwebdev.2025@gmail.com";
-$adminSubject = "Новый заказ с сайта Welcome-to-day.ru";
-
-$adminEmailMessage = <<<EOM
-Новый заказ на сайте welcome-to-day.ru
-
-Шаблон: $productName
-Имя: $fullname
-Телефон: $phone
-Email: $email
-Промокод: $ad
-Предварительная цена: $price ₽
-
-WhatsApp: $whatsappUrl
-
---
-Автоуведомление с сайта welcome-to-day.ru
-EOM;
-
-$adminHeaders = "From: $siteName <$fromEmail>\r\n";
-$adminHeaders .= "Reply-To: $fromEmail\r\n";
-$adminHeaders .= "MIME-Version: 1.0\r\n";
-$adminHeaders .= "Content-Type: text/plain; charset=utf-8\r\n";
-
-if (!mail($adminEmail, $adminSubject, $adminEmailMessage, $adminHeaders)) {
-    $success = false;
-    $errors[] = "Не удалось отправить письмо админу.";
-    file_put_contents('mail_error.log', date('c') . " - Ошибка отправки письма админу\n", FILE_APPEND);
-}
-
-
-
-
 // === Сохраняем время отправки для антиспама ===
 $_SESSION['last_order_time'] = time();
 
