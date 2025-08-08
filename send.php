@@ -6,16 +6,6 @@ header('Content-Type: application/json');
 
 session_start();
 
-// Антиспам: минимальный таймаут между отправками (30 секунд)
-// $spamTimeout = 30; 
-// if (isset($_SESSION['last_order_time']) && (time() - $_SESSION['last_order_time']) < $spamTimeout) {
-//     echo json_encode([
-//         'success' => false,
-//         'message' => 'Пожалуйста, подождите немного перед повторной отправкой заказа.'
-//     ]);
-//     exit;
-// }
-
 // Получение и чистка данных из формы
 $fullname = trim($_POST['fullname'] ?? ''); 
 $phone = trim($_POST['phone'] ?? ''); 
@@ -24,10 +14,7 @@ $ad = trim($_POST['ad'] ?? '');
 $productName = trim($_POST['productName'] ?? ''); 
 $firstPrice = trim($_POST['firstPrice'] ?? ''); 
 
-// Логирование email для отладки
-file_put_contents('debug_email.log', date('c') . " Email received: " . var_export($email, true) . PHP_EOL, FILE_APPEND);
-
-// Проверка email - обязательное и валидное поле
+// Проверка email
 if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo json_encode([
         'success' => false,
@@ -50,7 +37,7 @@ $adminChatId = '7293309046';
 $fromEmail = 'noreply@welcome-to-day.ru'; 
 $siteName = 'Welcome-to-day'; 
 
-// Формируем сообщение для WhatsApp
+// Сообщение для WhatsApp (большое, с деталями)
 $whatsappMessage = <<<EOT
 Здравствуйте! Спасибо за заказ на сайте welcome-to-day.ru 🎉
 
@@ -120,8 +107,6 @@ if (strlen($cleanPhone) >= 10) {
     $whatsappUrl = '';
 }
 
-$whatsappMe = "https://wa.me/79226447689";
-
 // Отправка письма клиенту
 $subject = "Ваш заказ на сайте Welcome-to-day.ru"; 
 $headers = "From: $siteName <$fromEmail>\r\n";
@@ -140,7 +125,7 @@ $emailMessage = <<<EOM
 Мы свяжемся с вами в ближайшее время, чтобы обсудить детали и подготовить демо-версию сайта.
 
 Если хотите быстрее — напишите нам в WhatsApp:
-$whatsappMe
+$whatsappUrl
 
 Хорошего дня!
 EOM;
@@ -169,8 +154,8 @@ if (is_numeric($price)) {
     $priceDisplay = htmlEscape($price);
 }
 
-// Формируем сообщение для Telegram
-$telegramMessage = "💌 Новый заказ Wtd\n";
+// Формируем короткое сообщение для Telegram
+$telegramMessage = "💌 Новый заказ Welcome-to-day\n";
 $telegramMessage .= "Шаблон: " . htmlEscape($productName) . "\n";
 $telegramMessage .= "Имя: " . htmlEscape($fullname) . "\n";
 $telegramMessage .= "Телефон: " . htmlEscape($phone) . "\n";
@@ -180,13 +165,15 @@ if ($ad !== '') {
 }
 $telegramMessage .= "Цена: {$priceDisplay}\n";
 if (!empty($whatsappUrl)) {
+    // В Telegram используем HTML ссылку
     $escapedUrl = htmlspecialchars($whatsappUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $telegramMessage .= "WhatsApp: <a href=\"{$escapedUrl}\">Написать в WhatsApp</a>\n";
+    $telegramMessage .= "WhatsApp: <a href=\"$escapedUrl\">Написать</a>\n";
 }
 
+// Логирование длины сообщения
 file_put_contents('telegram_length.log', date('c') . " Length: " . mb_strlen($telegramMessage) . " chars\n", FILE_APPEND);
 
-// Отправка в Telegram через cURL
+// Отправка в Telegram
 function sendTelegramMessage($token, $chatId, $message) {
     $url = "https://api.telegram.org/bot$token/sendMessage";
     $postFields = [
