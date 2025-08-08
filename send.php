@@ -53,7 +53,7 @@ $whatsappMessage = <<<EOT
 Здравствуйте! Спасибо за заказ на сайте welcome-to-day.ru 🎉
 
 Ваш шаблон: «{$productName}»
-Стоимость: $price ₽
+Предварительная стоимость: $price ₽
 Вы указали email: $email
 
 Мы можем кастомизировать шаблон под вас:
@@ -139,7 +139,7 @@ $emailMessage = <<<EOM
 Спасибо за ваш заказ на сайте welcome-to-day.ru 🎉
 
 Ваш шаблон: $productName
-Стоимость: $price ₽
+Предварительная стоимость: $price ₽
 
 Мы свяжемся с вами в ближайшее время, чтобы обсудить детали и подготовить демо-версию сайта.
 
@@ -167,14 +167,14 @@ function escapeMarkdownV2Link($url) {
 
 // === Отправка уведомления админу в Telegram === 
 $telegramMessage = "💌 *" . telegramMarkdownEscape("Новый заказ Welcome-to-day") . "*\n";
+$telegramMessage .= "*Шаблон:* " . telegramMarkdownEscape($productName) . "\n"; 
 $telegramMessage .= "*Имя:* " . telegramMarkdownEscape($fullname) . "\n"; 
 $telegramMessage .= "*Телефон:* " . telegramMarkdownEscape($phone) . "\n"; 
 $telegramMessage .= "*Email:* " . telegramMarkdownEscape($email) . "\n"; 
-$telegramMessage .= "*Шаблон:* " . telegramMarkdownEscape($productName) . "\n"; 
 if ($ad !== '') {
     $telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n"; 
 }
-$telegramMessage .= "*Цена:* " . telegramMarkdownEscape($price . ' руб') . "\n"; 
+$telegramMessage .= "*Предварительная цена:* " . telegramMarkdownEscape($price . ' руб') . "\n"; 
 
 
 if ($whatsappUrl) {

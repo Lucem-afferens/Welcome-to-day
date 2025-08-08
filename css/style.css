@@ -1730,7 +1730,7 @@ form input {
         transform: skew(30deg);
     }
 }
-.catalog-card__btn[data-price="Индивидуально"] {
+.catalog-card__btn[data-template="Консультация"] {
     margin: 0 auto;
     margin-top: 40px;
     padding: 8px 10px;
@@ -1749,7 +1749,7 @@ form input {
     background: var(--text-gold);
     color: #fff;
 }
-.catalog-card__btn[data-price="Индивидуально"]:hover {
+.catalog-card__btn[data-template="Консультация"]:hover {
     background: var(--text-secondary);
     color: #fff;
 }
