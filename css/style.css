@@ -1730,7 +1730,7 @@ form input {
         transform: skew(30deg);
     }
 }
-.catalog-card__btn[data-price="Индивидуально"] {
+/* .catalog-card__btn[data-price="Индивидуально"] {
     margin: 0 auto;
     margin-top: 40px;
     padding: 8px 10px;
@@ -1744,15 +1744,15 @@ form input {
         font-size: clamp(16px, 3vw, 22px);
         text-wrap: nowrap;
     }
-}
+} */
 .catalog-card__btn:hover {
     background: var(--text-gold);
     color: #fff;
 }
-.catalog-card__btn[data-price="Индивидуально"]:hover {
+/* .catalog-card__btn[data-price="Индивидуально"]:hover {
     background: var(--text-secondary);
     color: #fff;
-}
+} */
 
 
 
