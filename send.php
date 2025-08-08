@@ -170,22 +170,20 @@ if (is_numeric($price)) {
 }
 
 // Формируем сообщение для Telegram
-$telegramMessage = "<b>💌 Новый заказ Wtd</b>\n";
-$telegramMessage .= "<b>Шаблон:</b> " . htmlEscape($productName) . "\n";
-$telegramMessage .= "<b>Имя:</b> " . htmlEscape($fullname) . "\n";
-$telegramMessage .= "<b>Телефон:</b> " . htmlEscape($phone) . "\n";
-$telegramMessage .= "<b>Email:</b> " . htmlEscape($email) . "\n";
+$telegramMessage = "💌 Новый заказ Wtd\n";
+$telegramMessage .= "Шаблон: " . htmlEscape($productName) . "\n";
+$telegramMessage .= "Имя: " . htmlEscape($fullname) . "\n";
+$telegramMessage .= "Телефон: " . htmlEscape($phone) . "\n";
+$telegramMessage .= "Email: " . htmlEscape($email) . "\n";
 if ($ad !== '') {
-    $telegramMessage .= "<b>Промокод:</b> " . htmlEscape($ad) . "\n";
+    $telegramMessage .= "Промокод: " . htmlEscape($ad) . "\n";
 }
-$telegramMessage .= "<b>Предв. цена:</b> {$priceDisplay}\n";
-
+$telegramMessage .= "Цена: {$priceDisplay}\n";
 if (!empty($whatsappUrl)) {
-    $escapedHref = htmlspecialchars($whatsappUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $telegramMessage .= "<b>WhatsApp:</b> <a href=\"{$escapedHref}\">" . htmlEscape($cleanPhone) . "</a>\n";
+    $telegramMessage .= "WhatsApp: " . htmlEscape($cleanPhone) . "\n";
 }
 
-$telegramMessage .= "<i>Автоуведомление</i>";
+file_put_contents('telegram_length.log', date('c') . " Length: " . mb_strlen($telegramMessage) . " chars\n", FILE_APPEND);
 
 // Отправка в Telegram через cURL
 function sendTelegramMessage($token, $chatId, $message) {
