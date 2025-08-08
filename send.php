@@ -7,14 +7,14 @@ header('Content-Type: application/json');
 session_start();
 
 // Антиспам: минимальный таймаут между отправками (30 секунд)
-$spamTimeout = 30; 
-if (isset($_SESSION['last_order_time']) && (time() - $_SESSION['last_order_time']) < $spamTimeout) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Пожалуйста, подождите немного перед повторной отправкой заказа.'
-    ]);
-    exit;
-}
+// $spamTimeout = 30; 
+// if (isset($_SESSION['last_order_time']) && (time() - $_SESSION['last_order_time']) < $spamTimeout) {
+//     echo json_encode([
+//         'success' => false,
+//         'message' => 'Пожалуйста, подождите немного перед повторной отправкой заказа.'
+//     ]);
+//     exit;
+// }
 
 // Получение и чистка данных из формы
 $fullname = trim($_POST['fullname'] ?? ''); 
@@ -182,9 +182,7 @@ $telegramMessage .= "<b>Предварительная цена:</b> {$priceDisp
 
 if (!empty($whatsappUrl)) {
     $escapedHref = htmlspecialchars($whatsappUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $telegramMessage .= "<b>Ссылка на WhatsApp:</b> <a href=\"{$escapedHref}\">" . htmlEscape($cleanPhone) . "</a>\n";
-} else {
-    $telegramMessage .= "<i>Не указан корректный номер для WhatsApp</i>\n";
+    $telegramMessage .= "<b>WhatsApp:</b> <a href=\"{$escapedHref}\">" . htmlEscape($cleanPhone) . "</a>\n";
 }
 
 $telegramMessage .= "<i>Автоуведомление с сайта</i>";
