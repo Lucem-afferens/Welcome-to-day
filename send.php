@@ -6,7 +6,18 @@ header('Content-Type: application/json');
 
 session_start();
 
-// Получение и чистка данных из формы
+// === Антиспам: минимальный таймаут между отправками (например, 30 секунд) ===
+$spamTimeout = 30; // в секундах
+if (isset($_SESSION['last_order_time']) && (time() - $_SESSION['last_order_time']) < $spamTimeout) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Пожалуйста, подождите немного перед повторной отправкой заказа.'
+    ]);
+    exit;
+}
+
+
+// === Получение данных из формы === 
 $fullname = trim($_POST['fullname'] ?? ''); 
 $phone = trim($_POST['phone'] ?? ''); 
 $email = trim($_POST['email'] ?? ''); 
@@ -14,54 +25,36 @@ $ad = trim($_POST['ad'] ?? '');
 $productName = trim($_POST['productName'] ?? ''); 
 $firstPrice = trim($_POST['firstPrice'] ?? ''); 
 
-// Проверка email
-if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Введите корректный email.'
-    ]);
-    exit;
-}
-
-// Промокод и цена
+// === Промокод и финальная цена === 
 $discountPrice = 990; 
 $discountCode = "katyalegenda"; 
-$price = ($ad === $discountCode) ? $discountPrice : $firstPrice;
-
+// $price = number_format((strtolower($ad) === $discountCode) ? $discountPrice : floatval($firstPrice));
+$price = $firstPrice;
 $success = true; 
 $errors = []; 
 
-// Настройки
+// === Настройки === 
 $adminTelegramToken = '8469386738:AAEZqVpy0g-TVR8YFhJtZT8z3jWDVlNe3Ws'; 
 $adminChatId = '7293309046'; 
 $fromEmail = 'noreply@welcome-to-day.ru'; 
 $siteName = 'Welcome-to-day'; 
 
-// Функция очистки текста
-function cleanText($text) {
-    $text = preg_replace('/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/u', '', $text);
-    $text = str_replace("\xC2\xA0", ' ', $text);
-    return trim($text);
+// === Функция очистки текста для Telegram MarkdownV2 (экранирование спецсимволов) ===
+function telegramMarkdownEscape($text) {
+    $specialChars = ['_', '*', '[', ']', '(', ')', '~', '', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'];
+    foreach ($specialChars as $char) {
+        $text = str_replace($char, "\\".$char, $text);
+    }
+    return $text;
 }
 
-// Экранирование для HTML (Telegram parse_mode=HTML)
-function telegramHtmlEscape($text) {
-    return htmlspecialchars(cleanText($text), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-}
-
-if (is_numeric($price)) {
-    $priceDisplay = telegramHtmlEscape($price . ' руб');
-} else {
-    $priceDisplay = telegramHtmlEscape($price);
-}
-
-// Формируем сообщение для WhatsApp (оно может быть длинным, поэтому URL-кодируем)
+// === Формируем сообщение для клиента в WhatsApp === 
 $whatsappMessage = <<<EOT
 Здравствуйте! Спасибо за заказ на сайте welcome-to-day.ru 🎉
 
 Ваш шаблон: «{$productName}»
-Предварительная стоимость: {$priceDisplay}
-Вы указали email: {$email}
+Стоимость: $price ₽
+Вы указали email: $email
 
 Мы можем кастомизировать шаблон под вас:
 — Фото и имена
@@ -74,6 +67,7 @@ $whatsappMessage = <<<EOT
 💳 После согласования вы получите ссылку на оплату, а затем — финальную версию сайта.
 
 ---
+
 ✨ Очень рады, что Вы доверяете нам оформление важного события 💫
 
 📋 Как проходит работа:
@@ -99,7 +93,7 @@ $whatsappMessage = <<<EOT
 • Дресс-код
 • Вопросы в RSVP-форме
 • Контакты ведущего/Ваши
-• Текст обращения (по Вашему желанию мы можем создать отдельную ссылку на приглашение для конкретного (конкретных) лица (лиц) - 
+• Текст обращения (по Вашему желанию мы можем создать отдельную ссылку на приглашение для конкретного (конкретных) лица (лиц) -
   то есть заменить "Дорогие гости!" на "Уважаемые и любимые мама и папа!"/"Уважаемый Виктор Константинович";
   цена каждой отдельной ссылки - 500 рублей)
 — Укажите блоки, которые нужно убрать
@@ -112,26 +106,32 @@ $whatsappMessage = <<<EOT
 💬 Ждём вашу информацию, и сразу приступим к созданию демо! 🙂
 EOT;
 
-// Обработка номера телефона для WhatsApp
-$cleanPhone = preg_replace('/\D+/', '', $phone);
+// === Обработка номера телефона ===
+$cleanPhone = preg_replace('/\D+/', '', $phone); // удалим всё кроме цифр
 
 if (strlen($cleanPhone) >= 10) {
+    // Заменим первую 8 на 7 для РФ
     if (strpos($cleanPhone, '8') === 0) {
         $cleanPhone = '7' . substr($cleanPhone, 1);
     }
-    // Корректно кодируем весь параметр text
+
     $whatsappUrl = "https://wa.me/$cleanPhone?text=" . rawurlencode($whatsappMessage);
 } else {
-    $cleanPhone = '';
+    $cleanPhone = ''; // для Telegram
     $whatsappUrl = '';
 }
 
-// Отправка письма клиенту
+
+$encodedWhatsappMessage = urlencode($whatsappMessage);
+$whatsappMe = "https://wa.me/79226447689";
+
+// === Отправка письма клиенту === 
 $subject = "Ваш заказ на сайте Welcome-to-day.ru"; 
 $headers = "From: $siteName <$fromEmail>\r\n";
 $headers .= "Reply-To: $fromEmail\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
+
 
 $emailMessage = <<<EOM
 Здравствуйте, $fullname!
@@ -139,86 +139,86 @@ $emailMessage = <<<EOM
 Спасибо за ваш заказ на сайте welcome-to-day.ru 🎉
 
 Ваш шаблон: $productName
-Предварительная стоимость: $priceDisplay
+Стоимость: $price ₽
 
 Мы свяжемся с вами в ближайшее время, чтобы обсудить детали и подготовить демо-версию сайта.
 
 Если хотите быстрее — напишите нам в WhatsApp:
-$whatsappUrl
+$whatsappMe
 
 Хорошего дня!
 EOM;
 
 $emailSent = mail($email, $subject, $emailMessage, $headers);
-
 if (!$emailSent) {
     $errors[] = "Не удалось отправить письмо на $email.";
     $success = false;
 }
 
-// Формируем короткое сообщение для Telegram
-$telegramMessage = "💌 Новый заказ Welcome-to-day\n";
-$telegramMessage .= "Шаблон: " . telegramHtmlEscape($productName) . "\n";
-$telegramMessage .= "Имя: " . telegramHtmlEscape($fullname) . "\n";
-$telegramMessage .= "Телефон: " . telegramHtmlEscape($phone) . "\n";
-$telegramMessage .= "Email: " . telegramHtmlEscape($email) . "\n";
+function escapeMarkdownV2Link($url) {
+    // Экранируем всё, что может сломать MarkdownV2
+    $url = str_replace(
+        ['(', ')', '[', ']', '\\', '.', '-', '_', '=', '&', '?'],
+        ['\\(', '\\)', '\\[', '\\]', '\\\\', '\\.', '\\-', '\\_', '\\=', '\\&', '\\?'],
+        $url
+    );
+    return $url;
+}
+
+// === Отправка уведомления админу в Telegram === 
+$telegramMessage = "💌 *" . telegramMarkdownEscape("Новый заказ Welcome-to-day") . "*\n";
+$telegramMessage .= "*Имя:* " . telegramMarkdownEscape($fullname) . "\n"; 
+$telegramMessage .= "*Телефон:* " . telegramMarkdownEscape($phone) . "\n"; 
+$telegramMessage .= "*Email:* " . telegramMarkdownEscape($email) . "\n"; 
+$telegramMessage .= "*Шаблон:* " . telegramMarkdownEscape($productName) . "\n"; 
 if ($ad !== '') {
-    $telegramMessage .= "Промокод: " . telegramHtmlEscape($ad) . "\n";
+    $telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n"; 
 }
-$telegramMessage .= "Цена: {$priceDisplay}\n";
+$telegramMessage .= "*Цена:* " . telegramMarkdownEscape($price . ' руб') . "\n"; 
 
-if (!empty($whatsappUrl)) {
-    // Используем HTML-ссылку, Telegram это поддерживает с parse_mode=HTML
-    $escapedUrl = telegramHtmlEscape($whatsappUrl);
-    $telegramMessage .= "WhatsApp: <a href=\"$escapedUrl\">Написать</a>\n";
-}
 
-// Логируем длину сообщения для отладки
-file_put_contents('telegram_length.log', date('c') . " Length: " . mb_strlen($telegramMessage) . " chars\n", FILE_APPEND);
-
-// Отправка в Telegram через curl
-function sendTelegramMessage($token, $chatId, $message) {
-    $url = "https://api.telegram.org/bot$token/sendMessage";
-    $postFields = [
-        'chat_id' => $chatId,
-        'text' => $message,
-        'parse_mode' => 'HTML',
-        'disable_web_page_preview' => true
-    ];
-
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-    $response = curl_exec($ch);
-    $curlError = curl_error($ch);
-    curl_close($ch);
-
-    if ($response === false) {
-        return ['ok' => false, 'description' => "Curl error: $curlError"];
-    }
-
-    return json_decode($response, true);
+if ($whatsappUrl) {
+    $safeWhatsappUrl = escapeMarkdownV2Link($whatsappUrl);
+    $telegramMessage .= telegramMarkdownEscape("Ссылка на WhatsApp: ") . "[$cleanPhone]($safeWhatsappUrl)\n";
+} else {
+    $telegramMessage .= telegramMarkdownEscape("Не указан корректный номер для WhatsApp\n");
 }
 
-file_put_contents('telegram_debug.log', date('c') . " MESSAGE: " . $telegramMessage . PHP_EOL, FILE_APPEND);
+$telegramMessage .= telegramMarkdownEscape("\n_Автоуведомление с сайта_");
 
-$telegramDecoded = sendTelegramMessage($adminTelegramToken, $adminChatId, $telegramMessage);
+$telegramData = [ 
+    'chat_id' => $adminChatId, 
+    'text' => $telegramMessage, 
+    'parse_mode' => 'MarkdownV2'  // Используем MarkdownV2 с экранированием
+]; 
 
-file_put_contents('telegram_api_response.log', date('c') . " RESPONSE: " . json_encode($telegramDecoded) . PHP_EOL, FILE_APPEND);
+$context = stream_context_create([ 
+    'http' => [ 
+        'header' => "Content-type: application/x-www-form-urlencoded", 
+        'method' => 'POST', 
+        'content' => http_build_query($telegramData) 
+    ] 
+]); 
 
-if (empty($telegramDecoded['ok']) || !$telegramDecoded['ok']) {
+file_put_contents('telegram_debug.log', print_r($telegramData, true));
+$telegramResponse = file_get_contents("https://api.telegram.org/bot$adminTelegramToken/sendMessage", false, $context);
+
+if ($telegramResponse === false) {
+    $error = error_get_last();
+    $errors[] = "Ошибка отправки в Telegram: " . $error['message'];
     $success = false;
-    $errDesc = $telegramDecoded['description'] ?? 'Неизвестная ошибка Telegram';
-    $errors[] = "Ошибка telegram: {$errDesc}";
-    file_put_contents('telegram_error.log', date('c') . " ERROR: " . $errDesc . PHP_EOL, FILE_APPEND);
+} else {
+    $telegramDecoded = json_decode($telegramResponse, true);
+    if (!$telegramDecoded['ok']) {
+        $errors[] = "Ошибка Telegram: " . $telegramDecoded['description'];
+        $success = false;
+    }
 }
 
-// Запоминаем время отправки (например, для антиспама)
+// === Сохраняем время отправки для антиспама ===
 $_SESSION['last_order_time'] = time();
 
-// Ответ фронту
+// === Ответ для фронта === 
 echo json_encode([ 
     'success' => $success, 
     'message' => $success ? 'Спасибо! Ваш заказ принят.' : implode(' ', $errors), 
