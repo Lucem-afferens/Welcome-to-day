@@ -37,24 +37,25 @@ $adminChatId = '7293309046';
 $fromEmail = 'noreply@welcome-to-day.ru'; 
 $siteName = 'Welcome-to-day'; 
 
-// Функции очистки и экранирования
+// Функция очистки текста
 function cleanText($text) {
     $text = preg_replace('/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/u', '', $text);
     $text = str_replace("\xC2\xA0", ' ', $text);
     return trim($text);
 }
 
-function htmlEscape($s) {
-    return htmlspecialchars(cleanText((string)$s), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+// Экранирование для HTML (Telegram parse_mode=HTML)
+function telegramHtmlEscape($text) {
+    return htmlspecialchars(cleanText($text), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
 if (is_numeric($price)) {
-    $priceDisplay = htmlEscape($price . ' руб');
+    $priceDisplay = telegramHtmlEscape($price . ' руб');
 } else {
-    $priceDisplay = htmlEscape($price);
+    $priceDisplay = telegramHtmlEscape($price);
 }
 
-// Сообщение для WhatsApp (большое, с деталями)
+// Формируем сообщение для WhatsApp (оно может быть длинным, поэтому URL-кодируем)
 $whatsappMessage = <<<EOT
 Здравствуйте! Спасибо за заказ на сайте welcome-to-day.ru 🎉
 
@@ -118,6 +119,7 @@ if (strlen($cleanPhone) >= 10) {
     if (strpos($cleanPhone, '8') === 0) {
         $cleanPhone = '7' . substr($cleanPhone, 1);
     }
+    // Корректно кодируем весь параметр text
     $whatsappUrl = "https://wa.me/$cleanPhone?text=" . rawurlencode($whatsappMessage);
 } else {
     $cleanPhone = '';
@@ -156,25 +158,25 @@ if (!$emailSent) {
 
 // Формируем короткое сообщение для Telegram
 $telegramMessage = "💌 Новый заказ Welcome-to-day\n";
-$telegramMessage .= "Шаблон: " . htmlEscape($productName) . "\n";
-$telegramMessage .= "Имя: " . htmlEscape($fullname) . "\n";
-$telegramMessage .= "Телефон: " . htmlEscape($phone) . "\n";
-$telegramMessage .= "Email: " . htmlEscape($email) . "\n";
+$telegramMessage .= "Шаблон: " . telegramHtmlEscape($productName) . "\n";
+$telegramMessage .= "Имя: " . telegramHtmlEscape($fullname) . "\n";
+$telegramMessage .= "Телефон: " . telegramHtmlEscape($phone) . "\n";
+$telegramMessage .= "Email: " . telegramHtmlEscape($email) . "\n";
 if ($ad !== '') {
-    $telegramMessage .= "Промокод: " . htmlEscape($ad) . "\n";
+    $telegramMessage .= "Промокод: " . telegramHtmlEscape($ad) . "\n";
 }
 $telegramMessage .= "Цена: {$priceDisplay}\n";
 
 if (!empty($whatsappUrl)) {
-    // В Telegram используем HTML ссылку, чтобы при клике открылся WhatsApp с текстом
-    $escapedUrl = htmlspecialchars($whatsappUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    // Используем HTML-ссылку, Telegram это поддерживает с parse_mode=HTML
+    $escapedUrl = telegramHtmlEscape($whatsappUrl);
     $telegramMessage .= "WhatsApp: <a href=\"$escapedUrl\">Написать</a>\n";
 }
 
-// Логирование длины сообщения (для отладки)
+// Логируем длину сообщения для отладки
 file_put_contents('telegram_length.log', date('c') . " Length: " . mb_strlen($telegramMessage) . " chars\n", FILE_APPEND);
 
-// Отправка в Telegram
+// Отправка в Telegram через curl
 function sendTelegramMessage($token, $chatId, $message) {
     $url = "https://api.telegram.org/bot$token/sendMessage";
     $postFields = [
@@ -213,7 +215,7 @@ if (empty($telegramDecoded['ok']) || !$telegramDecoded['ok']) {
     file_put_contents('telegram_error.log', date('c') . " ERROR: " . $errDesc . PHP_EOL, FILE_APPEND);
 }
 
-// Запоминаем время отправки
+// Запоминаем время отправки (например, для антиспама)
 $_SESSION['last_order_time'] = time();
 
 // Ответ фронту
