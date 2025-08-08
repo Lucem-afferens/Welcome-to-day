@@ -166,54 +166,64 @@ function escapeMarkdownV2Link($url) {
     return $url;
 }
 
-// === Отправка уведомления админу в Telegram === 
-$telegramMessage = "💌 *" . telegramMarkdownEscape("Новый заказ Welcome-to-day") . "*\n";
-$telegramMessage .= "*Шаблон:* " . telegramMarkdownEscape($productName) . "\n"; 
-$telegramMessage .= "*Имя:* " . telegramMarkdownEscape($fullname) . "\n"; 
-$telegramMessage .= "*Телефон:* " . telegramMarkdownEscape($phone) . "\n"; 
-$telegramMessage .= "*Email:* " . telegramMarkdownEscape($email) . "\n"; 
+// === Отправка уведомления админу в Telegram (через HTML, надёжнее) ===
+function htmlEscape($s) {
+    return htmlspecialchars((string)$s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+$telegramMessage = "<b>💌 Новый заказ Welcome-to-day</b>\n";
+$telegramMessage .= "<b>Шаблон:</b> " . htmlEscape($productName) . "\n";
+$telegramMessage .= "<b>Имя:</b> " . htmlEscape($fullname) . "\n";
+$telegramMessage .= "<b>Телефон:</b> " . htmlEscape($phone) . "\n";
+$telegramMessage .= "<b>Email:</b> " . htmlEscape($email) . "\n";
 if ($ad !== '') {
-    $telegramMessage .= "*Промокод:* " . telegramMarkdownEscape($ad) . "\n"; 
+    $telegramMessage .= "<b>Промокод:</b> " . htmlEscape($ad) . "\n";
 }
-$telegramMessage .= "*Цена:* " . telegramMarkdownEscape($price . ' руб') . "\n"; 
+$telegramMessage .= "<b>Цена:</b> " . htmlEscape($price . ' руб') . "\n";
 
-if ($whatsappUrl) {
-    $safeWhatsappUrl = escapeMarkdownV2Link($whatsappUrl);
-    $telegramMessage .= telegramMarkdownEscape("Ссылка на WhatsApp: ") . "[{$cleanPhone}]({$safeWhatsappUrl})\n";
+if (!empty($whatsappUrl)) {
+    // в href нам нужна корректная ссылка — экранируем её для HTML-атрибута
+    $escapedHref = htmlspecialchars($whatsappUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $telegramMessage .= "<b>Ссылка на WhatsApp:</b> <a href=\"{$escapedHref}\">" . htmlEscape($cleanPhone) . "</a>\n";
 } else {
-    $telegramMessage .= telegramMarkdownEscape("Не указан корректный номер для WhatsApp\n");
+    $telegramMessage .= "<i>Не указан корректный номер для WhatsApp</i>\n";
 }
 
-$telegramMessage .= telegramMarkdownEscape("\n_Автоуведомление с сайта_");
+$telegramMessage .= "<i>Автоуведомление с сайта</i>";
 
+// Подготовим данные и отправим
+$telegramData = [
+    'chat_id' => $adminChatId,
+    'text' => $telegramMessage,
+    'parse_mode' => 'HTML'
+];
 
-$telegramData = [ 
-    'chat_id' => $adminChatId, 
-    'text' => $telegramMessage, 
-    'parse_mode' => 'MarkdownV2'  // Используем MarkdownV2 с экранированием
-]; 
+$context = stream_context_create([
+    'http' => [
+        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+        'method'  => 'POST',
+        'content' => http_build_query($telegramData),
+        'timeout' => 10
+    ]
+]);
 
-$context = stream_context_create([ 
-    'http' => [ 
-        'header' => "Content-type: application/x-www-form-urlencoded", 
-        'method' => 'POST', 
-        'content' => http_build_query($telegramData) 
-    ] 
-]); 
-
-file_put_contents('telegram_debug.log', print_r($telegramData, true));
-$telegramResponse = file_get_contents("https://api.telegram.org/bot$adminTelegramToken/sendMessage", false, $context);
+file_put_contents('telegram_debug.log', print_r($telegramData, true), FILE_APPEND);
+$telegramResponse = @file_get_contents("https://api.telegram.org/bot$adminTelegramToken/sendMessage", false, $context);
+file_put_contents('telegram_api_response.log', date('c') . " RESPONSE: " . $telegramResponse . PHP_EOL, FILE_APPEND);
 
 if ($telegramResponse === false) {
     $success = false;
     $errors[] = "Сервер недоступен. Попробуйте позже.";
 } else {
     $telegramDecoded = json_decode($telegramResponse, true);
-    if (!$telegramDecoded['ok']) {
+    if (!$telegramDecoded || empty($telegramDecoded['ok'])) {
         $success = false;
-        $errors[] = "Сервер недоступен. Попробуйте позже. (Ошибка telegram)";
+        $errDesc = $telegramDecoded['description'] ?? 'Неизвестная ошибка Telegram';
+        $errors[] = "Ошибка telegram: {$errDesc}";
+        file_put_contents('telegram_error.log', date('c') . " ERROR: " . print_r($telegramDecoded, true) . PHP_EOL, FILE_APPEND);
     }
 }
+
 
 
 // === Отправка такого же письма админу на почту ===
