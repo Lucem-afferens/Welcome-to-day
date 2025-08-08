@@ -3,19 +3,19 @@
   "short_name": "Welcome",
   "icons": [
     {
-      "src": "/https://welcome-to-day.ru/favicon/logo-welcome.png/web-app-manifest-192x192.png",
+      "src": "/favicon/web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/https://welcome-to-day.ru/favicon/logo-welcome.png/web-app-manifest-512x512.png",
+      "src": "/favicon/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#16302B",
-  "background_color": "#f2d4bc",
+  "theme_color": "#ffffff",
+  "background_color": "#16302B",
   "display": "standalone"
 }
