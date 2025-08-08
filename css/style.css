@@ -379,6 +379,8 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     position: relative;
     padding: var(--spacing-sm) 0;
+    backdrop-filter: blur(1px);
+
 }
 
 .hero__philosophy::before {
@@ -427,14 +429,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn--primary {
-    background: linear-gradient(135deg, var(--text-nav), var(--accent-color));
+    background: linear-gradient(135deg, var(--text-primary-light), var(--text-light));
     color: var(--text-primary);
     box-shadow: 0 8px 25px var(--shadow-medium);
+    font-size: clamp(14px, 6vw, 18px);
+    text-shadow: 0 0 5px var(--white);
 }
 
 .btn--catalog {
-    background: linear-gradient(135deg, var(--text-nav), var(--accent-color));
+    background: linear-gradient(135deg, var(--text-primary-light), var(--text-light));
     color: var(--text-primary);
+    text-shadow: 0 0 5px var(--white);
     box-shadow: 0 8px 25px var(--shadow-medium);
     margin-bottom: var(--spacing-xs);
     padding: 4% 9%;
@@ -1047,6 +1052,15 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 46px;
     }
 }
+@media (min-width:900px) {
+    .hero {
+        /* height: 100vh;
+        height: 100lvh; */
+        min-height: auto;
+        max-height: 1000px;
+    }
+}
+
 @media (max-width: 900px) {
     .services__grid {
         grid-template-columns: 1fr;
