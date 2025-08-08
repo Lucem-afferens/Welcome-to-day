@@ -6,17 +6,18 @@ header('Content-Type: application/json');
 
 session_start();
 
-// Антиспам: минимальный таймаут между отправками (30 секунд)
-// $spamTimeout = 30; 
-// if (isset($_SESSION['last_order_time']) && (time() - $_SESSION['last_order_time']) < $spamTimeout) {
-//     echo json_encode([
-//         'success' => false,
-//         'message' => 'Пожалуйста, подождите немного перед повторной отправкой заказа.'
-//     ]);
-//     exit;
-// }
+// === Антиспам: минимальный таймаут между отправками (например, 30 секунд) ===
+$spamTimeout = 30; // в секундах
+if (isset($_SESSION['last_order_time']) && (time() - $_SESSION['last_order_time']) < $spamTimeout) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Пожалуйста, подождите немного перед повторной отправкой заказа.'
+    ]);
+    exit;
+}
 
-// Получение и чистка данных из формы
+
+// === Получение данных из формы === 
 $fullname = trim($_POST['fullname'] ?? ''); 
 $phone = trim($_POST['phone'] ?? ''); 
 $email = trim($_POST['email'] ?? ''); 
@@ -24,33 +25,31 @@ $ad = trim($_POST['ad'] ?? '');
 $productName = trim($_POST['productName'] ?? ''); 
 $firstPrice = trim($_POST['firstPrice'] ?? ''); 
 
-// Логирование email для отладки
-file_put_contents('debug_email.log', date('c') . " Email received: " . var_export($email, true) . PHP_EOL, FILE_APPEND);
-
-// Проверка email - обязательное и валидное поле
-if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Введите корректный email.'
-    ]);
-    exit;
-}
-
-// Промокод и цена
+// === Промокод и финальная цена === 
 $discountPrice = 990; 
 $discountCode = "katyalegenda"; 
+// $defaultPrice = 4990;
 $price = ($ad === $discountCode) ? $discountPrice : $firstPrice;
 
 $success = true; 
 $errors = []; 
 
-// Настройки
+// === Настройки === 
 $adminTelegramToken = '8469386738:AAEZqVpy0g-TVR8YFhJtZT8z3jWDVlNe3Ws'; 
 $adminChatId = '7293309046'; 
 $fromEmail = 'noreply@welcome-to-day.ru'; 
 $siteName = 'Welcome-to-day'; 
 
-// Формируем сообщение для WhatsApp
+// === Функция очистки текста для Telegram MarkdownV2 (экранирование спецсимволов) ===
+function telegramMarkdownEscape($text) {
+    $specialChars = ['_', '*', '[', ']', '(', ')', '~', '', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'];
+    foreach ($specialChars as $char) {
+        $text = str_replace($char, "\\".$char, $text);
+    }
+    return $text;
+}
+
+// === Формируем сообщение для клиента в WhatsApp === 
 $whatsappMessage = <<<EOT
 Здравствуйте! Спасибо за заказ на сайте welcome-to-day.ru 🎉
 
@@ -69,6 +68,7 @@ $whatsappMessage = <<<EOT
 💳 После согласования вы получите ссылку на оплату, а затем — финальную версию сайта.
 
 ---
+
 ✨ Очень рады, что Вы доверяете нам оформление важного события 💫
 
 📋 Как проходит работа:
@@ -94,7 +94,7 @@ $whatsappMessage = <<<EOT
 • Дресс-код
 • Вопросы в RSVP-форме
 • Контакты ведущего/Ваши
-• Текст обращения (по Вашему желанию мы можем создать отдельную ссылку на приглашение для конкретного (конкретных) лица (лиц) - 
+• Текст обращения (по Вашему желанию мы можем создать отдельную ссылку на приглашение для конкретного (конкретных) лица (лиц) -
   то есть заменить "Дорогие гости!" на "Уважаемые и любимые мама и папа!"/"Уважаемый Виктор Константинович";
   цена каждой отдельной ссылки - 500 рублей)
 — Укажите блоки, которые нужно убрать
@@ -107,27 +107,32 @@ $whatsappMessage = <<<EOT
 💬 Ждём вашу информацию, и сразу приступим к созданию демо! 🙂
 EOT;
 
-// Обработка номера телефона для WhatsApp
-$cleanPhone = preg_replace('/\D+/', '', $phone);
+// === Обработка номера телефона ===
+$cleanPhone = preg_replace('/\D+/', '', $phone); // удалим всё кроме цифр
 
 if (strlen($cleanPhone) >= 10) {
+    // Заменим первую 8 на 7 для РФ
     if (strpos($cleanPhone, '8') === 0) {
         $cleanPhone = '7' . substr($cleanPhone, 1);
     }
+
     $whatsappUrl = "https://wa.me/$cleanPhone?text=" . rawurlencode($whatsappMessage);
 } else {
-    $cleanPhone = '';
+    $cleanPhone = ''; // для Telegram
     $whatsappUrl = '';
 }
 
+
+$encodedWhatsappMessage = urlencode($whatsappMessage);
 $whatsappMe = "https://wa.me/79226447689";
 
-// Отправка письма клиенту
+// === Отправка письма клиенту === 
 $subject = "Ваш заказ на сайте Welcome-to-day.ru"; 
 $headers = "From: $siteName <$fromEmail>\r\n";
 $headers .= "Reply-To: $fromEmail\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
+
 
 $emailMessage = <<<EOM
 Здравствуйте, $fullname!
@@ -146,15 +151,26 @@ $whatsappMe
 EOM;
 
 $emailSent = mail($email, $subject, $emailMessage, $headers);
-
 if (!$emailSent) {
     $errors[] = "Не удалось отправить письмо на $email.";
     $success = false;
 }
 
-// Функции очистки и экранирования
+function escapeMarkdownV2Link($url) {
+    // Экранируем всё, что может сломать MarkdownV2
+    $url = str_replace(
+        ['(', ')', '[', ']', '\\', '.', '-', '_', '=', '&', '?'],
+        ['\\(', '\\)', '\\[', '\\]', '\\\\', '\\.', '\\-', '\\_', '\\=', '\\&', '\\?'],
+        $url
+    );
+    return $url;
+}
+
+// === Чистка текста от невидимых и управляющих символов ===
 function cleanText($text) {
+    // Удаляем управляющие символы кроме перевода строки
     $text = preg_replace('/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/u', '', $text);
+    // Заменяем неразрывные пробелы на обычные
     $text = str_replace("\xC2\xA0", ' ', $text);
     return trim($text);
 }
@@ -163,13 +179,14 @@ function htmlEscape($s) {
     return htmlspecialchars(cleanText((string)$s), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
+// === Безопасное формирование цены ===
 if (is_numeric($price)) {
     $priceDisplay = htmlEscape($price . ' руб');
 } else {
     $priceDisplay = htmlEscape($price);
 }
 
-// Формируем сообщение для Telegram
+// === Формируем сообщение ===
 $telegramMessage = "<b>💌 Новый заказ Welcome-to-day</b>\n";
 $telegramMessage .= "<b>Шаблон:</b> " . htmlEscape($productName) . "\n";
 $telegramMessage .= "<b>Имя:</b> " . htmlEscape($fullname) . "\n";
@@ -189,9 +206,10 @@ if (!empty($whatsappUrl)) {
 
 $telegramMessage .= "<i>Автоуведомление с сайта</i>";
 
+// === Чистка от невидимых символов ===
 $telegramMessage = cleanText($telegramMessage);
 
-// Отправка в Telegram
+// === Отправка в Telegram ===
 $telegramData = [
     'chat_id' => $adminChatId,
     'text' => $telegramMessage,
@@ -226,10 +244,48 @@ if ($telegramResponse === false) {
     }
 }
 
-// Запоминаем время отправки
+
+
+
+
+// === Отправка такого же письма админу на почту ===
+$adminEmail = "nikwebdev.2025@gmail.com";
+$adminSubject = "Новый заказ с сайта Welcome-to-day.ru";
+
+$adminEmailMessage = <<<EOM
+Новый заказ на сайте welcome-to-day.ru
+
+Шаблон: $productName
+Имя: $fullname
+Телефон: $phone
+Email: $email
+Промокод: $ad
+Предварительная цена: $price ₽
+
+WhatsApp: $whatsappUrl
+
+--
+Автоуведомление с сайта welcome-to-day.ru
+EOM;
+
+$adminHeaders = "From: $siteName <$fromEmail>\r\n";
+$adminHeaders .= "Reply-To: $fromEmail\r\n";
+$adminHeaders .= "MIME-Version: 1.0\r\n";
+$adminHeaders .= "Content-Type: text/plain; charset=utf-8\r\n";
+
+if (!mail($adminEmail, $adminSubject, $adminEmailMessage, $adminHeaders)) {
+    $success = false;
+    $errors[] = "Не удалось отправить письмо админу.";
+    file_put_contents('mail_error.log', date('c') . " - Ошибка отправки письма админу\n", FILE_APPEND);
+}
+
+
+
+
+// === Сохраняем время отправки для антиспама ===
 $_SESSION['last_order_time'] = time();
 
-// Ответ фронту
+// === Ответ для фронта === 
 echo json_encode([ 
     'success' => $success, 
     'message' => $success ? 'Спасибо! Ваш заказ принят.' : implode(' ', $errors), 
