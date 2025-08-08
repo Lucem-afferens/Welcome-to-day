@@ -180,7 +180,8 @@ if ($ad !== '') {
 }
 $telegramMessage .= "Цена: {$priceDisplay}\n";
 if (!empty($whatsappUrl)) {
-    $telegramMessage .= "WhatsApp: " . htmlEscape($cleanPhone) . "\n";
+    $escapedUrl = htmlspecialchars($whatsappUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $telegramMessage .= "WhatsApp: <a href=\"{$escapedUrl}\">Написать в WhatsApp</a>\n";
 }
 
 file_put_contents('telegram_length.log', date('c') . " Length: " . mb_strlen($telegramMessage) . " chars\n", FILE_APPEND);
