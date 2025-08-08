@@ -28,7 +28,8 @@
     --shadow-heavy: rgba(108, 117, 125, 0.3);
     
     /* Typography */
-    --font-primary: 'Inter', sans-serif;
+    /* --font-primary: 'Inter', sans-serif; */
+    --font-primary: 'Playfair Display', serif;
     --font-display: 'Playfair Display', serif;
     
     /* Spacing */
