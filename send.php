@@ -179,6 +179,13 @@ function htmlEscape($s) {
     return htmlspecialchars(cleanText((string)$s), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
+// === Безопасное формирование цены ===
+if (is_numeric($price)) {
+    $priceDisplay = htmlEscape($price . ' руб');
+} else {
+    $priceDisplay = htmlEscape($price);
+}
+
 // === Формируем сообщение ===
 $telegramMessage = "<b>💌 Новый заказ Welcome-to-day</b>\n";
 $telegramMessage .= "<b>Шаблон:</b> " . htmlEscape($productName) . "\n";
@@ -188,7 +195,7 @@ $telegramMessage .= "<b>Email:</b> " . htmlEscape($email) . "\n";
 if ($ad !== '') {
     $telegramMessage .= "<b>Промокод:</b> " . htmlEscape($ad) . "\n";
 }
-$telegramMessage .= "<b>Цена:</b> " . htmlEscape($price . ' руб') . "\n";
+$telegramMessage .= "<b>Цена:</b> {$priceDisplay}\n";
 
 if (!empty($whatsappUrl)) {
     $escapedHref = htmlspecialchars($whatsappUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -198,6 +205,9 @@ if (!empty($whatsappUrl)) {
 }
 
 $telegramMessage .= "<i>Автоуведомление с сайта</i>";
+
+// === Чистка от невидимых символов ===
+$telegramMessage = cleanText($telegramMessage);
 
 // === Отправка в Telegram ===
 $telegramData = [
@@ -215,12 +225,10 @@ $context = stream_context_create([
     ]
 ]);
 
-// Логируем, что отправляем
 file_put_contents('telegram_debug.log', date('c') . " MESSAGE: " . $telegramMessage . PHP_EOL, FILE_APPEND);
 
 $telegramResponse = @file_get_contents("https://api.telegram.org/bot$adminTelegramToken/sendMessage", false, $context);
 
-// Логируем ответ Telegram
 file_put_contents('telegram_api_response.log', date('c') . " RESPONSE: " . $telegramResponse . PHP_EOL, FILE_APPEND);
 
 if ($telegramResponse === false) {
@@ -235,6 +243,7 @@ if ($telegramResponse === false) {
         file_put_contents('telegram_error.log', date('c') . " ERROR: " . $errDesc . PHP_EOL, FILE_APPEND);
     }
 }
+
 
 
 
